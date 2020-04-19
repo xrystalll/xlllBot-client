@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import conf from 'config.json';
+import { apiEndPoint, token } from 'config';
 import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { toast } from 'react-toastify';
 
-const token = 'Basic ' + btoa(`xlllClient:${localStorage.getItem('userHash')}`)
 const Settings = () => {
   useEffect(() => {
     document.title = 'xlllBot - Settings'
@@ -16,8 +15,8 @@ const Settings = () => {
 
   const fetchSettings = async () => {
     try {
-      const data = await fetch(`${conf.apiEndPoint}/api/settings/all`, {
-        headers: new Headers({ 'Authorization': token })
+      const data = await fetch(apiEndPoint + '/api/settings/all', {
+        headers: { Authorization: token }
       })
       const items = await data.json()
 
@@ -30,8 +29,8 @@ const Settings = () => {
   const toggleSetting = (e) => {
     const name = e.currentTarget.htmlFor
     const checkState = !e.currentTarget.parentNode.children[0].checked
-    fetch(`${conf.apiEndPoint}/api/settings?name=${name}&state=${checkState}`, {
-      headers: new Headers({ 'Authorization': token })
+    fetch(apiEndPoint + `/api/settings?name=${name}&state=` + checkState, {
+      headers: { Authorization: token }
     })
       .then(response => response.json())
       .then(data => toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT }))

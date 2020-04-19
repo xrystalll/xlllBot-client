@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
 import Header from '../partials/Header';
@@ -7,7 +8,6 @@ import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
 import { toast } from 'react-toastify';
 
-const channel = localStorage.getItem('userLogin')
 let player
 class Songs extends Component {
   constructor() {
@@ -37,9 +37,9 @@ class Songs extends Component {
 
   subscribeToEvents() {
     socket.on('new_video', (data) => {
-      if (data.channel === channel) {
-        this.setState({ response: [...this.state.response, data], noData: false })
-      }
+      if (data.channel !== channel) return
+
+      this.setState({ response: [...this.state.response, data], noData: false })
     })
     socket.on('deteted', (data) => {
       this.setState({ response: this.state.response.filter(items => items._id !== data.id) })
@@ -99,17 +99,18 @@ class Songs extends Component {
   }
 
   onPlayPause() {
-    if (player !== undefined) {
-      if (player.getPlayerState() === 1) player.pauseVideo()
-      else player.playVideo()
-    }
+    if (player === undefined) return
+
+    if (player.getPlayerState() === 1) player.pauseVideo()
+    else player.playVideo()
   }
 
   chooseVideo(data, e) {
     this.setState({ playIndex: Number(data.index) })
-    if (player !== undefined) {
-      player.loadVideoById(this.youtubeId(data.url))
-    }
+
+    if (player === undefined) return
+
+    player.loadVideoById(this.youtubeId(data.url))
   }
 
   skip() {
@@ -118,13 +119,13 @@ class Songs extends Component {
     if (response.length === 0) return
 
     let thisIndex = this.state.playIndex + 1
-    if (player !== undefined) {
-      if (thisIndex >= response.length) thisIndex = 0
+    if (thisIndex >= response.length) thisIndex = 0
+    this.setState({ playIndex: thisIndex })
+    const url = response[thisIndex].url
 
-      const url = response[thisIndex].url
-      this.setState({ playIndex: thisIndex })
-      player.loadVideoById(this.youtubeId(url))
-    }
+    if (player === undefined) return
+
+    player.loadVideoById(this.youtubeId(url))
   }
 
   render() {

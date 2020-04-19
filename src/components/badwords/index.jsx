@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import conf from 'config.json';
+import { apiEndPoint, token } from 'config';
 import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
 import { toast } from 'react-toastify';
 
-const token = 'Basic ' + btoa(`xlllClient:${localStorage.getItem('userHash')}`)
 const Badwords = () => {
   useEffect(() => {
     document.title = 'xlllBot - Badwords'
@@ -25,8 +24,8 @@ const Badwords = () => {
 
   const fetchBadwords = async () => {
     try {
-      const data = await fetch(`${conf.apiEndPoint}/api/words/all`, {
-        headers: new Headers({ 'Authorization': token })
+      const data = await fetch(apiEndPoint + '/api/words/all', {
+        headers: { Authorization: token }
       })
       const items = await data.json()
       if (items.length > 0) {
@@ -46,8 +45,8 @@ const Badwords = () => {
       setItems([])
       setNoData(true)
     }
-    fetch(`${conf.apiEndPoint}/api/words/delete?id=${id}`, {
-      headers: new Headers({ 'Authorization': token })
+    fetch(apiEndPoint + '/api/words/delete?id=' + id, {
+      headers: { Authorization: token }
     })
       .then(response => response.json())
       .then(() => toast.success('Badword successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT }))
@@ -70,8 +69,8 @@ const Badwords = () => {
       el.children[0].classList.remove('error')
       el.children[1].classList.remove('error')
 
-      fetch(`${conf.apiEndPoint}/api/words/add?word=${word.trim()}&duration=${duration.trim()}`, {
-        headers: new Headers({ 'Authorization': token })
+      fetch(apiEndPoint + `/api/words/add?word=${word.trim()}&duration=` + duration.trim(), {
+        headers: { Authorization: token }
       })
         .then(response => response.json())
         .then(data => {

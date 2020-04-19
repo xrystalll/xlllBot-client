@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { apiEndPoint } from 'config';
 import { socket } from 'instance/Socket';
-import conf from 'config.json';
 
 class Home extends Component {
   constructor() {
@@ -44,7 +44,7 @@ class Home extends Component {
               {localStorage.getItem('userHash') || this.state.isAuth ? (
                 <Link className="twitch_btn_main" to="/dashboard/channel">Open dashboard</Link>
               ) : (
-                <div onClick={this.openAuth.bind(this, conf.apiEndPoint + '/auth/twitch')} className="twitch_btn_main">
+                <div onClick={this.openAuth.bind(this, apiEndPoint + '/auth/twitch')} className="twitch_btn_main">
                   <svg className="tw-glitch-logo__svg" overflow="visible" width="40px" height="40px" version="1.1" viewBox="0 0 40 40" x="0px" y="0px">
                     <polygon className="tw-glitch-logo__body" points="13 8 8 13 8 31 14 31 14 36 19 31 23 31 32 22 32 8" />
                     <polygon className="tw-glitch-logo__face" points="26 25 30 21 30 10 14 10 14 25 18 25 18 29 22 25" transform="translate(0 0)" />

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import conf from 'config.json';
+import { apiEndPoint, token } from 'config';
 import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
 import { toast } from 'react-toastify';
 
-const token = 'Basic ' + btoa(`xlllClient:${localStorage.getItem('userHash')}`)
 const Commands = () => {
   useEffect(() => {
     document.title = 'xlllBot - Commands'
@@ -25,8 +24,8 @@ const Commands = () => {
 
   const fetchCommands = async () => {
     try {
-      const data = await fetch(`${conf.apiEndPoint}/api/commands/all`, {
-        headers: new Headers({ 'Authorization': token })
+      const data = await fetch(apiEndPoint + '/api/commands/all', {
+        headers: { Authorization: token }
       })
       const items = await data.json()
       if (items.length > 0) {
@@ -46,8 +45,8 @@ const Commands = () => {
       setItems([])
       setNoData(true)
     }
-    fetch(`${conf.apiEndPoint}/api/commands/delete?id=${id}`, {
-      headers: new Headers({ 'Authorization': token })
+    fetch(apiEndPoint + '/api/commands/delete?id=' + id, {
+      headers: { Authorization: token }
     })
       .then(response => response.json())
       .then(() => toast.success('Command successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT }))
@@ -70,8 +69,8 @@ const Commands = () => {
       el.children[1].classList.remove('error')
       el.children[2].classList.remove('error')
 
-      fetch(`${conf.apiEndPoint}/api/commands/add?tag=${tag.trim().replace('!', '')}&text=${text.trim()}`, {
-        headers: new Headers({ 'Authorization': token })
+      fetch(apiEndPoint + `/api/commands/add?tag=${tag.trim().replace('!', '')}&text=` + text.trim(), {
+        headers: { Authorization: token }
       })
         .then(response => response.json())
         .then(data => {
@@ -103,8 +102,8 @@ const Commands = () => {
       el.children[2].classList.remove('error')
 
       toggleEditAction(e)
-      fetch(`${conf.apiEndPoint}/api/commands/edit?id=${id}&tag=${tag.trim()}&text=${text.trim()}`, {
-        headers: new Headers({ 'Authorization': token })
+      fetch(apiEndPoint + `/api/commands/edit?id=${id}&tag=${tag.trim()}&text=` + text.trim(), {
+        headers: { Authorization: token }
       })
         .then(response => response.json())
         .then(data => toast.success('Command successfully changed', { position: toast.POSITION.BOTTOM_RIGHT }))

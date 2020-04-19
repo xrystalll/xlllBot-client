@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import conf from 'config.json';
+import { apiEndPoint, token } from 'config';
 import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 
-const token = 'Basic ' + btoa(`xlllClient:${localStorage.getItem('userHash')}`)
 const Channel = () => {
   useEffect(() => {
     document.title = 'xlllBot - Channel'
@@ -14,8 +13,8 @@ const Channel = () => {
   const [channel, setItems] = useState([])
 
   const fetchChannel = async () => {
-    const data = await fetch(`${conf.apiEndPoint}/api/channel`, {
-      headers: new Headers({ 'Authorization': token })
+    const data = await fetch(apiEndPoint + '/api/channel', {
+      headers: { Authorization: token }
     })
     const channel = await data.json()
 

@@ -1,4 +1,4 @@
 import io from 'socket.io-client';
-import conf from 'config.json';
+import { apiEndPoint } from 'config';
 
-export const socket = io(conf.apiEndPoint);
+export const socket = io(apiEndPoint);

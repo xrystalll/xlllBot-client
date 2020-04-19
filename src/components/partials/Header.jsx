@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { channel } from 'config';
 
 class Header extends Component {
   constructor() {
     super();
     this.state = {
       showMenu: false,
-      channel: localStorage.getItem('userLogin'),
+      channel,
       logo: localStorage.getItem('userLogo')
     }
   }

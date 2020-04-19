@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
@@ -6,7 +7,6 @@ import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
 import { toast } from 'react-toastify';
 
-const channel = localStorage.getItem('userLogin')
 class Events extends Component {
   constructor() {
     super();
