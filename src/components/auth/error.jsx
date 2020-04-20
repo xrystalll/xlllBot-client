@@ -1,10 +1,8 @@
-import React, { useEffect }  from 'react';
+import React from 'react';
 import { apiEndPoint } from 'config';
 
 export const AuthError = () => {
-  useEffect(() => {
-    document.title = 'xlllBot - Log in'
-  }, [])
+  document.title = 'xlllBot - Log in'
 
   return (
     <div className="authModal">

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
-import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
@@ -138,88 +137,84 @@ class Songs extends Component {
       }
     }
     return (
-      <>
-        <Header />
+      <section id="main">
 
-        <section id="main">
+        <section id="content">
+          <div className="content--boxed-sm videoblock">
+            <header className="content__header">
+              <h2>Stream Dj <small>Dashboard</small></h2>
+              <div className="controls">
+                <div ref={this.playBtnRef} onClick={this.onPlayPause} className="play_btn play" title="Play/Pause"></div>
+                <div onClick={this.skip.bind(this)} className="play_btn skip small" title="Skip"></div>
+              </div>
+            </header>
 
-          <section id="content">
-            <div className="content--boxed-sm videoblock">
-              <header className="content__header">
-                <h2>Stream Dj <small>Dashboard</small></h2>
-                <div className="controls">
-                  <div ref={this.playBtnRef} onClick={this.onPlayPause} className="play_btn play" title="Play/Pause"></div>
-                  <div onClick={this.skip.bind(this)} className="play_btn skip small" title="Skip"></div>
-                </div>
-              </header>
+            <div className="card">
+              <div className="card__body">
+                <div className="card__sub">
+                  <div id="content_inner" className="videos_inner">
 
-              <div className="card">
-                <div className="card__body">
-                  <div className="card__sub">
-                    <div id="content_inner" className="videos_inner">
-
-                      <div className="vid-main-wrapper">
-                        <div className="vid-container">
-                          {response.length > 0 ? (
-                            <YouTube
-                              opts={ytOptions}
-                              videoId={this.youtubeId(response[0].url)}
-                              containerClassName="iframe"
-                              onReady={this.onPlayerReady}
-                              onPlay={this.onPlay}
-                              onPause={this.onPause}
-                              onEnd={this.skip.bind(this)} />
-                          ) : (
-                            !this.state.noData ? <Loader /> : <Error message="No videos yet" />
-                          )}
-                        </div>
-
-                        <div className="vid-list-container">
-                          <ul>
-                            <ol id="vid-list">
-                              {response.length > 0 ? (
-                                response.map((item, index) => (
-                                  <li
-                                    key={item._id}
-                                    onClick={this.chooseVideo.bind(this, { url: item.url, index })}
-                                    className={`videoItem${this.state.playIndex === index ? ' selected' : ''}`}
-                                  >
-                                    <div className="chooseVid">
-                                      <span className="vid-thumb" style={{'backgroundImage': `url(${item.thumb})`}}>
-                                        <div className="vidDuration">{this.toHHMMSS(item.duration)}</div>
-                                      </span>
-                                      <div className="vidInfo">
-                                        <div className="desc">{item.title}</div>
-                                        <div className="owner">{item.owner}</div>
-                                        <div className="views">{this.counter(item.views)} views</div>
-                                      </div>
-                                      <div
-                                        onClick={this.deleteVideo.bind(this, item._id)}
-                                        className="removeVid"
-                                        title="Remove video from playlist"
-                                      >
-                                        <i className="material-icons">delete</i>
-                                      </div>
-                                    </div>
-                                  </li>
-                                ))
-                              ) : null}
-                            </ol>
-                          </ul>
-                        </div>
+                    <div className="vid-main-wrapper">
+                      <div className="vid-container">
+                        {response.length > 0 ? (
+                          <YouTube
+                            opts={ytOptions}
+                            videoId={this.youtubeId(response[0].url)}
+                            containerClassName="iframe"
+                            onReady={this.onPlayerReady}
+                            onPlay={this.onPlay}
+                            onPause={this.onPause}
+                            onEnd={this.skip.bind(this)} />
+                        ) : (
+                          !this.state.noData ? <Loader /> : <Error message="No videos yet" />
+                        )}
                       </div>
 
+                      <div className="vid-list-container">
+                        <ul>
+                          <ol id="vid-list">
+                            {response.length > 0 ? (
+                              response.map((item, index) => (
+                                <li
+                                  key={item._id}
+                                  onClick={this.chooseVideo.bind(this, { url: item.url, index })}
+                                  className={`videoItem${this.state.playIndex === index ? ' selected' : ''}`}
+                                >
+                                  <div className="chooseVid">
+                                    <span className="vid-thumb" style={{'backgroundImage': `url(${item.thumb})`}}>
+                                      <div className="vidDuration">{this.toHHMMSS(item.duration)}</div>
+                                    </span>
+                                    <div className="vidInfo">
+                                      <div className="desc">{item.title}</div>
+                                      <div className="owner">{item.owner}</div>
+                                      <div className="views">{this.counter(item.views)} views</div>
+                                    </div>
+                                    <div
+                                      onClick={this.deleteVideo.bind(this, item._id)}
+                                      className="removeVid"
+                                      title="Remove video from playlist"
+                                    >
+                                      <i className="material-icons">delete</i>
+                                    </div>
+                                  </div>
+                                </li>
+                              ))
+                            ) : null}
+                          </ol>
+                        </ul>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-
-          <Footer />
-
+          </div>
         </section>
-      </>
+
+        <Footer />
+
+      </section>
     )
   }
 }

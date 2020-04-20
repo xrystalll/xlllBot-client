@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { apiEndPoint, token } from 'config';
-import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
@@ -81,7 +80,10 @@ const Commands = () => {
             toast.success('Command successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
           } else throw Error('Failed to adding command')
         })
-        .catch(err => toast.error(err, { position: toast.POSITION.BOTTOM_RIGHT }))
+        .catch(err => {
+          console.log(err)
+          toast.error('Failed to adding command', { position: toast.POSITION.BOTTOM_RIGHT })
+        })
     }
   }
 
@@ -107,7 +109,10 @@ const Commands = () => {
       })
         .then(response => response.json())
         .then(data => toast.success('Command successfully changed', { position: toast.POSITION.BOTTOM_RIGHT }))
-        .catch(error => toast.error('Failed to change command', { position: toast.POSITION.BOTTOM_RIGHT }))
+        .catch(error => {
+          console.log(err)
+          toast.error('Failed to change command', { position: toast.POSITION.BOTTOM_RIGHT })
+        })
     }
   }
 
@@ -120,71 +125,67 @@ const Commands = () => {
   }
 
   return (
-    <>
-      <Header />
+    <section id="main">
 
-      <section id="main">
+      <section id="content">
+        <div className="content--boxed-sm">
+          <header className="content__header">
+            <h2>Commands <small>Dashboard</small></h2>
+          </header>
 
-        <section id="content">
-          <div className="content--boxed-sm">
-            <header className="content__header">
-              <h2>Commands <small>Dashboard</small></h2>
-            </header>
+          <div className="card">
+            <div className="card__body">
+              <div className="card__sub">
+                <h4>Commands list</h4>
+                <div onClick={toggleAdd} className="item_add command_add" title="Add new command">
+                  <i className="material-icons">add</i>
+                </div>
+                <div id="content_inner">
 
-            <div className="card">
-              <div className="card__body">
-                <div className="card__sub">
-                  <h4>Commands list</h4>
-                  <div onClick={toggleAdd} className="item_add command_add" title="Add new command">
-                    <i className="material-icons">add</i>
-                  </div>
-                  <div id="content_inner">
-
-                    {showAdd ?
-                      <div className="command_form">
-                        <div className="command_prefix">!</div>
-                        <input className="input_text command_name active" type="text" placeholder="Enter command" />
-                        <input className="input_text command_text active" type="text" placeholder="Enter text" />
-                        <div className="command_actions">
-                          <i onClick={toggleAdd} className="item_cancel command_new_cancel material-icons" title="Chancel new command">close</i>
-                          <input onClick={addCommand.bind(this)} className="command_create btn" type="submit" value="Add" />
-                        </div>
+                  {showAdd ?
+                    <div className="command_form">
+                      <div className="command_prefix">!</div>
+                      <input className="input_text command_name active" type="text" placeholder="Enter command" />
+                      <input className="input_text command_text active" type="text" placeholder="Enter text" />
+                      <div className="command_actions">
+                        <i onClick={toggleAdd} className="item_cancel command_new_cancel material-icons" title="Chancel new command">close</i>
+                        <input onClick={addCommand.bind(this)} className="command_create btn" type="submit" value="Add" />
                       </div>
-                      : null}
+                    </div>
+                    : null}
 
-                    {items.length > 0 ? (
-                      items.map(item => (
-                        <div className="command_form" key={item._id}>
-                          <div className="command_prefix">!</div>
-                          <input className="input_text command_name" type="text" placeholder="Enter command" defaultValue={item.tag} />
-                          <input className="input_text command_text" type="text" placeholder="Enter text" defaultValue={item.text} />
-                          <div className="command_actions">
-                            <div className="action_block">
-                              <i onClick={toggleEditAction.bind(this)} className="command_edit material-icons" title="Edit command">create</i>
-                              <i onClick={deleteCommand.bind(this, item._id)} className="item_delete command_delete material-icons" title="Delete command">delete</i>
-                            </div>
+                  {items.length > 0 ? (
+                    items.map(item => (
+                      <div className="command_form" key={item._id}>
+                        <div className="command_prefix">!</div>
+                        <input className="input_text command_name" type="text" placeholder="Enter command" defaultValue={item.tag} />
+                        <input className="input_text command_text" type="text" placeholder="Enter text" defaultValue={item.text} />
+                        <div className="command_actions">
+                          <div className="action_block">
+                            <i onClick={toggleEditAction.bind(this)} className="command_edit material-icons" title="Edit command">create</i>
+                            <i onClick={deleteCommand.bind(this, item._id)} className="item_delete command_delete material-icons" title="Delete command">delete</i>
+                          </div>
 
-                            <div className="action_block none">
-                              <i onClick={toggleEditAction.bind(this)} className="item_cancel command_edit_cancel material-icons" title="Cancel changes">close</i>
-                              <input onClick={editCommand.bind(this, item._id)} className="command_save btn" type="submit" value="Save" />
-                            </div>
+                          <div className="action_block none">
+                            <i onClick={toggleEditAction.bind(this)} className="item_cancel command_edit_cancel material-icons" title="Cancel changes">close</i>
+                            <input onClick={editCommand.bind(this, item._id)} className="command_save btn" type="submit" value="Save" />
                           </div>
                         </div>
-                      ))
-                    ) : (
-                      !noData ? <Loader /> : <Error message="No commands yet" />
-                    )}
-                  </div>
+                      </div>
+                    ))
+                  ) : (
+                    !noData ? <Loader /> : <Error message="No commands yet" />
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </section>
-
-        <Footer />
-
+        </div>
       </section>
-    </>
+
+      <Footer />
+
+    </section>
   )
 }
 

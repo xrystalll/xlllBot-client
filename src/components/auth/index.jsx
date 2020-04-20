@@ -1,9 +1,7 @@
-import React, { useEffect }  from 'react';
+import React from 'react';
 
 export const Auth = () => {
-  useEffect(() => {
-    document.title = 'xlllBot - Log in'
-  }, [])
+  document.title = 'xlllBot - Log in'
 
   return (
     <div className="authModal">

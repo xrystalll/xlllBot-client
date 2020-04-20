@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { apiEndPoint, token } from 'config';
-import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { toast } from 'react-toastify';
@@ -33,50 +32,46 @@ const Settings = () => {
       headers: { Authorization: token }
     })
       .then(response => response.json())
-      .then(data => toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT }))
-      .catch(error => toast.error('Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .then(() => toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .catch(() => toast.error('Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
   }
 
   return (
-    <>
-      <Header />
+    <section id="main">
 
-      <section id="main">
+      <section id="content">
+        <div className="content--boxed-sm">
+          <header className="content__header">
+            <h2>Settings <small>Dashboard</small></h2>
+          </header>
 
-        <section id="content">
-          <div className="content--boxed-sm">
-            <header className="content__header">
-              <h2>Settings <small>Dashboard</small></h2>
-            </header>
-
-            <div className="card">
-              <div className="card__body">
-                <div className="card__sub">
-                  <h4>Settings list</h4>
-                  <div id="content_inner">
-                    {items.length > 0 ? (
-                      items.map(item => (
-                        <div className="md-checkbox" key={item._id}>
-                          <input id={item.name} type="checkbox" value="true" defaultChecked={item.state} />
-                          <label className="setting_item" htmlFor={item.name} onClick={toggleSetting.bind(this)}>
-                            <span>{item.description}</span>
-                          </label>
-                        </div>
-                      ))
-                    ) : (
-                      <Loader />
-                    )}
-                  </div>
+          <div className="card">
+            <div className="card__body">
+              <div className="card__sub">
+                <h4>Settings list</h4>
+                <div id="content_inner">
+                  {items.length > 0 ? (
+                    items.map(item => (
+                      <div className="md-checkbox" key={item._id}>
+                        <input id={item.name} type="checkbox" defaultChecked={item.state} />
+                        <label htmlFor={item.name} onClick={toggleSetting.bind(this)} className="setting_item">
+                          <span>{item.description}</span>
+                        </label>
+                      </div>
+                    ))
+                  ) : (
+                    <Loader />
+                  )}
                 </div>
               </div>
             </div>
           </div>
-        </section>
-
-        <Footer />
-
+        </div>
       </section>
-    </>
+
+      <Footer />
+
+    </section>
   )
 }
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { channel } from 'config';
 import { socket } from 'instance/Socket';
-import Header from '../partials/Header';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
@@ -82,49 +81,45 @@ class Events extends Component {
     const { response } = this.state
     const clearVis = this.state.showClear ? '' : ' none'
     return (
-      <>
-        <Header />
+      <section id="main">
 
-        <section id="main">
+        <section id="content">
+          <div className="content--boxed-sm">
+            <header className="content__header">
+              <h2>Events <small>Dashboard</small></h2>
+            </header>
 
-          <section id="content">
-            <div className="content--boxed-sm">
-              <header className="content__header">
-                <h2>Events <small>Dashboard</small></h2>
-              </header>
-
-              <div className="card">
-                <div className="card__body">
-                  <div className="card__sub">
-                    <h4>Chat events by last 24 hrs</h4>
-                    {!this.state.noData ? (
-                      <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
-                        <i className="material-icons">delete</i>
-                        <span>Delete events older than 24 hours</span>
-                      </div>
-                    ) : null}
-                    <div id="content_inner">
-                      {response.length > 0 ? (
-                        response.reverse().map(item => (
-                          <div className="event_item" key={item._id}>
-                            <div className="event_time">{this.timeFormat(item.time)}</div>
-                            <div>{item.text}</div>
-                          </div>
-                        ))
-                      ) : (
-                        !this.state.noData ? <Loader /> : <Error message="No events yet" />
-                      )}
+            <div className="card">
+              <div className="card__body">
+                <div className="card__sub">
+                  <h4>Chat events by last 24 hrs</h4>
+                  {!this.state.noData ? (
+                    <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
+                      <i className="material-icons">delete</i>
+                      <span>Delete events older than 24 hours</span>
                     </div>
+                  ) : null}
+                  <div id="content_inner">
+                    {response.length > 0 ? (
+                      response.reverse().map(item => (
+                        <div className="event_item" key={item._id}>
+                          <div className="event_time">{this.timeFormat(item.time)}</div>
+                          <div>{item.text}</div>
+                        </div>
+                      ))
+                    ) : (
+                      !this.state.noData ? <Loader /> : <Error message="No events yet" />
+                    )}
                   </div>
                 </div>
               </div>
             </div>
-          </section>
-
-          <Footer />
-
+          </div>
         </section>
-      </>
+
+        <Footer />
+
+      </section>
     )
   }
 }
