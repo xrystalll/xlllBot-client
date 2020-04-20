@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/xlllBot-client/static/css/main.cc854dca.chunk.css",
-    "main.js": "/xlllBot-client/static/js/main.138f60c6.chunk.js",
-    "main.js.map": "/xlllBot-client/static/js/main.138f60c6.chunk.js.map",
-    "runtime-main.js": "/xlllBot-client/static/js/runtime-main.ae88a14d.js",
-    "runtime-main.js.map": "/xlllBot-client/static/js/runtime-main.ae88a14d.js.map",
-    "static/css/2.6010d4dc.chunk.css": "/xlllBot-client/static/css/2.6010d4dc.chunk.css",
-    "static/js/2.f1c5d137.chunk.js": "/xlllBot-client/static/js/2.f1c5d137.chunk.js",
-    "static/js/2.f1c5d137.chunk.js.map": "/xlllBot-client/static/js/2.f1c5d137.chunk.js.map",
-    "index.html": "/xlllBot-client/index.html",
-    "precache-manifest.7acee36241fbaf22a893312a83ad150e.js": "/xlllBot-client/precache-manifest.7acee36241fbaf22a893312a83ad150e.js",
-    "service-worker.js": "/xlllBot-client/service-worker.js",
-    "static/css/2.6010d4dc.chunk.css.map": "/xlllBot-client/static/css/2.6010d4dc.chunk.css.map",
-    "static/css/main.cc854dca.chunk.css.map": "/xlllBot-client/static/css/main.cc854dca.chunk.css.map",
-    "static/js/2.f1c5d137.chunk.js.LICENSE.txt": "/xlllBot-client/static/js/2.f1c5d137.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/xlllBot-client/static/media/twitch-background.a26a488a.jpg"
+    "main.css": "/static/css/main.8d6789e1.chunk.css",
+    "main.js": "/static/js/main.da968490.chunk.js",
+    "main.js.map": "/static/js/main.da968490.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.40414ffe.js",
+    "runtime-main.js.map": "/static/js/runtime-main.40414ffe.js.map",
+    "static/css/2.6010d4dc.chunk.css": "/static/css/2.6010d4dc.chunk.css",
+    "static/js/2.e62ee3fc.chunk.js": "/static/js/2.e62ee3fc.chunk.js",
+    "static/js/2.e62ee3fc.chunk.js.map": "/static/js/2.e62ee3fc.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.f93e509712e4dc62cbf0bab3fdd6ce78.js": "/precache-manifest.f93e509712e4dc62cbf0bab3fdd6ce78.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.6010d4dc.chunk.css.map": "/static/css/2.6010d4dc.chunk.css.map",
+    "static/css/main.8d6789e1.chunk.css.map": "/static/css/main.8d6789e1.chunk.css.map",
+    "static/js/2.e62ee3fc.chunk.js.LICENSE.txt": "/static/js/2.e62ee3fc.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/twitch-background.a26a488a.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.ae88a14d.js",
+    "static/js/runtime-main.40414ffe.js",
     "static/css/2.6010d4dc.chunk.css",
-    "static/js/2.f1c5d137.chunk.js",
-    "static/css/main.cc854dca.chunk.css",
-    "static/js/main.138f60c6.chunk.js"
+    "static/js/2.e62ee3fc.chunk.js",
+    "static/css/main.8d6789e1.chunk.css",
+    "static/js/main.da968490.chunk.js"
   ]
 }
