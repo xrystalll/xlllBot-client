@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import CustomScrollbar from 'components/support/CustomScrollbar';
 import PrivateRoute from 'components/support/PrivateRoute';
 import { socket } from 'instance/Socket';
 import Home from 'components/home';
@@ -13,7 +14,6 @@ import { Auth } from 'components/auth';
 import { AuthError } from 'components/auth/error'
 import { NotFound } from 'components/error';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 
 toast.configure({
   autoClose: 3000
@@ -28,7 +28,7 @@ class App extends Component {
 
   render() {
     return (
-      <>
+      <CustomScrollbar className="view">
         <Router>
           <Switch>
             <Route path="/" exact component={Home} />
@@ -45,7 +45,7 @@ class App extends Component {
         </Router>
 
         <ToastContainer />
-      </>
+      </CustomScrollbar>
     )
   }
 }

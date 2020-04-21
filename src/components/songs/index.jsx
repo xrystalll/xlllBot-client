@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
+import CustomScrollbar from '../support/CustomScrollbar';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
@@ -171,37 +172,39 @@ class Songs extends Component {
                       </div>
 
                       <div className="vid-list-container">
-                        <ul>
-                          <ol id="vid-list">
-                            {response.length > 0 ? (
-                              response.map((item, index) => (
-                                <li
-                                  key={item._id}
-                                  onClick={this.chooseVideo.bind(this, { url: item.url, index })}
-                                  className={`videoItem${this.state.playIndex === index ? ' selected' : ''}`}
-                                >
-                                  <div className="chooseVid">
-                                    <span className="vid-thumb" style={{'backgroundImage': `url(${item.thumb})`}}>
-                                      <div className="vidDuration">{this.toHHMMSS(item.duration)}</div>
-                                    </span>
-                                    <div className="vidInfo">
-                                      <div className="desc">{item.title}</div>
-                                      <div className="owner">{item.owner}</div>
-                                      <div className="views">{this.counter(item.views)} views</div>
+                        <CustomScrollbar className="view">
+                          <ul>
+                            <ol id="vid-list">
+                              {response.length > 0 ? (
+                                response.map((item, index) => (
+                                  <li
+                                    key={item._id}
+                                    onClick={this.chooseVideo.bind(this, { url: item.url, index })}
+                                    className={`videoItem${this.state.playIndex === index ? ' selected' : ''}`}
+                                  >
+                                    <div className="chooseVid">
+                                      <span className="vid-thumb" style={{'backgroundImage': `url(${item.thumb})`}}>
+                                        <div className="vidDuration">{this.toHHMMSS(item.duration)}</div>
+                                      </span>
+                                      <div className="vidInfo">
+                                        <div className="desc">{item.title}</div>
+                                        <div className="owner">{item.owner}</div>
+                                        <div className="views">{this.counter(item.views)} views</div>
+                                      </div>
+                                      <div
+                                        onClick={this.deleteVideo.bind(this, item._id)}
+                                        className="removeVid"
+                                        title="Remove video from playlist"
+                                      >
+                                        <i className="material-icons">delete</i>
+                                      </div>
                                     </div>
-                                    <div
-                                      onClick={this.deleteVideo.bind(this, item._id)}
-                                      className="removeVid"
-                                      title="Remove video from playlist"
-                                    >
-                                      <i className="material-icons">delete</i>
-                                    </div>
-                                  </div>
-                                </li>
-                              ))
-                            ) : null}
-                          </ol>
-                        </ul>
+                                  </li>
+                                ))
+                              ) : null}
+                            </ol>
+                          </ul>
+                        </CustomScrollbar>
                       </div>
                     </div>
 

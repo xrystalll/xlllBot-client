@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import CustomScrollbar from '../support/CustomScrollbar';
 import { channel } from 'config';
 
 class Header extends Component {
@@ -60,7 +61,7 @@ class Header extends Component {
         </header>
 
         <aside id="navigation" className={menuVis}>
-          <div className="navigation__menu c-overflow">
+          <CustomScrollbar className="navigation__menu">
             <ul>
               <li>
                 <NavLink exact to="/" onClick={this.closeMenu.bind(this)}>
@@ -105,7 +106,7 @@ class Header extends Component {
                 </NavLink>
               </li>
             </ul>
-          </div>
+          </CustomScrollbar>
         </aside>
       </>
     )

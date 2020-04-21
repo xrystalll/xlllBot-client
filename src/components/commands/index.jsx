@@ -80,10 +80,7 @@ const Commands = () => {
             toast.success('Command successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
           } else throw Error('Failed to adding command')
         })
-        .catch(err => {
-          console.log(err)
-          toast.error('Failed to adding command', { position: toast.POSITION.BOTTOM_RIGHT })
-        })
+        .catch(() => toast.error('Failed to adding command', { position: toast.POSITION.BOTTOM_RIGHT }))
     }
   }
 
@@ -108,11 +105,8 @@ const Commands = () => {
         headers: { Authorization: token }
       })
         .then(response => response.json())
-        .then(data => toast.success('Command successfully changed', { position: toast.POSITION.BOTTOM_RIGHT }))
-        .catch(error => {
-          console.log(err)
-          toast.error('Failed to change command', { position: toast.POSITION.BOTTOM_RIGHT })
-        })
+        .then(() => toast.success('Command successfully changed', { position: toast.POSITION.BOTTOM_RIGHT }))
+        .catch(() => toast.error('Failed to change command', { position: toast.POSITION.BOTTOM_RIGHT }))
     }
   }
 

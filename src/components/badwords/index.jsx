@@ -80,10 +80,7 @@ const Badwords = () => {
             toast.success('Badword successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
           } else throw Error('Failed to adding badword')
         })
-        .catch(err => {
-          console.error(err)
-          toast.error('Failed to adding badword', { position: toast.POSITION.BOTTOM_RIGHT })
-        })
+        .catch(() => toast.error('Failed to adding badword', { position: toast.POSITION.BOTTOM_RIGHT }))
     }
   }
 
