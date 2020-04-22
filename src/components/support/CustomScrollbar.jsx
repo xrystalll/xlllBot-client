@@ -10,7 +10,8 @@ class CustomScrollbar extends Component {
         renderTrackVertical={props => <div {...props} className="track-vertical" />}
         renderThumbHorizontal={props => <div {...props} className="thumb-horizontal" />}
         renderThumbVertical={props => <div {...props} className="thumb-vertical" />}
-        renderView={props => <div {...props} className={this.props.className} />}>
+        renderView={props => <div {...props} className={this.props.className} />}
+      >
         {this.props.children}
       </Scrollbars>
     )
