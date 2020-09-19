@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { apiEndPoint, token } from 'config';
+import { clientDomain, apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 
@@ -39,7 +39,7 @@ const Channel = () => {
                       {!!channel ? (
                         <iframe
                           title="TwitchPlayer"
-                          src={`https://player.twitch.tv/?channel=${localStorage.getItem('userLogin')}`}
+                          src={`https://player.twitch.tv/?channel=${localStorage.getItem('userLogin')}&parent=${clientDomain}`}
                           frameBorder="0"
                           allowFullScreen={true}
                           scrolling="no"
@@ -56,7 +56,7 @@ const Channel = () => {
                           {!!channel ? (
                             <iframe
                               title="TwitchChat"
-                              src={`https://www.twitch.tv/embed/${localStorage.getItem('userLogin')}/chat?darkpopout`}
+                              src={`https://www.twitch.tv/embed/${localStorage.getItem('userLogin')}/chat?darkpopout&parent=${clientDomain}`}
                               frameBorder="0"
                               scrolling="no"
                               width="284"

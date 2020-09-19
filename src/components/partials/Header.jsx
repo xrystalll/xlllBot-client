@@ -4,6 +4,7 @@ import CustomScrollbar from '../support/CustomScrollbar';
 import { channel } from 'config';
 
 class Header extends Component {
+  _isMounted = false;
   constructor() {
     super();
     this.state = {
@@ -14,20 +15,26 @@ class Header extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true
     document.addEventListener('click', this.handleOutsideClick.bind(this), false)
   }
 
   componentWillUnmount() {
+    this._isMounted = false
     document.removeEventListener('click', this.handleOutsideClick.bind(this), false)
   }
 
   toggleMenu() {
+    if (!this._isMounted) return
+
     this.setState({
       showMenu: !this.state.showMenu
     })
   }
 
   closeMenu() {
+    if (!this._isMounted) return
+
     this.setState({
       showMenu: false
     })

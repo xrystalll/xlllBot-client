@@ -7,21 +7,23 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
-      authClicked: false,
-      isAuth: false
+      isAuth: false,
+      authClicked: false
     }
   }
 
   componentDidMount() {
     document.title = 'xlllBot'
     socket.on('user_data', (data) => {
+      if (!this.state.authClicked) return
+
       if (!data.error) {
-        if (this.state.authClicked && !localStorage.getItem('userHash')) {
-          this.setState({ isAuth: true })
+        if (!localStorage.getItem('userHash') || !localStorage.getItem('userLogin')) {
+          this.setState({ isAuth: true, authClicked: false })
           localStorage.setItem('userLogin', data[0].login)
           localStorage.setItem('userHash', data[0].hash)
           localStorage.setItem('userLogo', data[0].logo)
-          window.location.reload()
+          window.location.href = '/dashboard/channel'
         }
       }
     })
@@ -41,7 +43,7 @@ class Home extends Component {
             <h1 className="main_head">xlllBot</h1>
             <div className="main_sub">Chat bot for Twitch</div>
             <div className="auth_block_main">
-              {localStorage.getItem('userHash') || this.state.isAuth ? (
+              {(!!localStorage.getItem('userHash') && !!localStorage.getItem('userLogin')) || this.state.isAuth ? (
                 <Link className="twitch_btn_main" to="/dashboard/channel">Open dashboard</Link>
               ) : (
                 <div onClick={this.openAuth.bind(this, apiEndPoint + '/auth/twitch')} className="twitch_btn_main">

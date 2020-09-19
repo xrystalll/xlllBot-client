@@ -4,7 +4,7 @@ import Header from '../partials/Header';
 import { toast } from 'react-toastify';
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isAuth = !!localStorage.getItem('userHash')
+  const isAuth = !!localStorage.getItem('userHash') && !!localStorage.getItem('userLogin')
 
   if (!isAuth) toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
 
