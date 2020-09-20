@@ -80,6 +80,7 @@ class Events extends Component {
   render() {
     const { response } = this.state
     const clearVis = this.state.showClear ? '' : ' none'
+
     return (
       <section id="main">
 

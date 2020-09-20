@@ -1,28 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import Header from '../partials/Header';
 import { toast } from 'react-toastify';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-  const isAuth = !!localStorage.getItem('userHash') && !!localStorage.getItem('userLogin')
+class PrivateRoute extends Component {
+  constructor() {
+    super();
+    this.isAuth = !!localStorage.getItem('sessId') && !!localStorage.getItem('userLogin')
+  }
 
-  if (!isAuth) toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+  componentDidMount() {
+    if (!this.isAuth) toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+  }
 
-  return (
-    <Route
-      {...rest}
-      render = {props =>
-        isAuth ? (
-          <div className="content">
-            <Header />
-            <Component {...props} />
-          </div>
-        ) : (
-          <Redirect to={{ pathname: '/', state: { from: props.location } }} />
-        )
-      }
-    />
-  )
+  render() {
+    const { component: Component, ...rest } = this.props
+
+    return (
+      <Route
+        {...rest}
+        render = {props =>
+          this.isAuth ? (
+            <div className="content">
+              <Header />
+              <Component {...props} />
+            </div>
+          ) : (
+            <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+          )
+        }
+      />
+    )
+  }
 }
 
 export default PrivateRoute;

@@ -48,7 +48,8 @@ class Header extends Component {
 
   render() {
     const { channel, logo } = this.state
-    const menuVis = this.state.showMenu ? 'open' : '';
+    const menuVis = this.state.showMenu ? 'open' : ''
+
     return (
       <>
         <header id="header" className={menuVis}>
@@ -84,7 +85,7 @@ class Header extends Component {
               </li>
               <li>
                 <NavLink to="/dashboard/commands" onClick={this.closeMenu.bind(this)}>
-                  <i className="material-icons">format_list_bulleted</i>
+                  <i className="material-icons">list</i>
                   Commands
                 </NavLink>
               </li>

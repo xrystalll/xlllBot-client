@@ -9,15 +9,19 @@ const Channel = () => {
     fetchChannel()
   }, [])
 
-  const [channel, setItems] = useState([])
+  const [channel, setChannel] = useState([])
 
   const fetchChannel = async () => {
-    const data = await fetch(apiEndPoint + '/api/channel', {
-      headers: { Authorization: token }
-    })
-    const channel = await data.json()
+    try {
+      const data = await fetch(apiEndPoint + '/api/channel', {
+        headers: { Authorization: token }
+      })
+      const channel = await data.json()
 
-    setItems(channel[0])
+      setChannel(channel[0])
+    } catch(e) {
+      console.error(e)
+    }
   }
 
   return (
@@ -45,9 +49,7 @@ const Channel = () => {
                           scrolling="no"
                           width="560"
                           height="384" />
-                      ) : (
-                        <Loader />
-                      )}
+                      ) : <Loader />}
                     </div>
 
                     <div className="vid-list-container">

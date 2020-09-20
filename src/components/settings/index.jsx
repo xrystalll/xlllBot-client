@@ -59,9 +59,7 @@ const Settings = () => {
                         </label>
                       </div>
                     ))
-                  ) : (
-                    <Loader />
-                  )}
+                  ) : <Loader />}
                 </div>
               </div>
             </div>

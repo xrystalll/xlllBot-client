@@ -61,20 +61,20 @@ class Songs extends Component {
     socket.emit('delete_video', { id, channel })
   }
 
-  toHHMMSS(sec) {
+  toHHMMSS(sec = 0) {
     const secNum = parseInt(sec, 10)
-    let hours = Math.floor(secNum / 3600)
+    const hours = Math.floor(secNum / 3600)
     const minutes = Math.floor((secNum - (hours * 3600)) / 60)
-    let seconds = secNum - (hours * 3600) - (minutes * 60)
+    const seconds = secNum - (hours * 3600) - (minutes * 60)
 
-    if (hours > 0) { hours = hours + ':' }
-    if (seconds < 10) { seconds = '0' + seconds }
-
-    return hours + minutes + ':' + seconds
+    return (
+      (hours || '') + (hours > 0 ? ':' : '') +
+      (minutes < 10 && hours > 0 ? '0' : '') + minutes + ':' +
+      (seconds < 10 ? '0' : '') + seconds
+    )
   }
 
-  counter(count) {
-    if (count === 0) return 0
+  counter(count = 0) {
     if (count < 1e3) return count
     if (count >= 1e3 && count < 1e6) return `${+(count / 1e3).toFixed(1)}K`
     if (count >= 1e6 && count < 1e9) return `${+(count / 1e6).toFixed(1)}M`

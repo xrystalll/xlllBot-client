@@ -433,19 +433,25 @@ ul, ol {
   cursor: default;
 }
 
-.command_actions, .channel_actions {
+.command_actions, .channel_actions, .action_block {
   display: flex;
+  align-items: center;
 }
 
 .command_actions i, .channel_actions i {
   font-size: 21px;
-  padding: 6px 2px;
+  width: 26px;
+  height: 26px;
   margin: 0 4px;
   cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.action_block {
-  display: flex;
+.command_actions i:hover, .channel_actions i:hover {
+  background: var(--secondary-tint);
 }
 
 i.command_edit {
@@ -1050,10 +1056,15 @@ ol#vid-list li {
   right: 8px;
   line-height: 0;
   padding: 4px;
+  border-radius: 4px;
 }
 
 .chooseVid:hover .removeVid {
   display: block;
+}
+
+.removeVid:hover {
+  background: var(--default-transparent-02);
 }
 
 .removeVid i {

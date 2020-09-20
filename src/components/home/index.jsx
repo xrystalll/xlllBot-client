@@ -18,18 +18,21 @@ class Home extends Component {
       if (!this.state.authClicked) return
 
       if (!data.error) {
-        if (!localStorage.getItem('userHash') || !localStorage.getItem('userLogin')) {
+        if (!localStorage.getItem('sessId') || !localStorage.getItem('userLogin')) {
           this.setState({ isAuth: true, authClicked: false })
-          localStorage.setItem('userLogin', data[0].login)
-          localStorage.setItem('userHash', data[0].hash)
-          localStorage.setItem('userLogo', data[0].logo)
-          window.location.href = '/dashboard/channel'
+          localStorage.setItem('userLogin', data.login)
+          localStorage.setItem('userLogo', data.logo)
+          this.timeout = setTimeout(() => window.location.href = '/dashboard/channel', 2000)
         }
       }
     })
   }
 
-  openAuth(url, e) {
+  componentWillUnmount() {
+    clearTimeout(this.timeout)
+  }
+
+  openAuth(url) {
     this.setState({ authClicked: true })
     window.open(url, 'Sign in via Twitch', 'height=520,width=480')
   }
@@ -43,7 +46,7 @@ class Home extends Component {
             <h1 className="main_head">xlllBot</h1>
             <div className="main_sub">Chat bot for Twitch</div>
             <div className="auth_block_main">
-              {(!!localStorage.getItem('userHash') && !!localStorage.getItem('userLogin')) || this.state.isAuth ? (
+              {(!!localStorage.getItem('sessId') && !!localStorage.getItem('userLogin')) || this.state.isAuth ? (
                 <Link className="twitch_btn_main" to="/dashboard/channel">Open dashboard</Link>
               ) : (
                 <div onClick={this.openAuth.bind(this, apiEndPoint + '/auth/twitch')} className="twitch_btn_main">
