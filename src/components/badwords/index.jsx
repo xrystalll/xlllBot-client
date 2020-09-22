@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
@@ -6,37 +7,43 @@ import { Error } from '../partials/Error';
 import { toast } from 'react-toastify';
 
 const Badwords = () => {
-  useEffect(() => {
-    document.title = 'xlllBot - Badwords'
-    fetchBadwords()
-  }, [])
+  const history = useHistory()
 
   const [showAdd, toggleAddState] = useState(false)
+  const [noData, setNoData] = useState(false)
+  const [items, setItems] = useState([])
+
+  useEffect(() => {
+    document.title = 'xlllBot - Badwords'
+    const fetchBadwords = async () => {
+      try {
+        const data = await fetch(apiEndPoint + '/api/words/all', {
+          headers: { Authorization: token }
+        })
+        if (data.status === 401) {
+          localStorage.clear()
+          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          history.push('/')
+          return
+        }
+        const items = await data.json()
+
+        if (items.length > 0) {
+          items.reverse()
+          setItems(items)
+        } else {
+          setNoData(true)
+        }
+      } catch(e) {
+        console.error(e)
+      }
+    }
+
+    fetchBadwords()
+  }, [history])
 
   const toggleAdd = () => {
     toggleAddState(!showAdd)
-  }
-
-  const [noData, setNoData] = useState(false)
-
-  const [items, setItems] = useState([])
-
-  const fetchBadwords = async () => {
-    try {
-      const data = await fetch(apiEndPoint + '/api/words/all', {
-        headers: { Authorization: token }
-      })
-      const items = await data.json()
-
-      if (items.length > 0) {
-        items.reverse()
-        setItems(items)
-      } else {
-        setNoData(true)
-      }
-    } catch(e) {
-      console.error(e)
-    }
   }
 
   const deleteBadword = (id, e) => {

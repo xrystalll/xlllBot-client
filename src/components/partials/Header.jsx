@@ -7,6 +7,7 @@ class Header extends Component {
   _isMounted = false;
   constructor() {
     super();
+    this.isAuth = !!localStorage.getItem('sessId') && !!localStorage.getItem('userLogin')
     this.state = {
       showMenu: false,
       channel,
@@ -58,14 +59,16 @@ class Header extends Component {
             <h1>xlllBot</h1>
           </div>
 
-          <ul className="top-menu">
-            <li className="top-menu__profile">
-              <Link to="/dashboard/channel">
-                <span className="userName">{channel || ''}</span>
-                <img className="userPhoto" src={logo || ''} alt="" />
-              </Link>
-            </li>
-          </ul>
+          {this.isAuth && (
+            <ul className="top-menu">
+              <li className="top-menu__profile">
+                <Link to="/dashboard/channel">
+                  <span className="userName">{channel || ''}</span>
+                  <div className="userPhoto"  style={{ 'backgroundImage': `url(${logo})` }}></div>
+                </Link>
+              </li>
+            </ul>
+          )}
         </header>
 
         <aside id="navigation" className={menuVis}>
@@ -77,40 +80,50 @@ class Header extends Component {
                   Home
                 </NavLink>
               </li>
+              {this.isAuth && (
+                <React.Fragment>
+                  <li>
+                    <NavLink to="/dashboard/channel" onClick={this.closeMenu.bind(this)}>
+                      <i className="material-icons">person</i>
+                      Channel
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/commands" onClick={this.closeMenu.bind(this)}>
+                      <i className="material-icons">list</i>
+                      Commands
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/badwords" onClick={this.closeMenu.bind(this)}>
+                      <i className="material-icons">voice_over_off</i>
+                      Badwords
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/songs" onClick={this.closeMenu.bind(this)}>
+                      <i className="material-icons">playlist_play</i>
+                      Stream Dj
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/events" onClick={this.closeMenu.bind(this)}>
+                      <i className="material-icons">playlist_add_check</i>
+                      Events
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/dashboard/settings" onClick={this.closeMenu.bind(this)}>
+                      <i className="material-icons">settings</i>
+                      Settings
+                    </NavLink>
+                  </li>
+                </React.Fragment>
+              )}
               <li>
-                <NavLink to="/dashboard/channel" onClick={this.closeMenu.bind(this)}>
-                  <i className="material-icons">person</i>
-                  Channel
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/dashboard/commands" onClick={this.closeMenu.bind(this)}>
+                <NavLink to="/commands" onClick={this.closeMenu.bind(this)}>
                   <i className="material-icons">list</i>
-                  Commands
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/dashboard/badwords" onClick={this.closeMenu.bind(this)}>
-                  <i className="material-icons">voice_over_off</i>
-                  Badwords
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/dashboard/songs" onClick={this.closeMenu.bind(this)}>
-                  <i className="material-icons">playlist_play</i>
-                  Stream Dj
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/dashboard/events" onClick={this.closeMenu.bind(this)}>
-                  <i className="material-icons">playlist_add_check</i>
-                  Events
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/dashboard/settings" onClick={this.closeMenu.bind(this)}>
-                  <i className="material-icons">settings</i>
-                  Settings
+                  All commands
                 </NavLink>
               </li>
             </ul>

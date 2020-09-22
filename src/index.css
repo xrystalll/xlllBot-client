@@ -18,11 +18,11 @@
   --secondary-tint: #1f1f23;
   --default-white: #FFF;
   --default-transparent: transparent;
-  --default-transparent-02: rgba(0, 0, 0, .2);
-  --default-transparent-04: rgba(0, 0, 0, .4);
-  --default-transparent-06: rgba(0, 0, 0, .6);
-  --default-transparent-08: rgba(0, 0, 0, .8);
-  --secondary-transparent-04: rgba(173, 173, 184, .4);
+  --default-transparent-02: rgb(0 0 0 / 20%);
+  --default-transparent-04: rgb(0 0 0 / 40%);
+  --default-transparent-06: rgb(0 0 0 / 60%);
+  --default-transparent-08: rgb(0 0 0 / 80%);
+  --secondary-transparent-04: rgb(173 173 184 / 40%);
 }
 * {
   outline: none;
@@ -427,6 +427,10 @@ ul, ol {
   max-width: calc(100% / 4);
 }
 
+.command_name.full {
+  max-width: calc(100% / 2);
+}
+
 .command_prefix {
   font-size: 18px;
   margin-right: 4px;
@@ -616,11 +620,13 @@ i.item_cancel {
 .top-menu > li {
   display: inline-block;
 }
-.top-menu__profile > a img {
+.top-menu__profile > a .userPhoto {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--secondary-bg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: var(--secondary-bg);
 }
 .top-menu__profile > a span {
   font-size: 14px;

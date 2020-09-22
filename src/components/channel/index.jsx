@@ -1,28 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { clientDomain, apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
+import { toast } from 'react-toastify';
 
 const Channel = () => {
-  useEffect(() => {
-    document.title = 'xlllBot - Channel'
-    fetchChannel()
-  }, [])
+  const history = useHistory()
 
   const [channel, setChannel] = useState([])
 
-  const fetchChannel = async () => {
-    try {
-      const data = await fetch(apiEndPoint + '/api/channel', {
-        headers: { Authorization: token }
-      })
-      const channel = await data.json()
+  useEffect(() => {
+    document.title = 'xlllBot - Channel'
+    const fetchChannel = async () => {
+      try {
+        const data = await fetch(apiEndPoint + '/api/channel', {
+          headers: { Authorization: token }
+        })
+        if (data.status === 401) {
+          localStorage.clear()
+          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          history.push('/')
+          return
+        }
+        const channel = await data.json()
 
-      setChannel(channel[0])
-    } catch(e) {
-      console.error(e)
+        setChannel(channel[0])
+      } catch(e) {
+        console.error(e)
+      }
     }
-  }
+
+    fetchChannel()
+  }, [history])
 
   return (
     <section id="main">

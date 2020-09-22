@@ -1,29 +1,38 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { toast } from 'react-toastify';
 
 const Settings = () => {
-  useEffect(() => {
-    document.title = 'xlllBot - Settings'
-    fetchSettings()
-  }, [])
+  const history = useHistory()
 
   const [items, setItems] = useState([])
 
-  const fetchSettings = async () => {
-    try {
-      const data = await fetch(apiEndPoint + '/api/settings/all', {
-        headers: { Authorization: token }
-      })
-      const items = await data.json()
+  useEffect(() => {
+    document.title = 'xlllBot - Settings'
+    const fetchSettings = async () => {
+      try {
+        const data = await fetch(apiEndPoint + '/api/settings/all', {
+          headers: { Authorization: token }
+        })
+        if (data.status === 401) {
+          localStorage.clear()
+          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          history.push('/')
+          return
+        }
+        const items = await data.json()
 
-      setItems(items)
-    } catch(e) {
-      console.error(e)
+        setItems(items)
+      } catch(e) {
+        console.error(e)
+      }
     }
-  }
+
+    fetchSettings()
+  }, [history])
 
   const toggleSetting = (e) => {
     const name = e.currentTarget.htmlFor

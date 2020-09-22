@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CustomScrollbar from 'components/support/CustomScrollbar';
 import PrivateRoute from 'components/support/PrivateRoute';
+import GeneralRoute from 'components/support/GeneralRoute';
 import { socket } from 'instance/Socket';
 import Home from 'components/home';
 import Channel from 'components/channel';
@@ -10,6 +11,7 @@ import Badwords from 'components/badwords';
 import Songs from 'components/songs';
 import Events from 'components/events';
 import Settings from 'components/settings';
+import AllCommands from 'components/allcommands';
 import { Auth } from 'components/auth';
 import { AuthError } from 'components/auth/error'
 import { NotFound } from 'components/error';
@@ -38,6 +40,7 @@ class App extends Component {
             <PrivateRoute path="/dashboard/songs" component={Songs} />
             <PrivateRoute path="/dashboard/events" component={Events} />
             <PrivateRoute path="/dashboard/settings" component={Settings} />
+            <GeneralRoute path="/commands" component={AllCommands} />
             <Route path="/auth" exact component={Auth} />
             <Route path="/auth/error" component={AuthError} />
             <Route component={NotFound} />
