@@ -35,6 +35,7 @@ const Commands = () => {
           setNoData(true)
         }
       } catch(e) {
+        setNoData(true)
         console.error(e)
       }
     }

@@ -3,12 +3,14 @@ import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
+import { Error } from '../partials/Error';
 import { toast } from 'react-toastify';
 
 const Settings = () => {
   const history = useHistory()
 
   const [items, setItems] = useState([])
+  const [noData, setNoData] = useState(false)
 
   useEffect(() => {
     document.title = 'xlllBot - Settings'
@@ -25,8 +27,13 @@ const Settings = () => {
         }
         const items = await data.json()
 
-        setItems(items)
+        if (items.length > 0) {
+          setItems(items)
+        } else {
+          setNoData(true)
+        }
       } catch(e) {
+        setNoData(true)
         console.error(e)
       }
     }
@@ -68,11 +75,14 @@ const Settings = () => {
                         </label>
                       </div>
                     ))
-                  ) : <Loader />}
+                  ) : (
+                    !noData ? <Loader /> : <Error message="Settings not exists" />
+                  )}
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 

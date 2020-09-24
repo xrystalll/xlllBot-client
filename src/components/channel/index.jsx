@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const Channel = () => {
   const history = useHistory()
 
-  const [channel, setChannel] = useState([])
+  const [channel, setChannel] = useState('')
 
   useEffect(() => {
     document.title = 'xlllBot - Channel'
@@ -64,7 +64,7 @@ const Channel = () => {
 
                     <div className="vid-list-container">
                       <ul>
-                        <ol id="vid-list" style={{'lineHeight': 0}}>
+                        <ol id="vid-list" style={{ 'lineHeight': 0 }}>
                           {!!channel ? (
                             <iframe
                               title="TwitchChat"
@@ -83,6 +83,7 @@ const Channel = () => {
               </div>
             </div>
           </div>
+
         </div>
       </section>
 

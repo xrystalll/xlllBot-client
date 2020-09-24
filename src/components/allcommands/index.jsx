@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { apiEndPoint } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
+import { Error } from '../partials/Error';
 
 const AllCommand = () => {
   const [items, setItems] = useState([])
+  const [noData, setNoData] = useState(false)
 
   useEffect(() => {
     document.title = 'xlllBot - All Commands'
@@ -14,8 +16,13 @@ const AllCommand = () => {
 
         const items = await data.json()
 
-        setItems(items)
+        if (items.length > 0) {
+          setItems(items)
+        } else {
+          setNoData(true)
+        }
       } catch(e) {
+        setNoData(true)
         console.error(e)
       }
     }
@@ -104,12 +111,15 @@ const AllCommand = () => {
                         <input className="input_text command_text" type="text" placeholder="Stream category" defaultValue={item.game} />
                       </div>
                     ))
-                  ) : <Loader />}
+                  ) : (
+                    !noData ? <Loader /> : <Error message="Commandsnot exists" />
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
+
       </section>
 
       <Footer />

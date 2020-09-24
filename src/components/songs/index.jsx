@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 
 let player
 class Songs extends Component {
+  _isMounted = false;
   constructor() {
     super();
     this.state = {
@@ -24,7 +25,18 @@ class Songs extends Component {
 
   componentDidMount() {
     document.title = 'xlllBot - Stream Dj'
+    this._isMounted = true
     socket.emit('video_items', { channel })
+    this.subscribeToEvents()
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+
+  subscribeToEvents() {
+    if (!this._isMounted) return
+
     socket.on('output_videos', (data) => {
       if (data.length > 0) {
         this.setState({ response: data })
@@ -32,10 +44,6 @@ class Songs extends Component {
         this.setState({ noData: true })
       }
     })
-    this.subscribeToEvents()
-  }
-
-  subscribeToEvents() {
     socket.on('new_video', (data) => {
       if (data.channel !== channel) return
 
@@ -106,6 +114,8 @@ class Songs extends Component {
   }
 
   chooseVideo(data, e) {
+    if (!this._isMounted) return
+
     this.setState({ playIndex: Number(data.index) })
 
     if (player === undefined) return
@@ -114,6 +124,8 @@ class Songs extends Component {
   }
 
   skip() {
+    if (!this._isMounted) return
+
     const { response } = this.state
 
     if (response.length === 0) return
@@ -146,8 +158,17 @@ class Songs extends Component {
             <header className="content__header">
               <h2>Stream Dj <small>Dashboard</small></h2>
               <div className="controls">
-                <div ref={this.playBtnRef} onClick={this.onPlayPause} className="play_btn play" title="Play/Pause"></div>
-                <div onClick={this.skip.bind(this)} className="play_btn skip small" title="Skip"></div>
+                <div
+                  ref={this.playBtnRef}
+                  onClick={this.onPlayPause}
+                  className="play_btn play"
+                  title="Play/Pause"
+                />
+                <div
+                  onClick={this.skip.bind(this)}
+                  className="play_btn skip small"
+                  title="Skip"
+                />
               </div>
             </header>
 
@@ -213,6 +234,7 @@ class Songs extends Component {
                 </div>
               </div>
             </div>
+
           </div>
         </section>
 

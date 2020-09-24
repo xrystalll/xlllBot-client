@@ -35,6 +35,7 @@ const Badwords = () => {
           setNoData(true)
         }
       } catch(e) {
+        setNoData(true)
         console.error(e)
       }
     }
@@ -137,6 +138,7 @@ const Badwords = () => {
               </div>
             </div>
           </div>
+
         </div>
       </section>
 

@@ -7,10 +7,9 @@ class Header extends Component {
   _isMounted = false;
   constructor() {
     super();
-    this.isAuth = !!localStorage.getItem('sessId') && !!localStorage.getItem('userLogin')
+    this.isAuth = !!localStorage.getItem('sessId') && !!channel
     this.state = {
       showMenu: false,
-      channel,
       logo: localStorage.getItem('userLogo')
     }
   }
@@ -48,7 +47,7 @@ class Header extends Component {
   }
 
   render() {
-    const { channel, logo } = this.state
+    const { logo } = this.state
     const menuVis = this.state.showMenu ? 'open' : ''
 
     return (
@@ -64,7 +63,7 @@ class Header extends Component {
               <li className="top-menu__profile">
                 <Link to="/dashboard/channel">
                   <span className="userName">{channel || ''}</span>
-                  <div className="userPhoto"  style={{ 'backgroundImage': `url(${logo})` }}></div>
+                  <div className="userPhoto" style={{ 'backgroundImage': `url(${logo || ''})` }}></div>
                 </Link>
               </li>
             </ul>

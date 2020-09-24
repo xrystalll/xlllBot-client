@@ -7,6 +7,7 @@ import { Error } from '../partials/Error';
 import { toast } from 'react-toastify';
 
 class Events extends Component {
+  _isMounted = false;
   constructor() {
     super();
     this.state = {
@@ -18,7 +19,18 @@ class Events extends Component {
 
   componentDidMount() {
     document.title = 'xlllBot - Events'
+    this._isMounted = true
     socket.emit('event_items', { channel })
+    this.subscribeToEvents()
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+
+  subscribeToEvents() {
+    if (!this._isMounted) return
+
     socket.on('output_events', (data) => {
       if (data.length > 0) {
         this.setState({ response: data })
@@ -26,10 +38,6 @@ class Events extends Component {
         this.setState({ noData: true })
       }
     })
-    this.subscribeToEvents()
-  }
-
-  subscribeToEvents() {
     socket.on('events_deleted', (data) => {
       if (data.deletedCount > 0) {
         toast.success('Old events successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
@@ -115,6 +123,7 @@ class Events extends Component {
                 </div>
               </div>
             </div>
+
           </div>
         </section>
 
