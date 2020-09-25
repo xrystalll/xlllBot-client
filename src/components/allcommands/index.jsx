@@ -112,7 +112,7 @@ const AllCommand = () => {
                       </div>
                     ))
                   ) : (
-                    !noData ? <Loader /> : <Error message="Commandsnot exists" />
+                    !noData ? <Loader /> : <Error message="Commands not exists" />
                   )}
                 </div>
               </div>
