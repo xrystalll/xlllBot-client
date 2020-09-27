@@ -13,7 +13,7 @@ class Events extends Component {
     this.state = {
       response: [],
       noData: false,
-      showClear: true
+      showClear: false
     }
   }
 
@@ -33,7 +33,7 @@ class Events extends Component {
 
     socket.on('output_events', (data) => {
       if (data.length > 0) {
-        this.setState({ response: data })
+        this.setState({ response: data, showClear: true })
       } else {
         this.setState({ noData: true })
       }

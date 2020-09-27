@@ -118,6 +118,13 @@ ul, ol {
   margin: 24px 16px 0;
 }
 
+.card .error_title {
+  color: var(--main-danger-color);
+  text-align: center;
+  margin: 0;
+  font-size: 17px;
+}
+
 .success_title {
   color: var(--main-success-color);
 }
