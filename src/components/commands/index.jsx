@@ -145,7 +145,7 @@ const Commands = () => {
                 </div>
                 <div id="content_inner">
 
-                  {showAdd ? (
+                  {showAdd && (
                     <div className="command_form">
                       <div className="command_prefix">!</div>
                       <input className="input_text command_name active" type="text" placeholder="Enter command" />
@@ -155,7 +155,7 @@ const Commands = () => {
                         <input onClick={addCommand.bind(this)} className="command_create btn" type="submit" value="Add" />
                       </div>
                     </div>
-                  ) : null}
+                  )}
 
                   {items.length > 0 ? (
                     items.map(item => (

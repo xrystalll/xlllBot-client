@@ -110,7 +110,7 @@ const Badwords = () => {
                 </div>
                 <div id="content_inner">
 
-                  {showAdd ? (
+                  {showAdd && (
                     <div className="command_form">
                       <input className="input_text badword_name active" type="text" placeholder="Enter badword" />
                       <input className="input_text badword_duration active" type="number" placeholder="Enter ban duration" defaultValue="300" />
@@ -119,7 +119,7 @@ const Badwords = () => {
                         <input onClick={addBadword.bind(this)} className="badword_create btn" type="submit" value="Add" />
                       </div>
                     </div>
-                  ) : null}
+                  )}
 
                   {items.length > 0 ? (
                     items.map(item => (

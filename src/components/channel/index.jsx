@@ -10,6 +10,7 @@ const Channel = () => {
 
   const [channel, setChannel] = useState('')
   const [isModerator, setModerator] = useState(true)
+  const [botActive, setActive] = useState(false)
 
   useEffect(() => {
     document.title = 'xlllBot - Channel'
@@ -26,7 +27,8 @@ const Channel = () => {
         }
         const channel = await data.json()
 
-        setChannel(channel[0])
+        setChannel(channel[0].name)
+        if (!!channel[0].bot_active) setActive(true)
       } catch(e) {
         console.error(e)
       }
@@ -34,7 +36,7 @@ const Channel = () => {
 
     const fetchModerators = async () => {
       try {
-        const data = await fetch(apiEndPoint + '/api/user/mods', {
+        const data = await fetch(apiEndPoint + '/api/channel/mods', {
           headers: { Authorization: token }
         })
         if (data.status === 401) {
@@ -44,9 +46,12 @@ const Channel = () => {
           return
         }
         const moderators = await data.json()
-        const botIsModerator = !!moderators.filter(i => i === botUsername.toLowerCase()).length
 
-        setModerator(botIsModerator)
+        if (moderators.length) {
+          const botIsModerator = !!moderators.filter(i => i === botUsername.toLowerCase()).length
+
+          setModerator(botIsModerator)
+        }
       } catch(e) {
         console.error(e)
       }
@@ -55,6 +60,45 @@ const Channel = () => {
     fetchChannel()
     fetchModerators()
   }, [history])
+
+  const changeActive = (e) => {
+    const bool = e.currentTarget.checked
+    bool ? joinToChat() : leaveChat()
+  }
+
+  const joinToChat = () => {
+    fetch(apiEndPoint + '/api/bot/join', {
+      headers: { Authorization: token }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.error) {
+          setActive(true)
+          toast.success('Bot successfully joined to chat', { position: toast.POSITION.BOTTOM_RIGHT })
+        } else throw Error('Failed to join')
+      })
+      .catch(() => {
+        setActive(false)
+        toast.error('Failed to join', { position: toast.POSITION.BOTTOM_RIGHT })
+      })
+  }
+
+  const leaveChat = () => {
+    fetch(apiEndPoint + '/api/bot/leave', {
+      headers: { Authorization: token }
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.error) {
+          setActive(false)
+          toast.success('Bot successfully left chat', { position: toast.POSITION.BOTTOM_RIGHT })
+        } else throw Error('Failed to join')
+      })
+      .catch(() => {
+        setActive(false)
+        toast.error('Failed to leave from chat', { position: toast.POSITION.BOTTOM_RIGHT })
+      })
+  }
 
   return (
     <section id="main">
@@ -70,12 +114,37 @@ const Channel = () => {
               <div className="card__body">
                 <div className="card__sub">
                   <div className="error_title">
-                    {botUsername} не является модератором в чате! 
+                    <div className="alert_info">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                        <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+                      </svg>
+                      {botUsername} не является модератором в чате!
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           )}
+
+          <div className="card">
+            <div className="card__body">
+              <div className="card__sub">
+                <div className={botActive ? 'success_title' : 'error_title'}>
+                  <div className="alert_info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                      <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+                    </svg>
+                    <label className="switch">
+                      <input type="checkbox" onChange={changeActive.bind(this)} checked={botActive} />
+                      <span>
+                        {!botActive ? `${botUsername} не активен! Нажмите чтобы активировать` : `${botUsername} подключен к чату`}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div className="card">
             <div className="card__body">
@@ -99,7 +168,7 @@ const Channel = () => {
                     <div className="vid-list-container">
                       <ul>
                         <ol id="vid-list" style={{ 'lineHeight': 0 }}>
-                          {!!channel ? (
+                          {!!channel && (
                             <iframe
                               title="TwitchChat"
                               src={`https://www.twitch.tv/embed/${localStorage.getItem('userLogin')}/chat?darkpopout&parent=${clientDomain}`}
@@ -107,7 +176,7 @@ const Channel = () => {
                               scrolling="no"
                               width="284"
                               height="384" />
-                          ) : null}
+                          )}
                         </ol>
                       </ul>
                     </div>

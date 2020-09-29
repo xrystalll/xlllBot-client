@@ -197,7 +197,7 @@ class Songs extends Component {
                         <CustomScrollbar className="view">
                           <ul>
                             <ol id="vid-list">
-                              {response.length > 0 ? (
+                              {response.length > 0 && (
                                 response.map((item, index) => (
                                   <li
                                     key={item._id}
@@ -223,7 +223,7 @@ class Songs extends Component {
                                     </div>
                                   </li>
                                 ))
-                              ) : null}
+                              )}
                             </ol>
                           </ul>
                         </CustomScrollbar>

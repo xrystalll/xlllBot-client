@@ -18,7 +18,7 @@ import { NotFound } from 'components/error';
 import { ToastContainer, toast } from 'react-toastify';
 
 toast.configure({
-  autoClose: 2500
+  autoClose: 1500
 })
 
 class App extends Component {
