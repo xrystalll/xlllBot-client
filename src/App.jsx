@@ -17,10 +17,6 @@ import { AuthError } from 'components/auth/error'
 import { NotFound } from 'components/error';
 import { ToastContainer, toast } from 'react-toastify';
 
-toast.configure({
-  autoClose: 1500
-})
-
 class App extends Component {
   componentDidMount() {
     socket.on('alert', (data) => {
@@ -47,7 +43,7 @@ class App extends Component {
           </Switch>
         </Router>
 
-        <ToastContainer />
+        <ToastContainer autoClose="2000" />
       </CustomScrollbar>
     )
   }

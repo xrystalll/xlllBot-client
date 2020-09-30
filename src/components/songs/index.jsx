@@ -6,7 +6,6 @@ import CustomScrollbar from '../support/CustomScrollbar';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Error } from '../partials/Error';
-import { toast } from 'react-toastify';
 
 let player
 class Songs extends Component {
@@ -51,7 +50,6 @@ class Songs extends Component {
     })
     socket.on('deteted', (data) => {
       this.setState({ response: this.state.response.filter(items => items._id !== data.id) })
-      toast.success('Video successfully removed', { position: toast.POSITION.BOTTOM_RIGHT })
       if (this.state.response.filter(items => items._id !== data.id).length === 0) {
         this.setState({ noData: true })
       }
@@ -89,11 +87,6 @@ class Songs extends Component {
     if (count >= 1e9 && count < 1e12) return `${+(count / 1e9).toFixed(1)}B`
   }
 
-  youtubeId(url) {
-    const match = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/)
-    return match !== null ? match[1] : 0
-  }
-
   onPlayerReady(e) {
     player = e.target
   }
@@ -120,28 +113,28 @@ class Songs extends Component {
 
     if (player === undefined) return
 
-    player.loadVideoById(this.youtubeId(data.url))
+    player.loadVideoById(data.id)
   }
 
   skip() {
     if (!this._isMounted) return
 
-    const { response } = this.state
+    const { response, playIndex } = this.state
 
     if (response.length === 0) return
 
-    let thisIndex = this.state.playIndex + 1
+    let thisIndex = playIndex + 1
     if (thisIndex >= response.length) thisIndex = 0
     this.setState({ playIndex: thisIndex })
-    const url = response[thisIndex].url
+    const id = response[thisIndex].yid
 
     if (player === undefined) return
 
-    player.loadVideoById(this.youtubeId(url))
+    player.loadVideoById(id)
   }
 
   render() {
-    const { response } = this.state
+    const { response, playIndex, noData } = this.state
     const ytOptions = {
       height: '384',
       width: '560',
@@ -182,14 +175,14 @@ class Songs extends Component {
                         {response.length > 0 ? (
                           <YouTube
                             opts={ytOptions}
-                            videoId={this.youtubeId(response[0].url)}
+                            videoId={response[0].yid}
                             containerClassName="iframe"
                             onReady={this.onPlayerReady}
                             onPlay={this.onPlay}
                             onPause={this.onPause}
                             onEnd={this.skip.bind(this)} />
                         ) : (
-                          !this.state.noData ? <Loader /> : <Error message="No videos yet" />
+                          !noData ? <Loader /> : <Error message="No videos yet" />
                         )}
                       </div>
 
@@ -201,8 +194,8 @@ class Songs extends Component {
                                 response.map((item, index) => (
                                   <li
                                     key={item._id}
-                                    onClick={this.chooseVideo.bind(this, { url: item.url, index })}
-                                    className={`videoItem${this.state.playIndex === index ? ' selected' : ''}`}
+                                    onClick={this.chooseVideo.bind(this, { id: item.yid, index })}
+                                    className={`videoItem${playIndex === index ? ' selected' : ''}`}
                                   >
                                     <div className="chooseVid">
                                       <span className="vid-thumb" style={{'backgroundImage': `url(${item.thumb})`}}>

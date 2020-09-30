@@ -86,8 +86,8 @@ class Events extends Component {
   }
 
   render() {
-    const { response } = this.state
-    const clearVis = this.state.showClear ? '' : ' none'
+    const { response, showClear, noData } = this.state
+    const clearVis = showClear ? '' : ' none'
 
     return (
       <section id="main">
@@ -102,12 +102,12 @@ class Events extends Component {
               <div className="card__body">
                 <div className="card__sub">
                   <h4>Chat events by last 24 hrs</h4>
-                  {!this.state.noData ? (
+                  {!noData && (
                     <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
                       <i className="material-icons">delete</i>
                       <span>Delete events older than 24 hours</span>
                     </div>
-                  ) : null}
+                  )}
                   <div id="content_inner">
                     {response.length > 0 ? (
                       response.reverse().map(item => (
@@ -117,7 +117,7 @@ class Events extends Component {
                         </div>
                       ))
                     ) : (
-                      !this.state.noData ? <Loader /> : <Error message="No events yet" />
+                      !noData ? <Loader /> : <Error message="No events yet" />
                     )}
                   </div>
                 </div>

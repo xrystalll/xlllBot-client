@@ -47,8 +47,8 @@ class Header extends Component {
   }
 
   render() {
-    const { logo } = this.state
-    const menuVis = this.state.showMenu ? 'open' : ''
+    const { logo, showMenu } = this.state
+    const menuVis = showMenu ? 'open' : ''
 
     return (
       <>

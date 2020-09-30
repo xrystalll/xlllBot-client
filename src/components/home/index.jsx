@@ -4,6 +4,7 @@ import { apiEndPoint } from 'config';
 import { socket } from 'instance/Socket';
 
 class Home extends Component {
+  _isMounted = false;
   constructor() {
     super();
     this.state = {
@@ -19,6 +20,8 @@ class Home extends Component {
 
       if (!data.error) {
         if (!localStorage.getItem('sessId') || !localStorage.getItem('userLogin')) {
+          if (!this._isMounted) return
+
           this.setState({ isAuth: true, authClicked: false })
           localStorage.setItem('userLogin', data.login)
           localStorage.setItem('userLogo', data.logo)
@@ -29,10 +32,13 @@ class Home extends Component {
   }
 
   componentWillUnmount() {
+    this._isMounted = false
     clearTimeout(this.timeout)
   }
 
   openAuth(url) {
+    if (!this._isMounted) return
+
     this.setState({ authClicked: true })
     window.open(url, 'Sign in via Twitch', 'height=520,width=480')
   }
