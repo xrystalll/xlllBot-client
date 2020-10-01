@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
-import { Error } from '../partials/Error';
+import { Errorer } from '../partials/Error';
 import { toast } from 'react-toastify';
 
 const Badwords = () => {
@@ -53,12 +53,21 @@ const Badwords = () => {
       setItems([])
       setNoData(true)
     }
-    fetch(apiEndPoint + '/api/words/delete?id=' + id, {
-      headers: { Authorization: token }
+    fetch(apiEndPoint + '/api/words/delete', {
+      method: 'PUT',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id })
     })
       .then(response => response.json())
-      .then(() => toast.success('Badword successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT }))
-      .catch(() => toast.error('Failed to delete badword', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .then(data => {
+        if (!data.error) {
+          toast.success('Badword successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
+        } else throw Error(data.error)
+      })
+      .catch(err => toast.error(err ? err.message : 'Failed to delete badword', { position: toast.POSITION.BOTTOM_RIGHT }))
   }
 
   const addBadword = (e) => {
@@ -77,8 +86,16 @@ const Badwords = () => {
       el.children[0].classList.remove('error')
       el.children[1].classList.remove('error')
 
-      fetch(apiEndPoint + `/api/words/add?word=${word.trim()}&duration=` + duration.trim(), {
-        headers: { Authorization: token }
+      fetch(apiEndPoint + '/api/words/add', {
+        method: 'PUT',
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          word: word.trim().toLowerCase(),
+          duration: duration * 1
+        })
       })
         .then(response => response.json())
         .then(data => {
@@ -87,9 +104,9 @@ const Badwords = () => {
             setItems([data, ...items])
             toggleAdd()
             toast.success('Badword successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
-          } else throw Error('Failed to adding badword')
+          } else throw Error(data.error)
         })
-        .catch(() => toast.error('Failed to adding badword', { position: toast.POSITION.BOTTOM_RIGHT }))
+        .catch(err => toast.error(err ? err.message : 'Failed to adding badword', { position: toast.POSITION.BOTTOM_RIGHT }))
     }
   }
 
@@ -132,7 +149,7 @@ const Badwords = () => {
                       </div>
                     ))
                   ) : (
-                    !noData ? <Loader /> : <Error message="No badwords yet" />
+                    !noData ? <Loader /> : <Errorer message="No badwords yet" />
                   )}
                 </div>
               </div>

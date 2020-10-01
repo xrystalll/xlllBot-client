@@ -43,7 +43,7 @@ class App extends Component {
           </Switch>
         </Router>
 
-        <ToastContainer autoClose="2000" />
+        <ToastContainer autoClose={2000} />
       </CustomScrollbar>
     )
   }

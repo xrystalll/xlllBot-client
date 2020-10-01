@@ -1908,6 +1908,7 @@ ol#vid-list li {
   position: relative;
   padding: 10px 0;
   cursor: pointer;
+  user-select: none;
 }
 
 .md-checkbox::before {

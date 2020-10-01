@@ -5,7 +5,7 @@ import YouTube from 'react-youtube';
 import CustomScrollbar from '../support/CustomScrollbar';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
-import { Error } from '../partials/Error';
+import { Errorer } from '../partials/Error';
 
 let player
 class Songs extends Component {
@@ -182,7 +182,7 @@ class Songs extends Component {
                             onPause={this.onPause}
                             onEnd={this.skip.bind(this)} />
                         ) : (
-                          !noData ? <Loader /> : <Error message="No videos yet" />
+                          !noData ? <Loader /> : <Errorer message="No videos yet" />
                         )}
                       </div>
 

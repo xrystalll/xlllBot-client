@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Error = (props) => {
+export const Errorer = (props) => {
   const color = '#8e9399'
   const size = 112
 

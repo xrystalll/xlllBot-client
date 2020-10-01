@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
-import { Error } from '../partials/Error';
+import { Errorer } from '../partials/Error';
 import { toast } from 'react-toastify';
 
 const Settings = () => {
@@ -43,13 +43,23 @@ const Settings = () => {
 
   const toggleSetting = (e) => {
     const name = e.currentTarget.htmlFor
-    const checkState = !e.currentTarget.parentNode.children[0].checked
-    fetch(apiEndPoint + `/api/settings?name=${name}&state=` + checkState, {
-      headers: { Authorization: token }
+    const state = !e.currentTarget.parentNode.children[0].checked
+
+    fetch(apiEndPoint + '/api/settings/toggle', {
+      method: 'PUT',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, state })
     })
       .then(response => response.json())
-      .then(() => toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT }))
-      .catch(() => toast.error('Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .then(data => {
+        if (!data.error) {
+          toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT })
+        } else throw Error(data.error)
+      })
+      .catch(err => toast.error(err ? err.message : 'Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
   }
 
   return (
@@ -76,7 +86,7 @@ const Settings = () => {
                       </div>
                     ))
                   ) : (
-                    !noData ? <Loader /> : <Error message="Settings not exists" />
+                    !noData ? <Loader /> : <Errorer message="Settings not exists" />
                   )}
                 </div>
               </div>

@@ -15,6 +15,7 @@ class Home extends Component {
 
   componentDidMount() {
     document.title = 'xlllBot'
+    this._isMounted = true
     socket.on('user_data', (data) => {
       if (!this.state.authClicked) return
 

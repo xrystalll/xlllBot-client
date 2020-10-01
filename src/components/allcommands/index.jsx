@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { apiEndPoint } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
-import { Error } from '../partials/Error';
+import { Errorer } from '../partials/Error';
 
 const AllCommand = () => {
   const [items, setItems] = useState([])
@@ -112,7 +112,7 @@ const AllCommand = () => {
                       </div>
                     ))
                   ) : (
-                    !noData ? <Loader /> : <Error message="Commands not exists" />
+                    !noData ? <Loader /> : <Errorer message="Commands not exists" />
                   )}
                 </div>
               </div>

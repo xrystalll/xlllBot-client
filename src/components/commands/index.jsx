@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
-import { Error } from '../partials/Error';
+import { Errorer } from '../partials/Error';
 import { toast } from 'react-toastify';
 
 const Commands = () => {
@@ -53,12 +53,21 @@ const Commands = () => {
       setItems([])
       setNoData(true)
     }
-    fetch(apiEndPoint + '/api/commands/delete?id=' + id, {
-      headers: { Authorization: token }
+    fetch(apiEndPoint + '/api/commands/delete', {
+      method: 'PUT',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id })
     })
       .then(response => response.json())
-      .then(() => toast.success('Command successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT }))
-      .catch(() => toast.error('Failed to delete command', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .then(data => {
+        if (!data.error) {
+          toast.success('Command successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
+        } else throw Error(data.error)
+      })
+      .catch(err => toast.error(err ? err.message : 'Failed to delete command', { position: toast.POSITION.BOTTOM_RIGHT }))
   }
 
   const addCommand = (e) => {
@@ -77,8 +86,16 @@ const Commands = () => {
       el.children[1].classList.remove('error')
       el.children[2].classList.remove('error')
 
-      fetch(apiEndPoint + `/api/commands/add?tag=${tag.trim().replace('!', '')}&text=` + text.trim(), {
-        headers: { Authorization: token }
+      fetch(apiEndPoint + '/api/commands/add', {
+        method: 'PUT',
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          tag: tag.trim().replace('!', ''),
+          text: text.trim()
+        })
       })
         .then(response => response.json())
         .then(data => {
@@ -87,9 +104,9 @@ const Commands = () => {
             setItems([data, ...items])
             toggleAdd()
             toast.success('Command successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
-          } else throw Error('Failed to adding command')
+          } else throw Error(data.error)
         })
-        .catch(() => toast.error('Failed to adding command', { position: toast.POSITION.BOTTOM_RIGHT }))
+        .catch(err => toast.error(err ? err.message : 'Failed to adding command', { position: toast.POSITION.BOTTOM_RIGHT }))
     }
   }
 
@@ -110,12 +127,25 @@ const Commands = () => {
       el.children[2].classList.remove('error')
 
       toggleEditAction(e)
-      fetch(apiEndPoint + `/api/commands/edit?id=${id}&tag=${tag.trim()}&text=` + text.trim(), {
-        headers: { Authorization: token }
+      fetch(apiEndPoint + '/api/commands/edit', {
+        method: 'PUT',
+        headers: {
+          Authorization: token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id,
+          tag: tag.trim().replace('!', ''),
+          text: text.trim()
+        })
       })
         .then(response => response.json())
-        .then(() => toast.success('Command successfully changed', { position: toast.POSITION.BOTTOM_RIGHT }))
-        .catch(() => toast.error('Failed to change command', { position: toast.POSITION.BOTTOM_RIGHT }))
+        .then(data => {
+          if (!data.error) {
+            toast.success('Command successfully changed', { position: toast.POSITION.BOTTOM_RIGHT })
+          } else throw Error(data.error)
+        })
+        .catch(err => toast.error(err ? err.message : 'Failed to change command', { position: toast.POSITION.BOTTOM_RIGHT }))
     }
   }
 
@@ -177,7 +207,7 @@ const Commands = () => {
                       </div>
                     ))
                   ) : (
-                    !noData ? <Loader /> : <Error message="No commands yet" />
+                    !noData ? <Loader /> : <Errorer message="No commands yet" />
                   )}
                 </div>
               </div>

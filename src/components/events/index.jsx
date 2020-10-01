@@ -3,7 +3,7 @@ import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
-import { Error } from '../partials/Error';
+import { Errorer } from '../partials/Error';
 import { toast } from 'react-toastify';
 
 class Events extends Component {
@@ -117,7 +117,7 @@ class Events extends Component {
                         </div>
                       ))
                     ) : (
-                      !noData ? <Loader /> : <Error message="No events yet" />
+                      !noData ? <Loader /> : <Errorer message="No events yet" />
                     )}
                   </div>
                 </div>

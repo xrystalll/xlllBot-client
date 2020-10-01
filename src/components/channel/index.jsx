@@ -75,11 +75,11 @@ const Channel = () => {
         if (!data.error) {
           setActive(true)
           toast.success('Bot successfully joined to chat', { position: toast.POSITION.BOTTOM_RIGHT })
-        } else throw Error('Failed to join')
+        } else throw Error(data.error)
       })
-      .catch(() => {
+      .catch(err => {
         setActive(false)
-        toast.error('Failed to join', { position: toast.POSITION.BOTTOM_RIGHT })
+        toast.error(err ? err.message : 'Failed to join', { position: toast.POSITION.BOTTOM_RIGHT })
       })
   }
 
@@ -92,11 +92,11 @@ const Channel = () => {
         if (!data.error) {
           setActive(false)
           toast.success('Bot successfully left chat', { position: toast.POSITION.BOTTOM_RIGHT })
-        } else throw Error('Failed to join')
+        } else throw Error(data.error)
       })
-      .catch(() => {
+      .catch(err => {
         setActive(false)
-        toast.error('Failed to leave from chat', { position: toast.POSITION.BOTTOM_RIGHT })
+        toast.error(err ? err.message : 'Failed to leave from chat', { position: toast.POSITION.BOTTOM_RIGHT })
       })
   }
 
