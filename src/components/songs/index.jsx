@@ -49,8 +49,8 @@ class Songs extends Component {
       this.setState({ response: [...this.state.response, data], noData: false })
     })
     socket.on('deteted', (data) => {
-      this.setState({ response: this.state.response.filter(items => items._id !== data.id) })
-      if (this.state.response.filter(items => items._id !== data.id).length === 0) {
+      this.setState({ response: this.state.response.filter(item => item._id !== data.id) })
+      if (this.state.response.filter(item => item._id !== data.id).length === 0) {
         this.setState({ noData: true })
       }
     })

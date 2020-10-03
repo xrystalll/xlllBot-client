@@ -48,8 +48,8 @@ const Badwords = () => {
   }
 
   const deleteBadword = (id, e) => {
-    setItems(items.filter(items => items._id !== id))
-    if (items.filter(items => items._id !== id).length === 0) {
+    setItems(items.filter(item => item._id !== id))
+    if (items.filter(item => item._id !== id).length === 0) {
       setItems([])
       setNoData(true)
     }

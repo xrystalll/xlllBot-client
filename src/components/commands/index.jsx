@@ -48,8 +48,8 @@ const Commands = () => {
   }
 
   const deleteCommand = (id, e) => {
-    setItems(items.filter(items => items._id !== id))
-    if (items.filter(items => items._id !== id).length === 0) {
+    setItems(items.filter(item => item._id !== id))
+    if (items.filter(item => item._id !== id).length === 0) {
       setItems([])
       setNoData(true)
     }
@@ -74,6 +74,7 @@ const Commands = () => {
     const el = e.currentTarget.closest('.command_form')
     const tag = el.children[1].value
     const text = el.children[2].value
+    const countdown = el.children[3].value
 
     if (tag.trim().length < 1) {
       toast.error('Enter command tag', { position: toast.POSITION.BOTTOM_RIGHT })
@@ -82,9 +83,15 @@ const Commands = () => {
       toast.error('Enter text', { position: toast.POSITION.BOTTOM_RIGHT })
       el.children[1].classList.remove('error')
       el.children[2].classList.add('error')
+    } else if (countdown.trim().length < 1) {
+      toast.error('Enter countdown', { position: toast.POSITION.BOTTOM_RIGHT })
+      el.children[1].classList.remove('error')
+      el.children[2].classList.remove('error')
+      el.children[3].classList.add('error')
     } else {
       el.children[1].classList.remove('error')
       el.children[2].classList.remove('error')
+      el.children[3].classList.remove('error')
 
       fetch(apiEndPoint + '/api/commands/add', {
         method: 'PUT',
@@ -94,7 +101,8 @@ const Commands = () => {
         },
         body: JSON.stringify({
           tag: tag.trim().replace('!', ''),
-          text: text.trim()
+          text: text.trim(),
+          countdown: countdown * 1
         })
       })
         .then(response => response.json())
@@ -114,6 +122,7 @@ const Commands = () => {
     const el = e.currentTarget.closest('.command_form')
     const tag = el.children[1].value
     const text = el.children[2].value
+    const countdown = el.children[3].value
 
     if (tag.trim().length < 1) {
       toast.error('Enter command tag', { position: toast.POSITION.BOTTOM_RIGHT })
@@ -122,9 +131,15 @@ const Commands = () => {
       toast.error('Enter text', { position: toast.POSITION.BOTTOM_RIGHT })
       el.children[1].classList.remove('error')
       el.children[2].classList.add('error')
+    } else if (countdown.trim().length < 1) {
+      toast.error('Enter countdown', { position: toast.POSITION.BOTTOM_RIGHT })
+      el.children[1].classList.remove('error')
+      el.children[2].classList.remove('error')
+      el.children[3].classList.add('error')
     } else {
       el.children[1].classList.remove('error')
       el.children[2].classList.remove('error')
+      el.children[3].classList.remove('error')
 
       toggleEditAction(e)
       fetch(apiEndPoint + '/api/commands/edit', {
@@ -136,7 +151,8 @@ const Commands = () => {
         body: JSON.stringify({
           id,
           tag: tag.trim().replace('!', ''),
-          text: text.trim()
+          text: text.trim(),
+          countdown: countdown * 1
         })
       })
         .then(response => response.json())
@@ -153,8 +169,9 @@ const Commands = () => {
     const el = e.currentTarget.closest('.command_form')
     el.children[1].classList.toggle('active')
     el.children[2].classList.toggle('active')
-    el.children[3].children[0].classList.toggle('none')
-    el.children[3].children[1].classList.toggle('none')
+    el.children[3].classList.toggle('active')
+    el.children[4].children[0].classList.toggle('none')
+    el.children[4].children[1].classList.toggle('none')
   }
 
   return (
@@ -180,6 +197,7 @@ const Commands = () => {
                       <div className="command_prefix">!</div>
                       <input className="input_text command_name active" type="text" placeholder="Enter command" />
                       <input className="input_text command_text active" type="text" placeholder="Enter text" />
+                      <input className="input_text command_countdown active" type="text" placeholder="Enter countdown" defaultValue="300" />
                       <div className="command_actions">
                         <i onClick={toggleAdd} className="item_cancel command_new_cancel material-icons" title="Chancel new command">close</i>
                         <input onClick={addCommand.bind(this)} className="command_create btn" type="submit" value="Add" />
@@ -193,6 +211,7 @@ const Commands = () => {
                         <div className="command_prefix">!</div>
                         <input className="input_text command_name" type="text" placeholder="Enter command" defaultValue={item.tag} />
                         <input className="input_text command_text" type="text" placeholder="Enter text" defaultValue={item.text} />
+                        <input className="input_text command_countdown" type="text" placeholder="Enter countdown" defaultValue={item.countdown} />
                         <div className="command_actions">
                           <div className="action_block">
                             <i onClick={toggleEditAction.bind(this)} className="command_edit material-icons" title="Edit command">create</i>

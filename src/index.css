@@ -446,7 +446,7 @@ ul, ol {
   max-width: calc(100% / 4);
 }
 
-.command_name.full {
+.command_name.full, .command_countdown, .badword_duration  {
   max-width: calc(100% / 2);
 }
 
