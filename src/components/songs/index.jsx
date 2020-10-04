@@ -3,6 +3,7 @@ import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
 import CustomScrollbar from '../support/CustomScrollbar';
+import { VideoItem } from './VideoItem';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Errorer } from '../partials/Error';
@@ -20,6 +21,8 @@ class Songs extends Component {
     this.playBtnRef = React.createRef()
     this.onPlay = this.onPlay.bind(this)
     this.onPause = this.onPause.bind(this)
+    this.chooseVideo = this.chooseVideo.bind(this)
+    this.deleteVideo = this.deleteVideo.bind(this)
   }
 
   componentDidMount() {
@@ -62,31 +65,6 @@ class Songs extends Component {
     })
   }
 
-  deleteVideo(id, e) {
-    e.stopPropagation()
-    socket.emit('delete_video', { id, channel })
-  }
-
-  toHHMMSS(sec = 0) {
-    const secNum = parseInt(sec, 10)
-    const hours = Math.floor(secNum / 3600)
-    const minutes = Math.floor((secNum - (hours * 3600)) / 60)
-    const seconds = secNum - (hours * 3600) - (minutes * 60)
-
-    return (
-      (hours || '') + (hours > 0 ? ':' : '') +
-      (minutes < 10 && hours > 0 ? '0' : '') + minutes + ':' +
-      (seconds < 10 ? '0' : '') + seconds
-    )
-  }
-
-  counter(count = 0) {
-    if (count < 1e3) return count
-    if (count >= 1e3 && count < 1e6) return `${+(count / 1e3).toFixed(1)}K`
-    if (count >= 1e6 && count < 1e9) return `${+(count / 1e6).toFixed(1)}M`
-    if (count >= 1e9 && count < 1e12) return `${+(count / 1e9).toFixed(1)}B`
-  }
-
   onPlayerReady(e) {
     player = e.target
   }
@@ -106,7 +84,7 @@ class Songs extends Component {
     else player.playVideo()
   }
 
-  chooseVideo(data, e) {
+  chooseVideo(data) {
     if (!this._isMounted) return
 
     this.setState({ playIndex: Number(data.index) })
@@ -131,6 +109,11 @@ class Songs extends Component {
     if (player === undefined) return
 
     player.loadVideoById(id)
+  }
+
+  deleteVideo(id, e) {
+    e.stopPropagation()
+    socket.emit('delete_video', { id, channel })
   }
 
   render() {
@@ -180,7 +163,8 @@ class Songs extends Component {
                             onReady={this.onPlayerReady}
                             onPlay={this.onPlay}
                             onPause={this.onPause}
-                            onEnd={this.skip.bind(this)} />
+                            onEnd={this.skip.bind(this)}
+                          />
                         ) : (
                           !noData ? <Loader /> : <Errorer message="No videos yet" />
                         )}
@@ -192,29 +176,14 @@ class Songs extends Component {
                             <ol id="vid-list">
                               {response.length > 0 && (
                                 response.map((item, index) => (
-                                  <li
+                                  <VideoItem
                                     key={item._id}
-                                    onClick={this.chooseVideo.bind(this, { id: item.yid, index })}
-                                    className={`videoItem${playIndex === index ? ' selected' : ''}`}
-                                  >
-                                    <div className="chooseVid">
-                                      <span className="vid-thumb" style={{'backgroundImage': `url(${item.thumb})`}}>
-                                        <div className="vidDuration">{this.toHHMMSS(item.duration)}</div>
-                                      </span>
-                                      <div className="vidInfo">
-                                        <div className="desc">{item.title}</div>
-                                        <div className="owner">{item.owner}</div>
-                                        <div className="views">{this.counter(item.views)} views</div>
-                                      </div>
-                                      <div
-                                        onClick={this.deleteVideo.bind(this, item._id)}
-                                        className="removeVid"
-                                        title="Remove video from playlist"
-                                      >
-                                        <i className="material-icons">delete</i>
-                                      </div>
-                                    </div>
-                                  </li>
+                                    index={index}
+                                    playIndex={playIndex}
+                                    data={item}
+                                    chooseVideo={this.chooseVideo}
+                                    deleteVideo={this.deleteVideo}
+                                  />
                                 ))
                               )}
                             </ol>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { channel } from 'config';
 import { socket } from 'instance/Socket';
+import { EventItem } from './EventItem';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Errorer } from '../partials/Error';
@@ -39,11 +40,13 @@ class Events extends Component {
       }
     })
     socket.on('events_deleted', (data) => {
+      this.setState({ showClear: false })
+
       if (data.deletedCount > 0) {
+        this.setState({ response: [], noData: true })
         toast.success('Old events successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
       } else {
         toast.info('Nothing to clear', { position: toast.POSITION.BOTTOM_RIGHT })
-        this.setState({ showClear: false })
       }
     })
     socket.on('new_event', (data) => {
@@ -105,16 +108,13 @@ class Events extends Component {
                   {!noData && (
                     <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
                       <i className="material-icons">delete</i>
-                      <span>Delete events older than 24 hours</span>
+                      <span>Delete all events</span>
                     </div>
                   )}
                   <div id="content_inner">
                     {response.length > 0 ? (
                       response.reverse().map(item => (
-                        <div className="event_item" key={item._id}>
-                          <div className="event_time">{this.timeFormat(item.time)}</div>
-                          <div>{item.text}</div>
-                        </div>
+                        <EventItem key={item._id} data={item} />
                       ))
                     ) : (
                       !noData ? <Loader /> : <Errorer message="No events yet" />

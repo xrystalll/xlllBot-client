@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
+import { NewBadwordItem } from './NewBadwordItem';
+import { BadwordItem } from './BadwordItem';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Errorer } from '../partials/Error';
@@ -47,7 +49,7 @@ const Badwords = () => {
     toggleAddState(!showAdd)
   }
 
-  const deleteBadword = (id, e) => {
+  const deleteBadword = (id) => {
     setItems(items.filter(item => item._id !== id))
     if (items.filter(item => item._id !== id).length === 0) {
       setItems([])
@@ -70,44 +72,25 @@ const Badwords = () => {
       .catch(err => toast.error(err ? err.message : 'Failed to delete badword', { position: toast.POSITION.BOTTOM_RIGHT }))
   }
 
-  const addBadword = (e) => {
-    const el = e.currentTarget.closest('.command_form')
-    const word = el.children[0].value
-    const duration = el.children[1].value
-
-    if (word.trim().length < 1) {
-      toast.error('Enter name', { position: toast.POSITION.BOTTOM_RIGHT })
-      el.children[0].classList.add('error')
-    } else if (duration.trim().length < 1) {
-      toast.error('Enter duration', { position: toast.POSITION.BOTTOM_RIGHT })
-      el.children[0].classList.remove('error')
-      el.children[1].classList.add('error')
-    } else {
-      el.children[0].classList.remove('error')
-      el.children[1].classList.remove('error')
-
-      fetch(apiEndPoint + '/api/words/add', {
-        method: 'PUT',
-        headers: {
-          Authorization: token,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          word: word.trim().toLowerCase(),
-          duration: duration * 1
-        })
+  const addBadword = (props) => {
+    fetch(apiEndPoint + '/api/words/add', {
+      method: 'PUT',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(props)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.error) {
+          setNoData(false)
+          setItems([data, ...items])
+          toggleAdd()
+          toast.success('Badword successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
+        } else throw Error(data.error)
       })
-        .then(response => response.json())
-        .then(data => {
-          if (!data.error) {
-            setNoData(false)
-            setItems([data, ...items])
-            toggleAdd()
-            toast.success('Badword successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
-          } else throw Error(data.error)
-        })
-        .catch(err => toast.error(err ? err.message : 'Failed to adding badword', { position: toast.POSITION.BOTTOM_RIGHT }))
-    }
+      .catch(err => toast.error(err ? err.message : 'Failed to adding badword', { position: toast.POSITION.BOTTOM_RIGHT }))
   }
 
   return (
@@ -127,26 +110,15 @@ const Badwords = () => {
                 </div>
                 <div id="content_inner">
 
-                  {showAdd && (
-                    <div className="command_form">
-                      <input className="input_text badword_name active" type="text" placeholder="Enter badword" />
-                      <input className="input_text badword_duration active" type="number" placeholder="Enter ban duration" defaultValue="300" />
-                      <div className="channel_actions">
-                        <i onClick={toggleAdd} className="item_cancel badword_new_cancel material-icons" title="Cancel new badword">close</i>
-                        <input onClick={addBadword.bind(this)} className="badword_create btn" type="submit" value="Add" />
-                      </div>
-                    </div>
-                  )}
+                  {showAdd && <NewBadwordItem addBadword={addBadword} toggleAdd={toggleAdd} />}
 
                   {items.length > 0 ? (
                     items.map(item => (
-                      <div className="command_form" key={item._id}>
-                        <input className="input_text badword_name" type="text" placeholder="Badword" defaultValue={item.word} />
-                        <input className="input_text badword_duration" type="text" placeholder="Ban duration" defaultValue={item.duration} />
-                        <div className="channel_actions">
-                          <i onClick={deleteBadword.bind(this, item._id)} className="item_delete badword_delete material-icons" title="Delete badword">delete</i>
-                        </div>
-                      </div>
+                      <BadwordItem
+                        key={item._id}
+                        data={item}
+                        deleteBadword={deleteBadword}
+                      />
                     ))
                   ) : (
                     !noData ? <Loader /> : <Errorer message="No badwords yet" />

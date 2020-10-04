@@ -7,6 +7,46 @@ import { Errorer } from '../partials/Error';
 const AllCommand = () => {
   const [items, setItems] = useState([])
   const [noData, setNoData] = useState(false)
+  const commands = {
+    all: [{
+      name: '!up or !time or !uptime',
+      text: 'Stream duration'
+    }, {
+      name: '!old or !oldfag or !followage <username or empty>',
+      text: 'Channel follow period'
+    }, {
+      name: '!ping',
+      text: 'Game \'Ping Pong\''
+    }, {
+      name: '!size',
+      text: 'Game \'Size\''
+    }, {
+      name: '!sr <youtube link>',
+      text: 'Video request'
+    }],
+    mods: [{
+      name: '!mute, !timeout <username> <duration or empty>',
+      text: 'Timeout user'
+    }, {
+      name: '!ban, !permit <username> <reason or empty>',
+      text: 'Permanent ban user'
+    }, {
+      name: '!unban <username>',
+      text: 'Unban user'
+    }, {
+      name: '!skip',
+      text: 'Skip played video'
+    }, {
+      name: '!game <full game name or short>',
+      text: 'Set stream category. Short name is in the list below'
+    }, {
+      name: '!title <text>',
+      text: 'Set stream name'
+    }, {
+      name: '!poll or !vote <Question | variant1 | variant2 | ...>',
+      text: 'Create Strawpoll vote'
+    }]
+  }
 
   useEffect(() => {
     document.title = 'xlllBot - All Commands'
@@ -44,56 +84,20 @@ const AllCommand = () => {
               <div className="card__sub">
                 <h4>Commands list</h4>
                 <div id="content_inner">
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!up or !time or !uptime" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Stream duration" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!old or !oldfag or !followage <username or empty>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Channel follow period" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!ping" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Game 'Ping Pong'" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!size <username or empty>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Game 'Size'" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!sr <youtube link>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Video request" />
-                  </div>
+                  {commands.all.map((item, index) => (
+                    <div className="command_form" key={index}>
+                      <input className="input_text command_name full" type="text" placeholder="Command" defaultValue={item.name} />
+                      <input className="input_text command_text" type="text" placeholder="Description" defaultValue={item.text} />
+                    </div>
+                  ))}
                   <br></br>
                   <h4>For moderators and owner</h4>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!mute, !timeout <username> <duration or empty>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Timeout user" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!ban, !permit <username> <reason or empty>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Permanent ban user" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!unban <username>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Unban user" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!skip" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Skip played video" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!game <full game name or short>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Set stream category. Short name is in the list below" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!title <text>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Set stream name" />
-                  </div>
-                  <div className="command_form">
-                    <input className="input_text command_name full" type="text" placeholder="Command" defaultValue="!poll or !vote <Question | variant1 | variant2 | ...>" />
-                    <input className="input_text command_text" type="text" placeholder="Description" defaultValue="Create Stravpoll vote" />
-                  </div>
+                  {commands.mods.map((item, index) => (
+                    <div className="command_form" key={index}>
+                      <input className="input_text command_name full" type="text" placeholder="Command" defaultValue={item.name} />
+                      <input className="input_text command_text" type="text" placeholder="Description" defaultValue={item.text} />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -107,7 +111,7 @@ const AllCommand = () => {
                   {items.length > 0 ? (
                     items.map(item => (
                       <div className="command_form" key={item._id}>
-                        <input className="input_text command_name" type="text" placeholder="Command" defaultValue={item.short} />
+                        <input className="input_text command_name" type="text" placeholder="Short name" defaultValue={item.short} />
                         <input className="input_text command_text" type="text" placeholder="Stream category" defaultValue={item.game} />
                       </div>
                     ))

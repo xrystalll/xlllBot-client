@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
+import { SettingItem } from './SettingItem';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Errorer } from '../partials/Error';
@@ -78,12 +79,7 @@ const Settings = () => {
                 <div id="content_inner">
                   {items.length > 0 ? (
                     items.map(item => (
-                      <div className="md-checkbox" key={item._id}>
-                        <input id={item.name} type="checkbox" defaultChecked={item.state} />
-                        <label htmlFor={item.name} onClick={toggleSetting.bind(this)} className="setting_item">
-                          <span>{item.description}</span>
-                        </label>
-                      </div>
+                      <SettingItem key={item._id} data={item} toggleSetting={toggleSetting} />
                     ))
                   ) : (
                     !noData ? <Loader /> : <Errorer message="Settings not exists" />
