@@ -21,13 +21,15 @@ export const VideoItem = ({ index, playIndex, data, chooseVideo, deleteVideo }) 
     if (count >= 1e9 && count < 1e12) return `${+(count / 1e9).toFixed(1)}B`
   }
 
+  const selected = playIndex === index ? ' selected' : ''
+
   return (
     <li
-      className={`videoItem${playIndex === index ? ' selected' : ''}`}
+      className={'videoItem' + selected}
       onClick={chooseVideo.bind(this, { id: data.yid, index })}
     >
       <div className="chooseVid">
-        <span className="vid-thumb" style={{'backgroundImage': `url(${data.thumb})`}}>
+        <span className="vid-thumb" style={{ 'backgroundImage': `url(${data.thumb})` }}>
           <div className="vidDuration">{toHHMMSS(data.duration)}</div>
         </span>
         <div className="vidInfo">

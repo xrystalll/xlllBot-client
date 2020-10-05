@@ -9,20 +9,21 @@ import { Loader } from '../partials/Loader';
 import { Errorer } from '../partials/Error';
 
 let player
-class Songs extends Component {
+class Videos extends Component {
   _isMounted = false;
   constructor() {
     super();
     this.state = {
       response: [],
       playIndex: 0,
+      playing: false,
       noData: false
     }
-    this.playBtnRef = React.createRef()
     this.onPlay = this.onPlay.bind(this)
     this.onPause = this.onPause.bind(this)
     this.chooseVideo = this.chooseVideo.bind(this)
     this.deleteVideo = this.deleteVideo.bind(this)
+    this.skip = this.skip.bind(this)
   }
 
   componentDidMount() {
@@ -70,11 +71,11 @@ class Songs extends Component {
   }
 
   onPlay() {
-    this.playBtnRef.current.classList.add('playing')
+    this.setState({ playing: true })
   }
 
   onPause() {
-    this.playBtnRef.current.classList.remove('playing')
+    this.setState({ playing: false })
   }
 
   onPlayPause() {
@@ -117,7 +118,7 @@ class Songs extends Component {
   }
 
   render() {
-    const { response, playIndex, noData } = this.state
+    const { response, playIndex, playing, noData } = this.state
     const ytOptions = {
       height: '384',
       width: '560',
@@ -134,17 +135,12 @@ class Songs extends Component {
             <header className="content__header">
               <h2>Stream Dj <small>Dashboard</small></h2>
               <div className="controls">
-                <div
-                  ref={this.playBtnRef}
-                  onClick={this.onPlayPause}
-                  className="play_btn play"
-                  title="Play/Pause"
-                />
-                <div
-                  onClick={this.skip.bind(this)}
-                  className="play_btn skip small"
-                  title="Skip"
-                />
+                <div onClick={this.onPlayPause} className="play_btn" title="Play/Pause">
+                  <i className="material-icons">{playing ? 'pause' : 'play_arrow'}</i>
+                </div>
+                <div onClick={this.skip} className="play_btn skip small" title="Skip">
+                  <i className="material-icons">skip_next</i>
+                </div>
               </div>
             </header>
 
@@ -160,10 +156,10 @@ class Songs extends Component {
                             opts={ytOptions}
                             videoId={response[0].yid}
                             containerClassName="iframe"
-                            onReady={this.onPlayerReady}
                             onPlay={this.onPlay}
                             onPause={this.onPause}
-                            onEnd={this.skip.bind(this)}
+                            onReady={this.onPlayerReady}
+                            onEnd={this.skip}
                           />
                         ) : (
                           !noData ? <Loader /> : <Errorer message="No videos yet" />
@@ -207,4 +203,4 @@ class Songs extends Component {
   }
 }
 
-export default Songs;
+export default Videos;

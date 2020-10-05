@@ -8,7 +8,7 @@ import Home from 'components/home';
 import Channel from 'components/channel';
 import Commands from 'components/commands';
 import Badwords from 'components/badwords';
-import Songs from 'components/songs';
+import Videos from 'components/videos';
 import Events from 'components/events';
 import Settings from 'components/settings';
 import AllCommands from 'components/allcommands';
@@ -33,7 +33,7 @@ class App extends Component {
             <PrivateRoute path="/dashboard/channel" component={Channel} />
             <PrivateRoute path="/dashboard/commands" component={Commands} />
             <PrivateRoute path="/dashboard/badwords" component={Badwords} />
-            <PrivateRoute path="/dashboard/songs" component={Songs} />
+            <PrivateRoute path="/dashboard/videos" component={Videos} />
             <PrivateRoute path="/dashboard/events" component={Events} />
             <PrivateRoute path="/dashboard/settings" component={Settings} />
             <GeneralRoute path="/commands" component={AllCommands} />

@@ -21,7 +21,7 @@
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('%PUBLIC_URL%/sw.js')
           .then(() => console.log('ServiceWorker registration successful'))
-          .catch(err => console.error(err))
+          .catch(err => console.error(err.message))
         })
       } else {
         console.info('ServiceWorker is not supported')

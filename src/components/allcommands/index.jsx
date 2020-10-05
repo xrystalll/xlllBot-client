@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { apiEndPoint } from 'config';
+import { CommandItem } from './CommandItem';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { Errorer } from '../partials/Error';
@@ -85,18 +86,12 @@ const AllCommand = () => {
                 <h4>Commands list</h4>
                 <div id="content_inner">
                   {commands.all.map((item, index) => (
-                    <div className="command_form" key={index}>
-                      <input className="input_text command_name full" type="text" placeholder="Command" defaultValue={item.name} />
-                      <input className="input_text command_text" type="text" placeholder="Description" defaultValue={item.text} />
-                    </div>
+                    <CommandItem key={index + '_all'} data={item} type="full" />
                   ))}
                   <br></br>
                   <h4>For moderators and owner</h4>
                   {commands.mods.map((item, index) => (
-                    <div className="command_form" key={index}>
-                      <input className="input_text command_name full" type="text" placeholder="Command" defaultValue={item.name} />
-                      <input className="input_text command_text" type="text" placeholder="Description" defaultValue={item.text} />
-                    </div>
+                    <CommandItem key={index + '_mods'} data={item} type="full" />
                   ))}
                 </div>
               </div>
@@ -110,10 +105,7 @@ const AllCommand = () => {
                 <div id="content_inner2">
                   {items.length > 0 ? (
                     items.map(item => (
-                      <div className="command_form" key={item._id}>
-                        <input className="input_text command_name" type="text" placeholder="Short name" defaultValue={item.short} />
-                        <input className="input_text command_text" type="text" placeholder="Stream category" defaultValue={item.game} />
-                      </div>
+                      <CommandItem key={item._id} data={item} type="short" />
                     ))
                   ) : (
                     !noData ? <Loader /> : <Errorer message="Commands not exists" />

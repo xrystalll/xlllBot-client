@@ -50,11 +50,6 @@ const Commands = () => {
   }
 
   const deleteCommand = (id) => {
-    setItems(items.filter(item => item._id !== id))
-    if (items.filter(item => item._id !== id).length === 0) {
-      setItems([])
-      setNoData(true)
-    }
     fetch(apiEndPoint + '/api/commands/delete', {
       method: 'PUT',
       headers: {
@@ -66,6 +61,11 @@ const Commands = () => {
       .then(response => response.json())
       .then(data => {
         if (!data.error) {
+          setItems(items.filter(item => item._id !== id))
+          if (items.filter(item => item._id !== id).length === 0) {
+            setItems([])
+            setNoData(true)
+          }
           toast.success('Command successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
         } else throw Error(data.error)
       })
@@ -125,7 +125,7 @@ const Commands = () => {
               <div className="card__sub">
                 <h4>Commands list</h4>
                 <div onClick={toggleAdd} className="item_add command_add" title="Add new command">
-                  <i className="material-icons">add</i>
+                  <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
                 </div>
                 <div id="content_inner">
 

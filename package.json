@@ -1,7 +1,6 @@
 {
-  "homepage": ".",
   "name": "xlllbot-client",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "description": "React client for Twitch chat bot by xrystalll",
   "author": "xrystalll",

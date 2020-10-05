@@ -50,11 +50,6 @@ const Badwords = () => {
   }
 
   const deleteBadword = (id) => {
-    setItems(items.filter(item => item._id !== id))
-    if (items.filter(item => item._id !== id).length === 0) {
-      setItems([])
-      setNoData(true)
-    }
     fetch(apiEndPoint + '/api/words/delete', {
       method: 'PUT',
       headers: {
@@ -66,6 +61,11 @@ const Badwords = () => {
       .then(response => response.json())
       .then(data => {
         if (!data.error) {
+          setItems(items.filter(item => item._id !== id))
+          if (items.filter(item => item._id !== id).length === 0) {
+            setItems([])
+            setNoData(true)
+          }
           toast.success('Badword successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
         } else throw Error(data.error)
       })
@@ -106,7 +106,7 @@ const Badwords = () => {
               <div className="card__sub">
                 <h4>Badwords list</h4>
                 <div onClick={toggleAdd} className="item_add badword_add" title="Add new badword">
-                  <i className="material-icons">add</i>
+                  <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
                 </div>
                 <div id="content_inner">
 

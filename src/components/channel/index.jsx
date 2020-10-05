@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { clientDomain, botUsername, apiEndPoint, token } from 'config';
+import { BotModerator, BotActive } from './BotAlerts';
+import { TwitchPlayer } from './TwitchPlayer';
+import { TwitchChat } from './TwitchChat';
 import { Footer } from '../partials/Footer';
 import { Loader } from '../partials/Loader';
 import { toast } from 'react-toastify';
@@ -109,42 +112,9 @@ const Channel = () => {
             <h2>Channel <small>Dashboard</small></h2>
           </header>
 
-          {!isModerator && (
-            <div className="card">
-              <div className="card__body">
-                <div className="card__sub">
-                  <div className="error_title">
-                    <div className="alert_info">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-                        <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
-                      </svg>
-                      {botUsername} не является модератором в чате!
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {!isModerator && <BotModerator botUsername={botUsername} />}
 
-          <div className="card">
-            <div className="card__body">
-              <div className="card__sub">
-                <div className={botActive ? 'success_title' : 'error_title'}>
-                  <div className="alert_info">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-                      <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
-                    </svg>
-                    <label className="switch">
-                      <input type="checkbox" onChange={changeActive.bind(this)} checked={botActive} />
-                      <span>
-                        {!botActive ? `${botUsername} не активен! Нажмите чтобы активировать` : `${botUsername} подключен к чату`}
-                      </span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <BotActive state={botActive} botUsername={botUsername} changeActive={changeActive} />
 
           <div className="card">
             <div className="card__body">
@@ -153,30 +123,13 @@ const Channel = () => {
 
                   <div className="vid-main-wrapper">
                     <div className="vid-container">
-                      {!!channel ? (
-                        <iframe
-                          title="TwitchPlayer"
-                          src={`https://player.twitch.tv/?channel=${localStorage.getItem('userLogin')}&parent=${clientDomain}`}
-                          frameBorder="0"
-                          allowFullScreen={true}
-                          scrolling="no"
-                          width="560"
-                          height="384" />
-                      ) : <Loader />}
+                      {!!channel ? <TwitchPlayer channel={channel} clientDomain={clientDomain} /> : <Loader />}
                     </div>
 
                     <div className="vid-list-container">
                       <ul>
                         <ol id="vid-list" style={{ 'lineHeight': 0 }}>
-                          {!!channel && (
-                            <iframe
-                              title="TwitchChat"
-                              src={`https://www.twitch.tv/embed/${localStorage.getItem('userLogin')}/chat?darkpopout&parent=${clientDomain}`}
-                              frameBorder="0"
-                              scrolling="no"
-                              width="284"
-                              height="384" />
-                          )}
+                          {!!channel && <TwitchChat channel={channel} clientDomain={clientDomain} />}
                         </ol>
                       </ul>
                     </div>

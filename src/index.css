@@ -885,6 +885,24 @@ i.item_cancel {
   position: initial !important;
 }
 
+.vid-container.sticky {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  width: 322px;
+  height: 181px;
+  z-index: 999;
+}
+
+.vid-container.sticky .iframe {
+  height: inherit;
+}
+
+.vid-container.sticky iframe {
+  height: inherit;
+  min-height: initial;
+}
+
 .vid-list-container {
   max-width: calc(100% / 3.4);
   width: auto;
@@ -1079,26 +1097,11 @@ ol#vid-list li {
   box-shadow: 0 4px 6px 0 var(--default-transparent-04);
 }
 
-.play_btn::before {
-  content: 'play_arrow';
-  font-family: 'Material Icons';
-  color: var(--default-white);
-  font-size: 24px;
-}
-
-.play_btn.play.playing::before {
-  content: 'pause';
-}
-
 .play_btn.small {
   width: 48px;
   height: 48px;
   right: 34px;
   top: 4px;
-}
-
-.play_btn.skip::before {
-  content: 'skip_next';
 }
 
 .event_item {
