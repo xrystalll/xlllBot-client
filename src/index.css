@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
 :root {
@@ -118,12 +118,9 @@ ul, ol {
   user-select: none;
 }
 
-.alert_info svg {
+.alert_info i {
   margin-right: 8px;
-}
-
-.alert_info svg path {
-  fill: currentColor;
+  font-size: 22px;
 }
 
 .alert_info .btn {
@@ -587,6 +584,9 @@ i.item_cancel {
   position: absolute;
   padding: 6px 14px;
 }
+#header .logo {
+  transition: background .2s;
+}
 #header.open .logo {
   position: fixed;
   background: var(--secondary-bg);
@@ -668,17 +668,19 @@ i.item_cancel {
 }
 @media (max-width: 999px) {
   #navigation {
-    padding-top: 90px;
+    padding-top: 64px;
     position: fixed;
     top: 0;
     height: 100%;
     width: 240px;
     background: var(--secondary-bg);
-    display: none;
+    transform: translate(-240px, 0);
+    transition: transform .2s;
   }
   #navigation.open {
     display: block;
     padding-top: 64px;
+    transform: translate(0px, 0);
   }
   #header {
     height: 56px;
@@ -713,6 +715,24 @@ i.item_cancel {
   left: 17px;
   font-size: 22px;
   text-align: center;
+}
+.navigation__menu ul a .nav-ic {
+  font-family: 'Material Icons Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+.navigation__menu ul a:hover .nav-ic, .navigation__menu ul a:focus .nav-ic, .navigation__menu ul a.active .nav-ic {
+  font-family: 'Material Icons';
 }
 .navigation__menu {
   height: 100%;

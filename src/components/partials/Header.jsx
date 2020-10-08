@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import CustomScrollbar from '../support/CustomScrollbar';
+import CustomScrollbar from 'components/support/CustomScrollbar';
 import { channel } from 'config';
 
 class Header extends Component {
@@ -77,7 +77,7 @@ class Header extends Component {
             <ul>
               <li>
                 <NavLink exact to="/" onClick={this.closeMenu}>
-                  <i className="material-icons">home</i>
+                  <i className="nav-ic">home</i>
                   Home
                 </NavLink>
               </li>
@@ -85,7 +85,7 @@ class Header extends Component {
                 <React.Fragment>
                   <li>
                     <NavLink to="/dashboard/channel" onClick={this.closeMenu}>
-                      <i className="material-icons">person</i>
+                      <i className="nav-ic">person</i>
                       Channel
                     </NavLink>
                   </li>
@@ -97,7 +97,7 @@ class Header extends Component {
                   </li>
                   <li>
                     <NavLink to="/dashboard/badwords" onClick={this.closeMenu}>
-                      <i className="material-icons">voice_over_off</i>
+                      <i className="nav-ic">voice_over_off</i>
                       Badwords
                     </NavLink>
                   </li>
@@ -115,7 +115,7 @@ class Header extends Component {
                   </li>
                   <li>
                     <NavLink to="/dashboard/settings" onClick={this.closeMenu}>
-                      <i className="material-icons">settings</i>
+                      <i className="nav-ic">settings</i>
                       Settings
                     </NavLink>
                   </li>

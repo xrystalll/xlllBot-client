@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import { EventItem } from './EventItem';
-import { Footer } from '../partials/Footer';
-import { Loader } from '../partials/Loader';
-import { Errorer } from '../partials/Error';
+import { Footer } from 'components/partials/Footer';
+import { Loader } from 'components/partials/Loader';
+import { Errorer } from 'components/partials/Error';
 import { toast } from 'react-toastify';
 
 class Events extends Component {

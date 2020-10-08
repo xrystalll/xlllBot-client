@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { SettingItem } from './SettingItem';
-import { Footer } from '../partials/Footer';
-import { Loader } from '../partials/Loader';
-import { Errorer } from '../partials/Error';
+import { Footer } from 'components/partials/Footer';
+import { Loader } from 'components/partials/Loader';
+import { Errorer } from 'components/partials/Error';
 import { toast } from 'react-toastify';
 
 const Settings = () => {
@@ -29,7 +29,7 @@ const Settings = () => {
         const items = await data.json()
 
         if (items.length > 0) {
-          setItems(items)
+          setItems(items.sort((a, b) => a.sort - b.sort))
         } else {
           setNoData(true)
         }
@@ -42,8 +42,7 @@ const Settings = () => {
     fetchSettings()
   }, [history])
 
-  const toggleSetting = (e) => {
-    const name = e.currentTarget.htmlFor
+  const toggleSetting = (name, e) => {
     const state = !e.currentTarget.parentNode.children[0].checked
 
     fetch(apiEndPoint + '/api/settings/toggle', {

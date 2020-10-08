@@ -3,9 +3,9 @@ import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { NewBadwordItem } from './NewBadwordItem';
 import { BadwordItem } from './BadwordItem';
-import { Footer } from '../partials/Footer';
-import { Loader } from '../partials/Loader';
-import { Errorer } from '../partials/Error';
+import { Footer } from 'components/partials/Footer';
+import { Loader } from 'components/partials/Loader';
+import { Errorer } from 'components/partials/Error';
 import { toast } from 'react-toastify';
 
 const Badwords = () => {

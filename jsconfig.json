@@ -9,6 +9,11 @@
       "dom",
       "esnext"
     ],
+    "paths": {
+      "components/*": ["src/components/*"],
+      "hooks/*": ["src/hooks/*"],
+      "instance/*": ["src/instance/*"]
+    },
     "strict": true
   },
   "exclude": ["node_modules"]

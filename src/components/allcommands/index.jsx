@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { apiEndPoint } from 'config';
 import { CommandItem } from './CommandItem';
-import { Footer } from '../partials/Footer';
-import { Loader } from '../partials/Loader';
-import { Errorer } from '../partials/Error';
+import { Footer } from 'components/partials/Footer';
+import { Loader } from 'components/partials/Loader';
+import { Errorer } from 'components/partials/Error';
 
 const AllCommand = () => {
   const [items, setItems] = useState([])

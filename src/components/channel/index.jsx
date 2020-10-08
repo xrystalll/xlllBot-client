@@ -4,8 +4,8 @@ import { clientDomain, botUsername, apiEndPoint, token } from 'config';
 import { BotModerator, BotActive } from './BotAlerts';
 import { TwitchPlayer } from './TwitchPlayer';
 import { TwitchChat } from './TwitchChat';
-import { Footer } from '../partials/Footer';
-import { Loader } from '../partials/Loader';
+import { Footer } from 'components/partials/Footer';
+import { Loader } from 'components/partials/Loader';
 import { toast } from 'react-toastify';
 
 const Channel = () => {

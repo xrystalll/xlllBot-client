@@ -4,9 +4,9 @@ import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
 import CustomScrollbar from '../support/CustomScrollbar';
 import { VideoItem } from './VideoItem';
-import { Footer } from '../partials/Footer';
-import { Loader } from '../partials/Loader';
-import { Errorer } from '../partials/Error';
+import { Footer } from 'components/partials/Footer';
+import { Loader } from 'components/partials/Loader';
+import { Errorer } from 'components/partials/Error';
 
 let player
 class Videos extends Component {

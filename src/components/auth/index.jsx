@@ -8,9 +8,10 @@ export const Auth = (props) => {
 
   useEffect(() => {
     document.title = 'xlllBot - Log in'
-    if (!!props.location.search && !!new URLSearchParams(props.location.search).get('sess')) {
-      setError(false)
-      localStorage.setItem('sessId', new URLSearchParams(props.location.search).get('sess'))
+    const sess = new URLSearchParams(props.location.search).get('sess')
+
+    if (!!props.location.search && !!sess) {
+      localStorage.setItem('sessId', sess)
       setTimeout(() => window.close(), 2000)
     } else {
       setError(true)
