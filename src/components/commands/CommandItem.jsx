@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useForm } from 'hooks/useForm';
 import { toast } from 'react-toastify';
 
 export const CommandItem = ({ data, editCommand, deleteCommand }) => {
+  const { values, handleChange } = useForm({ tag: '', text: '', countdown: data.countdown })
+
   const [editAction, toggleEditAction] = useState(false)
   const [errOne, setErrOne] = useState(false)
   const [errTwo, setErrTwo] = useState(false)
@@ -22,10 +25,8 @@ export const CommandItem = ({ data, editCommand, deleteCommand }) => {
   const submit = (id, e) => {
     e.preventDefault()
 
-    const el = e.currentTarget
-    const tag = el.children[1].value.trim().replace('!', '')
-    const text = el.children[2].value.trim()
-    const countdown = el.children[3].value.trim()
+    const tag = values.tag.trim().replace('!', '')
+    const text = values.text.trim()
 
     if (tag.length < 1) {
       toast.error('Enter command tag', { position: toast.POSITION.BOTTOM_RIGHT })
@@ -37,7 +38,7 @@ export const CommandItem = ({ data, editCommand, deleteCommand }) => {
       setErrOne(false)
       setErrTwo(true)
       setErrThree(false)
-    } else if (countdown.length < 1) {
+    } else if (values.countdown.length < 1) {
       toast.error('Enter countdown', { position: toast.POSITION.BOTTOM_RIGHT })
       setErrOne(false)
       setErrTwo(false)
@@ -48,16 +49,37 @@ export const CommandItem = ({ data, editCommand, deleteCommand }) => {
       setErrThree(false)
 
       changeEditState()
-      editCommand({ id, tag, text, countdown: countdown * 1 })
+      editCommand({ id, tag, text, countdown: values.countdown * 1 })
     }
   }
 
   return (
     <form className="command_form" onSubmit={submit.bind(this, data._id)}>
       <div className="command_prefix">!</div>
-      <input className={'input_text command_name' + active + errorOne} type="text" placeholder="Enter command" defaultValue={data.tag} />
-      <input className={'input_text command_text' + active + errorTwo} type="text" placeholder="Enter text" defaultValue={data.text} />
-      <input className={'input_text command_countdown' + active + errorThree} type="number" placeholder="Enter countdown (seconds)" defaultValue={data.countdown} />
+      <input
+        className={'input_text command_name' + active + errorOne}
+        type="text"
+        name="tag"
+        onChange={handleChange}
+        placeholder="Enter command"
+        defaultValue={data.tag}
+      />
+      <input
+        className={'input_text command_text' + active + errorTwo}
+        type="text"
+        name="text"
+        onChange={handleChange}
+        placeholder="Enter text"
+        defaultValue={data.text}
+      />
+      <input
+        className={'input_text command_countdown' + active + errorThree}
+        type="number"
+        name="countdown"
+        onChange={handleChange}
+        placeholder="Enter countdown (seconds)"
+        defaultValue={values.countdown}
+      />
       <div className="command_actions">
         {!editAction ? (
           <div className="action_block">

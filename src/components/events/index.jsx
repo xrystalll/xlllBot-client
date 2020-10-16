@@ -34,7 +34,7 @@ class Events extends Component {
 
     socket.on('output_events', (data) => {
       if (data.length > 0) {
-        this.setState({ response: data, showClear: true })
+        this.setState({ response: data.reverse(), showClear: true })
       } else {
         this.setState({ noData: true })
       }
@@ -58,34 +58,6 @@ class Events extends Component {
 
   deleteEvents() {
     socket.emit('delete_events', { channel })
-  }
-
-  timeFormat(timestamp) {
-    const d = new Date()
-    const t = new Date(Number(timestamp))
-
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
-    const curYear = d.getFullYear()
-    const curMonth = months[d.getMonth()]
-    const curDate = d.getDate()
-
-    const year = t.getFullYear()
-    const month = months[t.getMonth()]
-    const date = t.getDate()
-    const hour = t.getHours()
-    const min = t.getMinutes() < 10 ? `0${t.getMinutes()}` : t.getMinutes()
-
-    let thisYear
-    year !== curYear ? thisYear = ` ${year}` : thisYear = ''
-
-    if (`${date}.${month}.${year}` === `${curDate}.${curMonth}.${curYear}`) {
-      return `today at ${hour}:${min}`
-    } else if (`${date}.${month}.${year}` === `${curDate - 1}.${curMonth}.${curYear}`) {
-      return `yesterday at ${hour}:${min}`
-    } else {
-      return `${date} ${month}${thisYear} at ${hour}:${min}`
-    }
   }
 
   render() {
@@ -113,7 +85,7 @@ class Events extends Component {
                   )}
                   <div id="content_inner">
                     {response.length > 0 ? (
-                      response.reverse().map(item => (
+                      response.map(item => (
                         <EventItem key={item._id} data={item} />
                       ))
                     ) : (
