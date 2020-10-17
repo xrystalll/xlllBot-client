@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { SettingItem } from './SettingItem';
+import { SettingValueItem } from './SettingValueItem';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { Errorer } from 'components/partials/Error';
@@ -62,6 +63,24 @@ const Settings = () => {
       .catch(err => toast.error(err ? err.message : 'Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
   }
 
+  const setValueSetting = (props) => {
+    fetch(apiEndPoint + '/api/settings/toggle', {
+      method: 'PUT',
+      headers: {
+        Authorization: token,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(props)
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.error) {
+          toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT })
+        } else throw Error(data.error)
+      })
+      .catch(err => toast.error(err ? err.message : 'Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
+  }
+
   return (
     <section id="main">
 
@@ -78,7 +97,11 @@ const Settings = () => {
                 <div id="content_inner">
                   {items.length > 0 ? (
                     items.map(item => (
-                      <SettingItem key={item._id} data={item} toggleSetting={toggleSetting} />
+                      item.value === null || item.value === undefined ? (
+                        <SettingItem key={item._id} data={item} toggleSetting={toggleSetting} />
+                      ) : (
+                        <SettingValueItem key={item._id} data={item} setValueSetting={setValueSetting} />
+                      )
                     ))
                   ) : (
                     !noData ? <Loader /> : <Errorer message="Settings not exists" />
