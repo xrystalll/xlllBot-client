@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { SettingItem } from './SettingItem';
-import { SettingValueItem } from './SettingValueItem';
+import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { Errorer } from 'components/partials/Error';
@@ -43,27 +43,7 @@ const Settings = () => {
     fetchSettings()
   }, [history])
 
-  const toggleSetting = (name, e) => {
-    const state = !e.currentTarget.parentNode.children[0].checked
-
-    fetch(apiEndPoint + '/api/settings/toggle', {
-      method: 'PUT',
-      headers: {
-        Authorization: token,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, state })
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (!data.error) {
-          toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT })
-        } else throw Error(data.error)
-      })
-      .catch(err => toast.error(err ? err.message : 'Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
-  }
-
-  const setValueSetting = (props) => {
+  const changeSetting = (props) => {
     fetch(apiEndPoint + '/api/settings/toggle', {
       method: 'PUT',
       headers: {
@@ -90,26 +70,15 @@ const Settings = () => {
             <h2>Settings <small>Dashboard</small></h2>
           </header>
 
-          <div className="card">
-            <div className="card__body">
-              <div className="card__sub">
-                <h4>Settings list</h4>
-                <div id="content_inner">
-                  {items.length > 0 ? (
-                    items.map(item => (
-                      item.value === null || item.value === undefined ? (
-                        <SettingItem key={item._id} data={item} toggleSetting={toggleSetting} />
-                      ) : (
-                        <SettingValueItem key={item._id} data={item} setValueSetting={setValueSetting} />
-                      )
-                    ))
-                  ) : (
-                    !noData ? <Loader /> : <Errorer message="Settings not exists" />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
+          <Card title="Settings list" className="general">
+            {items.length > 0 ? (
+              items.map(item => (
+                <SettingItem key={item._id} data={item} changeSetting={changeSetting} />
+              ))
+            ) : (
+              !noData ? <Loader /> : <Errorer message="Settings not exists" />
+            )}
+          </Card>
 
         </div>
       </section>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { channel } from 'config';
 import { socket } from 'instance/Socket';
 import { EventItem } from './EventItem';
+import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { Errorer } from 'components/partials/Error';
@@ -73,28 +74,22 @@ class Events extends Component {
               <h2>Events <small>Dashboard</small></h2>
             </header>
 
-            <div className="card">
-              <div className="card__body">
-                <div className="card__sub">
-                  <h4>Chat events by last 24 hrs</h4>
-                  {!noData && (
-                    <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
-                      <i className="material-icons">delete</i>
-                      <span>Delete all events</span>
-                    </div>
-                  )}
-                  <div id="content_inner">
-                    {response.length > 0 ? (
-                      response.map(item => (
-                        <EventItem key={item._id} data={item} />
-                      ))
-                    ) : (
-                      !noData ? <Loader /> : <Errorer message="No events yet" />
-                    )}
-                  </div>
+            <Card title="Chat events by last 24 hrs" className="general" action={
+              !noData && (
+                <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
+                  <i className="material-icons">delete</i>
+                  <span>Delete all events</span>
                 </div>
-              </div>
-            </div>
+              )
+            }>
+              {response.length > 0 ? (
+                response.map(item => (
+                  <EventItem key={item._id} data={item} />
+                ))
+              ) : (
+                !noData ? <Loader /> : <Errorer message="No events yet" />
+              )}
+            </Card>
 
           </div>
         </section>

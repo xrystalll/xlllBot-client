@@ -4,6 +4,7 @@ import { clientDomain, botUsername, apiEndPoint, token } from 'config';
 import { BotModerator, BotActive } from './BotAlerts';
 import { TwitchPlayer } from './TwitchPlayer';
 import { TwitchChat } from './TwitchChat';
+import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { toast } from 'react-toastify';
@@ -116,29 +117,21 @@ const Channel = () => {
 
           <BotActive state={botActive} botUsername={botUsername} changeActive={changeActive} />
 
-          <div className="card">
-            <div className="card__body">
-              <div className="card__sub">
-                <div id="content_inner" className="videos_inner">
+          <Card className="videos_inner">
+            <div className="vid-main-wrapper">
+              <div className="vid-container">
+                {!!channel ? <TwitchPlayer channel={channel} clientDomain={clientDomain} /> : <Loader />}
+              </div>
 
-                  <div className="vid-main-wrapper">
-                    <div className="vid-container">
-                      {!!channel ? <TwitchPlayer channel={channel} clientDomain={clientDomain} /> : <Loader />}
-                    </div>
-
-                    <div className="vid-list-container">
-                      <ul>
-                        <ol id="vid-list" style={{ 'lineHeight': 0 }}>
-                          {!!channel && <TwitchChat channel={channel} clientDomain={clientDomain} />}
-                        </ol>
-                      </ul>
-                    </div>
-                  </div>
-
-                </div>
+              <div className="vid-list-container">
+                <ul>
+                  <ol id="vid-list" style={{ 'lineHeight': 0 }}>
+                    {!!channel && <TwitchChat channel={channel} clientDomain={clientDomain} />}
+                  </ol>
+                </ul>
               </div>
             </div>
-          </div>
+          </Card>
 
         </div>
       </section>

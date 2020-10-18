@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { apiEndPoint } from 'config';
 import { CommandItem } from './CommandItem';
+import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { Errorer } from 'components/partials/Error';
@@ -80,41 +81,26 @@ const AllCommand = () => {
             <h2>General commands</h2>
           </header>
 
-          <div className="card">
-            <div className="card__body">
-              <div className="card__sub">
-                <h4>Commands list</h4>
-                <div id="content_inner">
-                  {commands.all.map((item, index) => (
-                    <CommandItem key={index + '_all'} data={item} type="full" />
-                  ))}
-                  <br></br>
-                  <h4>For moderators and owner</h4>
-                  {commands.mods.map((item, index) => (
-                    <CommandItem key={index + '_mods'} data={item} type="full" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+          <Card title="Commands list" className="general">
+            {commands.all.map((item, index) => (
+              <CommandItem key={index + '_all'} data={item} type="full" />
+            ))}
+            <br></br>
+            <h4>For moderators and owner</h4>
+            {commands.mods.map((item, index) => (
+              <CommandItem key={index + '_mods'} data={item} type="full" />
+            ))}
+          </Card>
 
-          <div className="card">
-            <div className="card__body">
-              <div className="card__sub">
-                <h4>Short categores names list</h4>
-                <div id="content_inner2">
-                  {items.length > 0 ? (
-                    items.map(item => (
-                      <CommandItem key={item._id} data={item} type="short" />
-                    ))
-                  ) : (
-                    !noData ? <Loader /> : <Errorer message="Commands not exists" />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
+          <Card title="Short categores names list" className="general">
+            {items.length > 0 ? (
+              items.map(item => (
+                <CommandItem key={item._id} data={item} type="short" />
+              ))
+            ) : (
+              !noData ? <Loader /> : <Errorer message="Commands not exists" />
+            )}
+          </Card>
         </div>
 
       </section>

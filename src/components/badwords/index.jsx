@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { NewBadwordItem } from './NewBadwordItem';
 import { BadwordItem } from './BadwordItem';
+import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { Errorer } from 'components/partials/Error';
@@ -101,32 +102,25 @@ const Badwords = () => {
             <h2>Badwords <small>Dashboard</small></h2>
           </header>
 
-          <div className="card">
-            <div className="card__body">
-              <div className="card__sub">
-                <h4>Badwords list</h4>
-                <div onClick={toggleAdd} className="item_add badword_add" title="Add new badword">
-                  <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
-                </div>
-                <div id="content_inner">
-
-                  {showAdd && <NewBadwordItem addBadword={addBadword} toggleAdd={toggleAdd} />}
-
-                  {items.length > 0 ? (
-                    items.map(item => (
-                      <BadwordItem
-                        key={item._id}
-                        data={item}
-                        deleteBadword={deleteBadword}
-                      />
-                    ))
-                  ) : (
-                    !noData ? <Loader /> : <Errorer message="No badwords yet" />
-                  )}
-                </div>
-              </div>
+          <Card title="Badwords list" className="general" action={
+            <div onClick={toggleAdd} className="item_add badword_add" title="Add new badword">
+              <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
             </div>
-          </div>
+          }>
+            {showAdd && <NewBadwordItem addBadword={addBadword} toggleAdd={toggleAdd} />}
+
+            {items.length > 0 ? (
+              items.map(item => (
+                <BadwordItem
+                  key={item._id}
+                  data={item}
+                  deleteBadword={deleteBadword}
+                />
+              ))
+            ) : (
+              !noData ? <Loader /> : <Errorer message="No badwords yet" />
+            )}
+          </Card>
 
         </div>
       </section>

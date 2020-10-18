@@ -4,6 +4,7 @@ import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
 import CustomScrollbar from '../support/CustomScrollbar';
 import { VideoItem } from './VideoItem';
+import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { Errorer } from 'components/partials/Error';
@@ -144,54 +145,46 @@ class Videos extends Component {
               </div>
             </header>
 
-            <div className="card">
-              <div className="card__body">
-                <div className="card__sub">
-                  <div id="content_inner" className="videos_inner">
+            <Card title="Settings list" className="videos_inner">
+              <div className="vid-main-wrapper">
+                <div className="vid-container">
+                  {response.length > 0 ? (
+                    <YouTube
+                      opts={ytOptions}
+                      videoId={response[0].yid}
+                      containerClassName="iframe"
+                      onPlay={this.onPlay}
+                      onPause={this.onPause}
+                      onReady={this.onPlayerReady}
+                      onEnd={this.skip}
+                    />
+                  ) : (
+                    !noData ? <Loader /> : <Errorer message="No videos yet" />
+                  )}
+                </div>
 
-                    <div className="vid-main-wrapper">
-                      <div className="vid-container">
-                        {response.length > 0 ? (
-                          <YouTube
-                            opts={ytOptions}
-                            videoId={response[0].yid}
-                            containerClassName="iframe"
-                            onPlay={this.onPlay}
-                            onPause={this.onPause}
-                            onReady={this.onPlayerReady}
-                            onEnd={this.skip}
-                          />
-                        ) : (
-                          !noData ? <Loader /> : <Errorer message="No videos yet" />
+                <div className="vid-list-container">
+                  <CustomScrollbar className="view">
+                    <ul>
+                      <ol id="vid-list">
+                        {response.length > 0 && (
+                          response.map((item, index) => (
+                            <VideoItem
+                              key={item._id}
+                              index={index}
+                              playIndex={playIndex}
+                              data={item}
+                              chooseVideo={this.chooseVideo}
+                              deleteVideo={this.deleteVideo}
+                            />
+                          ))
                         )}
-                      </div>
-
-                      <div className="vid-list-container">
-                        <CustomScrollbar className="view">
-                          <ul>
-                            <ol id="vid-list">
-                              {response.length > 0 && (
-                                response.map((item, index) => (
-                                  <VideoItem
-                                    key={item._id}
-                                    index={index}
-                                    playIndex={playIndex}
-                                    data={item}
-                                    chooseVideo={this.chooseVideo}
-                                    deleteVideo={this.deleteVideo}
-                                  />
-                                ))
-                              )}
-                            </ol>
-                          </ul>
-                        </CustomScrollbar>
-                      </div>
-                    </div>
-
-                  </div>
+                      </ol>
+                    </ul>
+                  </CustomScrollbar>
                 </div>
               </div>
-            </div>
+            </Card>
 
           </div>
         </section>

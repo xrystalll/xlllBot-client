@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { apiEndPoint, token } from 'config';
 import { NewCommandItem } from './NewCommandItem';
 import { CommandItem } from './CommandItem';
+import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { Errorer } from 'components/partials/Error';
@@ -120,33 +121,25 @@ const Commands = () => {
             <h2>Commands <small>Dashboard</small></h2>
           </header>
 
-          <div className="card">
-            <div className="card__body">
-              <div className="card__sub">
-                <h4>Commands list</h4>
-                <div onClick={toggleAdd} className="item_add command_add" title="Add new command">
-                  <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
-                </div>
-                <div id="content_inner">
-
-                  {showAdd && <NewCommandItem addCommand={addCommand} toggleAdd={toggleAdd} />}
-
-                  {items.length > 0 ? (
-                    items.map(item => (
-                      <CommandItem
-                        key={item._id}
-                        data={item}
-                        editCommand={editCommand}
-                        deleteCommand={deleteCommand}
-                      />
-                    ))
-                  ) : (
-                    !noData ? <Loader /> : <Errorer message="No commands yet" />
-                  )}
-                </div>
-              </div>
+          <Card title="Commands list" className="general" action={
+            <div onClick={toggleAdd} className="item_add command_add" title="Add new command">
+              <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
             </div>
-          </div>
+          }>
+            {showAdd && <NewCommandItem addCommand={addCommand} toggleAdd={toggleAdd} />}
+            {items.length > 0 ? (
+              items.map(item => (
+                <CommandItem
+                  key={item._id}
+                  data={item}
+                  editCommand={editCommand}
+                  deleteCommand={deleteCommand}
+                />
+              ))
+            ) : (
+              !noData ? <Loader /> : <Errorer message="No commands yet" />
+            )}
+          </Card>
 
         </div>
       </section>

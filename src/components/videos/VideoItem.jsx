@@ -27,6 +27,7 @@ export const VideoItem = ({ index, playIndex, data, chooseVideo, deleteVideo }) 
     <li
       className={'videoItem' + selected}
       onClick={chooseVideo.bind(this, { id: data.yid, index })}
+      title={`Video requested: ${data.from.username}\nPrice: ${data.from.price}`}
     >
       <div className="chooseVid">
         <span className="vid-thumb" style={{ 'backgroundImage': `url(${data.thumb})` }}>
