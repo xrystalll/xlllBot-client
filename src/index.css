@@ -51,6 +51,9 @@ body {
 #root {
   height: 100vh;
 }
+.view {
+  margin-bottom: -17px !important;
+}
 img {
   border: 0;
   vertical-align: middle;
@@ -930,10 +933,6 @@ i.item_cancel {
   min-width: 284px;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.vid-list-container .view {
-  margin-bottom: -17px !important;
 }
 
 .vid-list-container ul {

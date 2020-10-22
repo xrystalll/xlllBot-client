@@ -3,7 +3,7 @@ import { useForm } from 'hooks/useForm';
 import { toast } from 'react-toastify';
 
 export const CommandItem = ({ data, editCommand, deleteCommand }) => {
-  const { values, handleChange } = useForm({ tag: '', text: '', countdown: data.countdown })
+  const { values, handleChange } = useForm({ tag: data.tag, text: data.text, countdown: data.countdown })
 
   const [editAction, toggleEditAction] = useState(false)
   const [errOne, setErrOne] = useState(false)
