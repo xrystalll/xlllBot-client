@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router-dom';
+import { getCookie } from 'components/support/Utils';
 import Header from 'components/partials/Header';
 import { toast } from 'react-toastify';
 
 class PrivateRoute extends Component {
   constructor() {
     super();
-    this.isAuth = !!localStorage.getItem('sessId') && !!localStorage.getItem('userLogin')
+    this.isAuth = !!getCookie('login') && !!getCookie('token')
   }
 
   componentDidMount() {

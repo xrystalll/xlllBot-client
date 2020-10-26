@@ -2,10 +2,9 @@ import React from 'react';
 
 export const VideoItem = ({ index, playIndex, data, chooseVideo, deleteVideo }) => {
   const toHHMMSS = (sec = 0) => {
-    const secNum = parseInt(sec, 10)
-    const hours = Math.floor(secNum / 3600)
-    const minutes = Math.floor((secNum - (hours * 3600)) / 60)
-    const seconds = secNum - (hours * 3600) - (minutes * 60)
+    const hours = Math.floor(sec / 3600)
+    const minutes = Math.floor((sec - (hours * 3600)) / 60)
+    const seconds = sec - (hours * 3600) - (minutes * 60)
 
     return (
       (hours || '') + (hours > 0 ? ':' : '') +
@@ -16,9 +15,9 @@ export const VideoItem = ({ index, playIndex, data, chooseVideo, deleteVideo }) 
 
   const counter = (count = 0) => {
     if (count < 1e3) return count
-    if (count >= 1e3 && count < 1e6) return `${+(count / 1e3).toFixed(1)}K`
-    if (count >= 1e6 && count < 1e9) return `${+(count / 1e6).toFixed(1)}M`
-    if (count >= 1e9 && count < 1e12) return `${+(count / 1e9).toFixed(1)}B`
+    if (count >= 1e3 && count < 1e6) return `${(count / 1e3).toFixed(1)}K`
+    if (count >= 1e6 && count < 1e9) return `${(count / 1e6).toFixed(1)}M`
+    if (count >= 1e9 && count < 1e12) return `${(count / 1e9).toFixed(1)}B`
   }
 
   const selected = playIndex === index ? ' selected' : ''

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
+import { getCookie } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { socket } from 'instance/Socket';
 
@@ -16,18 +17,17 @@ class Home extends Component {
   componentDidMount() {
     document.title = 'xlllBot'
     this._isMounted = true
-    socket.on('user_data', (data) => {
+    if (getCookie('login') && getCookie('token')) {
+      this.setState({ isAuth: true })
+    }
+    socket.on('auth', (data) => {
       if (!this.state.authClicked) return
 
       if (!data.error) {
-        if (!localStorage.getItem('sessId') || !localStorage.getItem('userLogin')) {
-          if (!this._isMounted) return
+        if (!this._isMounted) return
 
-          this.setState({ isAuth: true, authClicked: false })
-          localStorage.setItem('userLogin', data.login)
-          localStorage.setItem('userLogo', data.logo)
-          this.timeout = setTimeout(() => window.location.href = '/dashboard/channel', 2000)
-        }
+        data.auth && this.setState({ isAuth: true, authClicked: false })
+        this.timeout = setTimeout(() => this.props.history.push('/dashboard/channel'), 1500)
       }
     })
   }
@@ -53,7 +53,7 @@ class Home extends Component {
             <h1 className="main_head">xlllBot</h1>
             <div className="main_sub">Chat bot for Twitch</div>
             <div className="auth_block_main">
-              {(!!localStorage.getItem('sessId') && !!localStorage.getItem('userLogin')) || this.state.isAuth ? (
+              {this.state.isAuth ? (
                 <Link className="twitch_btn_main" to="/dashboard/channel">Open dashboard</Link>
               ) : (
                 <div onClick={this.openAuth.bind(this, apiEndPoint + '/auth/twitch')} className="twitch_btn_main">
@@ -76,4 +76,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);

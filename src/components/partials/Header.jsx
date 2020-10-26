@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { getCookie } from 'components/support/Utils';
 import CustomScrollbar from 'components/support/CustomScrollbar';
-import { channel } from 'config';
 
 class Header extends Component {
   _isMounted = false;
   constructor() {
     super();
-    this.isAuth = !!localStorage.getItem('sessId') && !!channel
+    this.isAuth = !!getCookie('login') && !!getCookie('token')
     this.state = {
       showMenu: false,
-      logo: localStorage.getItem('userLogo')
+      logo: decodeURIComponent(getCookie('logo'))
     }
     this.toggleMenu = this.toggleMenu.bind(this)
     this.closeMenu = this.closeMenu.bind(this)
@@ -64,7 +64,7 @@ class Header extends Component {
             <ul className="top-menu">
               <li className="top-menu__profile">
                 <Link to="/dashboard/channel">
-                  <span className="userName">{channel || ''}</span>
+                  <span className="userName">{getCookie('login') || ''}</span>
                   <div className="userPhoto" style={{ 'backgroundImage': `url(${logo || ''})` }}></div>
                 </Link>
               </li>

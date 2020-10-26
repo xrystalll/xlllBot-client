@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { getCookie, clearCookies } from 'components/support/Utils';
 
 export const Footer = () => {
-  const isAuth = !!localStorage.getItem('sessId') && !!localStorage.getItem('userLogin')
+  const isAuth = !!getCookie('login') && !!getCookie('token')
 
   const logout = () => {
-    localStorage.clear()
+    clearCookies()
   }
 
   return (

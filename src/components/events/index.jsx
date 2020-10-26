@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { channel } from 'config';
+import { getCookie } from 'components/support/Utils';
 import { socket } from 'instance/Socket';
 import { EventItem } from './EventItem';
 import { Card } from 'components/partials/Card';
@@ -22,7 +22,7 @@ class Events extends Component {
   componentDidMount() {
     document.title = 'xlllBot - Events'
     this._isMounted = true
-    socket.emit('event_items', { channel })
+    socket.emit('event_items', { channel: getCookie('login') })
     this.subscribeToEvents()
   }
 
@@ -51,14 +51,14 @@ class Events extends Component {
       }
     })
     socket.on('new_event', (data) => {
-      if (data.channel === channel) {
+      if (data.channel === getCookie('login')) {
         this.setState({ response: [data, ...this.state.response], noData: false })
       }
     })
   }
 
   deleteEvents() {
-    socket.emit('delete_events', { channel })
+    socket.emit('delete_events', { channel: getCookie('login') })
   }
 
   render() {

@@ -23,7 +23,7 @@ export const BotActive = ({ state, botUsername, changeActive }) => {
           <label className="switch">
             <input type="checkbox" onChange={changeActive.bind(this)} checked={state} />
             <span>
-              {!state ? `${botUsername} не активен! Нажмите чтобы активировать` : `${botUsername} подключен к чату`}
+              {state ? `${botUsername} подключен к чату` : `${botUsername} не активен! Нажмите чтобы активировать`}
             </span>
           </label>
         </div>

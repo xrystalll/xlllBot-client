@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { channel } from 'config';
+import { getCookie } from 'components/support/Utils';
 import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
 import CustomScrollbar from '../support/CustomScrollbar';
@@ -30,7 +30,7 @@ class Videos extends Component {
   componentDidMount() {
     document.title = 'xlllBot - Stream Dj'
     this._isMounted = true
-    socket.emit('video_items', { channel })
+    socket.emit('video_items', { channel: getCookie('login') })
     this.subscribeToEvents()
   }
 
@@ -49,7 +49,7 @@ class Videos extends Component {
       }
     })
     socket.on('new_video', (data) => {
-      if (data.channel !== channel) return
+      if (data.channel !== getCookie('login')) return
 
       this.setState({ response: [...this.state.response, data], noData: false })
     })
@@ -60,7 +60,8 @@ class Videos extends Component {
       }
     })
     socket.on('skip', (data) => {
-      if (data.channel !== channel) return
+      if (data.channel !== getCookie('login')) return
+      if (player === undefined) return
       if (player.getPlayerState() !== 1) return
 
       this.skip()
@@ -115,7 +116,7 @@ class Videos extends Component {
 
   deleteVideo(id, e) {
     e.stopPropagation()
-    socket.emit('delete_video', { id, channel })
+    socket.emit('delete_video', { id, channel: getCookie('login') })
   }
 
   render() {

@@ -1,40 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
-export const Auth = (props) => {
-  const history = useHistory()
-
-  const [error, setError] = useState(false)
+export const Auth = () => {
 
   useEffect(() => {
     document.title = 'xlllBot - Log in'
-    const sess = new URLSearchParams(props.location.search).get('sess')
-
-    if (!!props.location.search && !!sess) {
-      localStorage.setItem('sessId', sess)
-      setTimeout(() => window.close(), 2000)
-    } else {
-      setError(true)
-      setTimeout(() => history.push('/'), 2000)
-    }
-  }, [error, history, props])
+    setTimeout(() => window.close(), 2000)
+  })
 
   return (
     <div className="content">
       <div className="authModal">
-        {!error ? (
-          <React.Fragment>
-            <h2 className="success_title">Successfully logged in</h2>
-            <div className="auth_text">You can now close this window.</div>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <h2 className="error_title">You are not authorized</h2>
-            <div className="auth_form">
-              <Link to="/" className="twitch_btn signin">Go to home page</Link>
-            </div>
-          </React.Fragment>
-        )}
+        <h2 className="success_title">Successfully logged in</h2>
+        <div className="auth_text">You can now close this window.</div>
       </div>
     </div>
   )

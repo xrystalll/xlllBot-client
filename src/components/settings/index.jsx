@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { apiEndPoint, token } from 'config';
+import { getCookie, clearCookies } from 'components/support/Utils';
+import { apiEndPoint } from 'config';
 import { SettingItem } from './SettingItem';
 import { Card } from 'components/partials/Card';
 import { Footer } from 'components/partials/Footer';
@@ -19,10 +20,12 @@ const Settings = () => {
     const fetchSettings = async () => {
       try {
         const data = await fetch(apiEndPoint + '/api/settings/all', {
-          headers: { Authorization: token }
+          headers: {
+            Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token'))
+          }
         })
         if (data.status === 401) {
-          localStorage.clear()
+          clearCookies()
           toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
           history.push('/')
           return
@@ -47,7 +50,7 @@ const Settings = () => {
     fetch(apiEndPoint + '/api/settings/toggle', {
       method: 'PUT',
       headers: {
-        Authorization: token,
+        Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token')),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(props)

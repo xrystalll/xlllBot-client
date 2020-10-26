@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { apiEndPoint, token } from 'config';
+import { getCookie, clearCookies } from 'components/support/Utils';
+import { apiEndPoint } from 'config';
 import { NewBadwordItem } from './NewBadwordItem';
 import { BadwordItem } from './BadwordItem';
 import { Card } from 'components/partials/Card';
@@ -21,10 +22,12 @@ const Badwords = () => {
     const fetchBadwords = async () => {
       try {
         const data = await fetch(apiEndPoint + '/api/words/all', {
-          headers: { Authorization: token }
+          headers: {
+            Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token'))
+          }
         })
         if (data.status === 401) {
-          localStorage.clear()
+          clearCookies()
           toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
           history.push('/')
           return
@@ -54,7 +57,7 @@ const Badwords = () => {
     fetch(apiEndPoint + '/api/words/delete', {
       method: 'PUT',
       headers: {
-        Authorization: token,
+        Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token')),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ id })
@@ -77,7 +80,7 @@ const Badwords = () => {
     fetch(apiEndPoint + '/api/words/add', {
       method: 'PUT',
       headers: {
-        Authorization: token,
+        Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token')),
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(props)

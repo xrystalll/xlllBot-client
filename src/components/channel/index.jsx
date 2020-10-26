@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { clientDomain, botUsername, apiEndPoint, token } from 'config';
+import { getCookie, clearCookies } from 'components/support/Utils';
+import { botUsername, apiEndPoint } from 'config';
 import { BotModerator, BotActive } from './BotAlerts';
 import { TwitchPlayer } from './TwitchPlayer';
 import { TwitchChat } from './TwitchChat';
@@ -21,10 +22,12 @@ const Channel = () => {
     const fetchChannel = async () => {
       try {
         const data = await fetch(apiEndPoint + '/api/channel', {
-          headers: { Authorization: token }
+          headers: {
+            Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token'))
+          }
         })
         if (data.status === 401) {
-          localStorage.clear()
+          clearCookies()
           toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
           history.push('/')
           return
@@ -41,10 +44,12 @@ const Channel = () => {
     const fetchModerators = async () => {
       try {
         const data = await fetch(apiEndPoint + '/api/channel/mods', {
-          headers: { Authorization: token }
+          headers: {
+            Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token'))
+          }
         })
         if (data.status === 401) {
-          localStorage.clear()
+          clearCookies()
           toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
           history.push('/')
           return
@@ -72,7 +77,9 @@ const Channel = () => {
 
   const joinToChat = () => {
     fetch(apiEndPoint + '/api/bot/join', {
-      headers: { Authorization: token }
+      headers: {
+        Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token'))
+      }
     })
       .then(response => response.json())
       .then(data => {
@@ -89,7 +96,9 @@ const Channel = () => {
 
   const leaveChat = () => {
     fetch(apiEndPoint + '/api/bot/leave', {
-      headers: { Authorization: token }
+      headers: {
+        Authorization: 'Basic ' + btoa(getCookie('login') + ':' + getCookie('token'))
+      }
     })
       .then(response => response.json())
       .then(data => {
@@ -120,13 +129,13 @@ const Channel = () => {
           <Card className="videos_inner">
             <div className="vid-main-wrapper">
               <div className="vid-container">
-                {!!channel ? <TwitchPlayer channel={channel} clientDomain={clientDomain} /> : <Loader />}
+                {!!channel ? <TwitchPlayer channel={channel} /> : <Loader />}
               </div>
 
               <div className="vid-list-container">
                 <ul>
                   <ol id="vid-list" style={{ 'lineHeight': 0 }}>
-                    {!!channel && <TwitchChat channel={channel} clientDomain={clientDomain} />}
+                    {!!channel && <TwitchChat channel={channel} />}
                   </ol>
                 </ul>
               </div>
