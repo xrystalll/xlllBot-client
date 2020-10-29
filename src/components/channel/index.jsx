@@ -5,8 +5,8 @@ import { botUsername, apiEndPoint } from 'config';
 import { BotModerator, BotActive } from './BotAlerts';
 import { TwitchPlayer } from './TwitchPlayer';
 import { TwitchChat } from './TwitchChat';
-import { Card } from 'components/partials/Card';
-import { Footer } from 'components/partials/Footer';
+import Card from 'components/partials/Card';
+import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { toast } from 'react-toastify';
 

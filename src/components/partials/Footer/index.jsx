@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getCookie, clearCookies } from 'components/support/Utils';
+import '././style.css';
 
-export const Footer = () => {
+const Footer = () => {
   const isAuth = !!getCookie('login') && !!getCookie('token')
 
   const logout = () => {
@@ -35,3 +36,5 @@ export const Footer = () => {
     </footer>
   )
 }
+
+export default Footer;

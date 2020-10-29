@@ -4,10 +4,11 @@ import { getCookie, clearCookies } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { NewBadwordItem } from './NewBadwordItem';
 import { BadwordItem } from './BadwordItem';
-import { Card } from 'components/partials/Card';
-import { Footer } from 'components/partials/Footer';
+import Card from 'components/partials/Card';
+import Fab from 'components/partials/Fab';
+import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
-import { Errorer } from 'components/partials/Error';
+import Errorer from 'components/partials/Errorer';
 import { toast } from 'react-toastify';
 
 const Badwords = () => {
@@ -106,9 +107,7 @@ const Badwords = () => {
           </header>
 
           <Card title="Badwords list" className="general" action={
-            <div onClick={toggleAdd} className="item_add badword_add" title="Add new badword">
-              <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
-            </div>
+            <Fab icon={showAdd ? 'close' : 'add'} title="Add new badword" onClick={toggleAdd} />
           }>
             {showAdd && <NewBadwordItem addBadword={addBadword} toggleAdd={toggleAdd} />}
 

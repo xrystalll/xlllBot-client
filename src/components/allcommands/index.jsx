@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { apiEndPoint } from 'config';
 import { CommandItem } from './CommandItem';
-import { Card } from 'components/partials/Card';
-import { Footer } from 'components/partials/Footer';
+import Card from 'components/partials/Card';
+import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
-import { Errorer } from 'components/partials/Error';
+import Errorer from 'components/partials/Errorer';
 
 const AllCommand = () => {
   const [items, setItems] = useState([])

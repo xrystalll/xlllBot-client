@@ -4,10 +4,11 @@ import { getCookie, clearCookies } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { NewCommandItem } from './NewCommandItem';
 import { CommandItem } from './CommandItem';
-import { Card } from 'components/partials/Card';
-import { Footer } from 'components/partials/Footer';
+import Card from 'components/partials/Card';
+import Fab from 'components/partials/Fab';
+import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
-import { Errorer } from 'components/partials/Error';
+import Errorer from 'components/partials/Errorer';
 import { toast } from 'react-toastify';
 
 const Commands = () => {
@@ -125,9 +126,7 @@ const Commands = () => {
           </header>
 
           <Card title="Commands list" className="general" action={
-            <div onClick={toggleAdd} className="item_add command_add" title="Add new command">
-              <i className="material-icons">{showAdd ? 'close' : 'add'}</i>
-            </div>
+            <Fab icon={showAdd ? 'close' : 'add'} title="Add new command" onClick={toggleAdd} />
           }>
             {showAdd && <NewCommandItem addCommand={addCommand} toggleAdd={toggleAdd} />}
             {items.length > 0 ? (

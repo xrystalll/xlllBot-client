@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 import { getCookie, clearCookies } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { SettingItem } from './SettingItem';
-import { Card } from 'components/partials/Card';
-import { Footer } from 'components/partials/Footer';
+import Card from 'components/partials/Card';
+import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
-import { Errorer } from 'components/partials/Error';
+import Errorer from 'components/partials/Errorer';
 import { toast } from 'react-toastify';
 
 const Settings = () => {

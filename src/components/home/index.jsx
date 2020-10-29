@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { getCookie } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { socket } from 'instance/Socket';
+import './style.css';
 
 class Home extends Component {
   _isMounted = false;

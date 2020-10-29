@@ -4,10 +4,11 @@ import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
 import CustomScrollbar from '../support/CustomScrollbar';
 import { VideoItem } from './VideoItem';
-import { Card } from 'components/partials/Card';
-import { Footer } from 'components/partials/Footer';
+import Card from 'components/partials/Card';
+import Fab from 'components/partials/Fab';
+import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
-import { Errorer } from 'components/partials/Error';
+import Errorer from 'components/partials/Errorer';
 
 let player
 class Videos extends Component {
@@ -137,16 +138,12 @@ class Videos extends Component {
             <header className="content__header">
               <h2>Stream Dj <small>Dashboard</small></h2>
               <div className="controls">
-                <div onClick={this.onPlayPause} className="play_btn" title="Play/Pause">
-                  <i className="material-icons">{playing ? 'pause' : 'play_arrow'}</i>
-                </div>
-                <div onClick={this.skip} className="play_btn skip small" title="Skip">
-                  <i className="material-icons">skip_next</i>
-                </div>
+                <Fab icon={playing ? 'pause' : 'play_arrow'} title="Play/Pause" onClick={this.onPlayPause} className="inheader" />
+                <Fab icon={'skip_next'} title="Skip" onClick={this.skip} className="inheader small" />
               </div>
             </header>
 
-            <Card title="Settings list" className="videos_inner">
+            <Card className="videos_inner">
               <div className="vid-main-wrapper">
                 <div className="vid-container">
                   {response.length > 0 ? (

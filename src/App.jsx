@@ -16,6 +16,7 @@ import { Auth } from 'components/auth';
 import { AuthError } from 'components/auth/error'
 import { NotFound } from 'components/error';
 import { ToastContainer, toast } from 'react-toastify';
+import 'App.css'
 
 class App extends Component {
   componentDidMount() {

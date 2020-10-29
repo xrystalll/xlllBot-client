@@ -1,44 +1,27 @@
 import React from 'react';
+import { toHHMMSS, counter } from 'components/support/Utils';
+import './style.css';
 
 export const VideoItem = ({ index, playIndex, data, chooseVideo, deleteVideo }) => {
-  const toHHMMSS = (sec = 0) => {
-    const hours = Math.floor(sec / 3600)
-    const minutes = Math.floor((sec - (hours * 3600)) / 60)
-    const seconds = sec - (hours * 3600) - (minutes * 60)
-
-    return (
-      (hours || '') + (hours > 0 ? ':' : '') +
-      (minutes < 10 && hours > 0 ? '0' : '') + minutes + ':' +
-      (seconds < 10 ? '0' : '') + seconds
-    )
-  }
-
-  const counter = (count = 0) => {
-    if (count < 1e3) return count
-    if (count >= 1e3 && count < 1e6) return `${(count / 1e3).toFixed(1)}K`
-    if (count >= 1e6 && count < 1e9) return `${(count / 1e6).toFixed(1)}M`
-    if (count >= 1e9 && count < 1e12) return `${(count / 1e9).toFixed(1)}B`
-  }
-
   const selected = playIndex === index ? ' selected' : ''
 
   return (
     <li
-      className={'videoItem' + selected}
+      className={'video_item' + selected}
       onClick={chooseVideo.bind(this, { id: data.yid, index })}
       title={`Video requested: ${data.from.username}\nPrice: ${data.from.price}`}
     >
-      <div className="chooseVid">
-        <span className="vid-thumb" style={{ 'backgroundImage': `url(${data.thumb})` }}>
-          <div className="vidDuration">{toHHMMSS(data.duration)}</div>
+      <div className="choose_vid">
+        <span className="vid_thumb" style={{ 'backgroundImage': `url(${data.thumb})` }}>
+          <div className="vid_duration">{toHHMMSS(data.duration)}</div>
         </span>
-        <div className="vidInfo">
-          <div className="desc">{data.title}</div>
-          <div className="owner">{data.owner}</div>
+        <div className="vid_info">
+          <div className="desc" title={data.title}>{data.title}</div>
+          <div className="owner" title={data.owner}>{data.owner}</div>
           <div className="views">{counter(data.views)} views</div>
         </div>
         <div
-          className="removeVid"
+          className="remove_vid"
           onClick={deleteVideo.bind(this, data._id)}
           title="Remove video from playlist"
         >

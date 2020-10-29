@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'hooks/useForm';
 import { toast } from 'react-toastify';
+import './style.css';
 
 export const SettingItem = ({ data, changeSetting }) => {
   const { values, handleChange } = useForm({ value: data.value })

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { getCookie } from 'components/support/Utils';
 import CustomScrollbar from 'components/support/CustomScrollbar';
+import '././style.css';
 
 class Header extends Component {
   _isMounted = false;

@@ -1,6 +1,7 @@
 import React from 'react';
+import '././style.css';
 
-export const Card = ({ title, action, className, children }) => {
+const Card = ({ title, action, className, children }) => {
   return (
     <div className="card">
       <div className="card__body">
@@ -15,3 +16,5 @@ export const Card = ({ title, action, className, children }) => {
     </div>
   )
 }
+
+export default Card;
