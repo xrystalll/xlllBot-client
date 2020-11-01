@@ -4,9 +4,9 @@ import { socket } from 'instance/Socket';
 import YouTube from 'react-youtube';
 import CustomScrollbar from '../support/CustomScrollbar';
 import { VideoItem } from './VideoItem';
+import Layout from 'components/partials/Layout';
 import Card from 'components/partials/Card';
 import Fab from 'components/partials/Fab';
-import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import Errorer from 'components/partials/Errorer';
 
@@ -131,65 +131,58 @@ class Videos extends Component {
     }
 
     return (
-      <section id="main">
-
-        <section id="content">
-          <div className="content--boxed-sm videoblock">
-            <header className="content__header">
-              <h2>Stream Dj <small>Dashboard</small></h2>
-              <div className="controls">
-                <Fab icon={playing ? 'pause' : 'play_arrow'} title="Play/Pause" onClick={this.onPlayPause} className="inheader" />
-                <Fab icon={'skip_next'} title="Skip" onClick={this.skip} className="inheader small" />
-              </div>
-            </header>
-
-            <Card className="videos_inner">
-              <div className="vid-main-wrapper">
-                <div className="vid-container">
-                  {response.length > 0 ? (
-                    <YouTube
-                      opts={ytOptions}
-                      videoId={response[0].yid}
-                      containerClassName="iframe"
-                      onPlay={this.onPlay}
-                      onPause={this.onPause}
-                      onReady={this.onPlayerReady}
-                      onEnd={this.skip}
-                    />
-                  ) : (
-                    !noData ? <Loader /> : <Errorer message="No videos yet" />
-                  )}
-                </div>
-
-                <div className="vid-list-container">
-                  <CustomScrollbar className="view">
-                    <ul>
-                      <ol id="vid-list">
-                        {response.length > 0 && (
-                          response.map((item, index) => (
-                            <VideoItem
-                              key={item._id}
-                              index={index}
-                              playIndex={playIndex}
-                              data={item}
-                              chooseVideo={this.chooseVideo}
-                              deleteVideo={this.deleteVideo}
-                            />
-                          ))
-                        )}
-                      </ol>
-                    </ul>
-                  </CustomScrollbar>
-                </div>
-              </div>
-            </Card>
-
+      <Layout
+        title="Stream Dj"
+        subTitle="Dashboard"
+        videoLayout={true}
+        action={
+          <div className="controls">
+            <Fab icon={playing ? 'pause' : 'play_arrow'} title="Play/Pause" onClick={this.onPlayPause} className="inheader" />
+            <Fab icon="skip_next" title="Skip" onClick={this.skip} className="inheader small" />
           </div>
-        </section>
+        }
+      >
+        <Card className="videos_inner">
+          <div className="vid-main-wrapper">
+            <div className="vid-container">
+              {response.length > 0 ? (
+                <YouTube
+                  opts={ytOptions}
+                  videoId={response[0].yid}
+                  containerClassName="iframe"
+                  onPlay={this.onPlay}
+                  onPause={this.onPause}
+                  onReady={this.onPlayerReady}
+                  onEnd={this.skip}
+                />
+              ) : (
+                !noData ? <Loader /> : <Errorer message="No videos yet" />
+              )}
+            </div>
 
-        <Footer />
-
-      </section>
+            <div className="vid-list-container">
+              <CustomScrollbar className="view">
+                <ul>
+                  <ol id="vid-list">
+                    {response.length > 0 && (
+                      response.map((item, index) => (
+                        <VideoItem
+                          key={item._id}
+                          index={index}
+                          playIndex={playIndex}
+                          data={item}
+                          chooseVideo={this.chooseVideo}
+                          deleteVideo={this.deleteVideo}
+                        />
+                      ))
+                    )}
+                  </ol>
+                </ul>
+              </CustomScrollbar>
+            </div>
+          </div>
+        </Card>
+      </Layout>
     )
   }
 }

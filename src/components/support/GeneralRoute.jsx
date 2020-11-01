@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import Header from 'components/partials/Header';
 
 class GeneralRoute extends Component {
   render() {
@@ -9,12 +8,9 @@ class GeneralRoute extends Component {
     return (
       <Route
         {...rest}
-        render = {props =>
-          <div className="content">
-            <Header />
-            <Component {...props} />
-          </div>
-        }
+        render = {props => (
+          <Component {...props} />
+        )}
       />
     )
   }

@@ -17,11 +17,11 @@ export const NewBadwordItem = ({ addBadword, toggleAdd }) => {
     const word = values.word.trim().toLowerCase()
 
     if (word.length < 1) {
-      toast.error('Enter word', { position: toast.POSITION.BOTTOM_RIGHT })
+      toast.error('Enter word')
       setErrOne(true)
       setErrTwo(false)
     } else if (values.duration.length < 1) {
-      toast.error('Enter duration', { position: toast.POSITION.BOTTOM_RIGHT })
+      toast.error('Enter duration')
       setErrOne(false)
       setErrTwo(true)
     } else {

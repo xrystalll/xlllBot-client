@@ -29,17 +29,17 @@ export const CommandItem = ({ data, editCommand, deleteCommand }) => {
     const text = values.text.trim()
 
     if (tag.length < 1) {
-      toast.error('Enter command tag', { position: toast.POSITION.BOTTOM_RIGHT })
+      toast.error('Enter command tag')
       setErrOne(true)
       setErrTwo(false)
       setErrThree(false)
     } else if (text.length < 1) {
-      toast.error('Enter text', { position: toast.POSITION.BOTTOM_RIGHT })
+      toast.error('Enter text')
       setErrOne(false)
       setErrTwo(true)
       setErrThree(false)
     } else if (values.countdown.length < 1) {
-      toast.error('Enter countdown', { position: toast.POSITION.BOTTOM_RIGHT })
+      toast.error('Enter countdown')
       setErrOne(false)
       setErrTwo(false)
       setErrThree(true)

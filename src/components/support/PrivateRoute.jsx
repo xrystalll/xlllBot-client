@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import { getCookie } from 'components/support/Utils';
-import Header from 'components/partials/Header';
 import { toast } from 'react-toastify';
 
 class PrivateRoute extends Component {
@@ -11,7 +10,7 @@ class PrivateRoute extends Component {
   }
 
   componentDidMount() {
-    if (!this.isAuth) toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+    if (!this.isAuth) toast.error('You are not authorized')
   }
 
   render() {
@@ -22,10 +21,7 @@ class PrivateRoute extends Component {
         {...rest}
         render = {props =>
           this.isAuth ? (
-            <div className="content">
-              <Header />
-              <Component {...props} />
-            </div>
+            <Component {...props} />
           ) : (
             <Redirect to={{ pathname: '/', state: { from: props.location } }} />
           )

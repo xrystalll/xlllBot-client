@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { getCookie } from 'components/support/Utils';
 import { socket } from 'instance/Socket';
 import { EventItem } from './EventItem';
+import Layout from 'components/partials/Layout';
 import Card from 'components/partials/Card';
-import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import Errorer from 'components/partials/Errorer';
 import { toast } from 'react-toastify';
@@ -45,9 +45,9 @@ class Events extends Component {
 
       if (data.deletedCount > 0) {
         this.setState({ response: [], noData: true })
-        toast.success('Old events successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
+        toast.success('Old events successfully deleted')
       } else {
-        toast.info('Nothing to clear', { position: toast.POSITION.BOTTOM_RIGHT })
+        toast.info('Nothing to clear')
       }
     })
     socket.on('new_event', (data) => {
@@ -66,37 +66,24 @@ class Events extends Component {
     const clearVis = showClear ? '' : ' none'
 
     return (
-      <section id="main">
-
-        <section id="content">
-          <div className="content--boxed-sm">
-            <header className="content__header">
-              <h2>Events <small>Dashboard</small></h2>
-            </header>
-
-            <Card title="Chat events by last 24 hrs" className="general" action={
-              !noData && (
-                <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
-                  <i className="material-icons">delete</i>
-                  <span>Delete all events</span>
-                </div>
-              )
-            }>
-              {response.length > 0 ? (
-                response.map(item => (
-                  <EventItem key={item._id} data={item} />
-                ))
-              ) : (
-                !noData ? <Loader /> : <Errorer message="No events yet" />
-              )}
-            </Card>
-
-          </div>
-        </section>
-
-        <Footer />
-
-      </section>
+      <Layout title="Events" subTitle="Dashboard">
+        <Card title="Chat events by last 24 hrs" action={
+          !noData && (
+            <div className={`clear${clearVis}`} onClick={this.deleteEvents}>
+              <i className="material-icons">delete</i>
+              <span>Delete all events</span>
+            </div>
+          )
+        }>
+          {response.length > 0 ? (
+            response.map(item => (
+              <EventItem key={item._id} data={item} />
+            ))
+          ) : (
+            !noData ? <Loader /> : <Errorer message="No events yet" />
+          )}
+        </Card>
+      </Layout>
     )
   }
 }

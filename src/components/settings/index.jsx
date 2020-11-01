@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { getCookie, clearCookies } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { SettingItem } from './SettingItem';
+import Layout from 'components/partials/Layout';
 import Card from 'components/partials/Card';
-import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import Errorer from 'components/partials/Errorer';
 import { toast } from 'react-toastify';
@@ -26,7 +26,7 @@ const Settings = () => {
         })
         if (data.status === 401) {
           clearCookies()
-          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.error('You are not authorized')
           history.push('/')
           return
         }
@@ -58,37 +58,24 @@ const Settings = () => {
       .then(response => response.json())
       .then(data => {
         if (!data.error) {
-          toast.success('Settings successfully saved', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Settings successfully saved')
         } else throw Error(data.error)
       })
-      .catch(err => toast.error(err ? err.message : 'Failed to save settings', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .catch(err => toast.error(err ? err.message : 'Failed to save settings'))
   }
 
   return (
-    <section id="main">
-
-      <section id="content">
-        <div className="content--boxed-sm">
-          <header className="content__header">
-            <h2>Settings <small>Dashboard</small></h2>
-          </header>
-
-          <Card title="Settings list" className="general">
-            {items.length > 0 ? (
-              items.map(item => (
-                <SettingItem key={item._id} data={item} changeSetting={changeSetting} />
-              ))
-            ) : (
-              !noData ? <Loader /> : <Errorer message="Settings not exists" />
-            )}
-          </Card>
-
-        </div>
-      </section>
-
-      <Footer />
-
-    </section>
+    <Layout title="Settings" subTitle="Dashboard">
+      <Card title="Settings list">
+        {items.length > 0 ? (
+          items.map(item => (
+            <SettingItem key={item._id} data={item} changeSetting={changeSetting} />
+          ))
+        ) : (
+          !noData ? <Loader /> : <Errorer message="Settings not exists" />
+        )}
+      </Card>
+    </Layout>
   )
 }
 

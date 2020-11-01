@@ -4,7 +4,7 @@ import Switch from 'components/partials/Switch';
 
 export const BotModerator = ({ botUsername }) => {
   return (
-    <Card className="general">
+    <Card>
       <div className="error_title">
         <div className="alert_info">
           <i className="material-icons-outlined">error_outline</i>
@@ -17,7 +17,7 @@ export const BotModerator = ({ botUsername }) => {
 
 export const BotActive = ({ state, botUsername, changeActive }) => {
   return (
-    <Card className="general">
+    <Card>
       <div className={state ? 'success_title' : 'error_title'}>
         <div className="alert_info">
           <i className="material-icons-outlined">error_outline</i>

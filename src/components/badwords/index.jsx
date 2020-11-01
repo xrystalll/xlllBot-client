@@ -4,9 +4,9 @@ import { getCookie, clearCookies } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { NewBadwordItem } from './NewBadwordItem';
 import { BadwordItem } from './BadwordItem';
+import Layout from 'components/partials/Layout';
 import Card from 'components/partials/Card';
 import Fab from 'components/partials/Fab';
-import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import Errorer from 'components/partials/Errorer';
 import { toast } from 'react-toastify';
@@ -29,7 +29,7 @@ const Badwords = () => {
         })
         if (data.status === 401) {
           clearCookies()
-          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.error('You are not authorized')
           history.push('/')
           return
         }
@@ -71,10 +71,10 @@ const Badwords = () => {
             setItems([])
             setNoData(true)
           }
-          toast.success('Badword successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Badword successfully deleted')
         } else throw Error(data.error)
       })
-      .catch(err => toast.error(err ? err.message : 'Failed to delete badword', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .catch(err => toast.error(err ? err.message : 'Failed to delete badword'))
   }
 
   const addBadword = (props) => {
@@ -92,44 +92,32 @@ const Badwords = () => {
           setNoData(false)
           setItems([data, ...items])
           toggleAdd()
-          toast.success('Badword successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Badword successfully added')
         } else throw Error(data.error)
       })
-      .catch(err => toast.error(err ? err.message : 'Failed to adding badword', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .catch(err => toast.error(err ? err.message : 'Failed to adding badword'))
   }
 
   return (
-    <section id="main">
-      <section id="content">
-        <div className="content--boxed-sm">
-          <header className="content__header">
-            <h2>Badwords <small>Dashboard</small></h2>
-          </header>
+    <Layout title="Badwords" subTitle="Dashboard">
+      <Card title="Badwords list" action={
+        <Fab icon={showAdd ? 'close' : 'add'} title="Add new badword" onClick={toggleAdd} />
+      }>
+        {showAdd && <NewBadwordItem addBadword={addBadword} toggleAdd={toggleAdd} />}
 
-          <Card title="Badwords list" className="general" action={
-            <Fab icon={showAdd ? 'close' : 'add'} title="Add new badword" onClick={toggleAdd} />
-          }>
-            {showAdd && <NewBadwordItem addBadword={addBadword} toggleAdd={toggleAdd} />}
-
-            {items.length > 0 ? (
-              items.map(item => (
-                <BadwordItem
-                  key={item._id}
-                  data={item}
-                  deleteBadword={deleteBadword}
-                />
-              ))
-            ) : (
-              !noData ? <Loader /> : <Errorer message="No badwords yet" />
-            )}
-          </Card>
-
-        </div>
-      </section>
-
-      <Footer />
-
-    </section>
+        {items.length > 0 ? (
+          items.map(item => (
+            <BadwordItem
+              key={item._id}
+              data={item}
+              deleteBadword={deleteBadword}
+            />
+          ))
+        ) : (
+          !noData ? <Loader /> : <Errorer message="No badwords yet" />
+        )}
+      </Card>
+    </Layout>
   )
 }
 

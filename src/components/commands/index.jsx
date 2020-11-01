@@ -4,9 +4,9 @@ import { getCookie, clearCookies } from 'components/support/Utils';
 import { apiEndPoint } from 'config';
 import { NewCommandItem } from './NewCommandItem';
 import { CommandItem } from './CommandItem';
+import Layout from 'components/partials/Layout';
 import Card from 'components/partials/Card';
 import Fab from 'components/partials/Fab';
-import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import Errorer from 'components/partials/Errorer';
 import { toast } from 'react-toastify';
@@ -29,7 +29,7 @@ const Commands = () => {
         })
         if (data.status === 401) {
           clearCookies()
-          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.error('You are not authorized')
           history.push('/')
           return
         }
@@ -71,10 +71,10 @@ const Commands = () => {
             setItems([])
             setNoData(true)
           }
-          toast.success('Command successfully deleted', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Command successfully deleted')
         } else throw Error(data.error)
       })
-      .catch(err => toast.error(err ? err.message : 'Failed to delete command', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .catch(err => toast.error(err ? err.message : 'Failed to delete command'))
   }
 
   const addCommand = (props) => {
@@ -92,10 +92,10 @@ const Commands = () => {
           setNoData(false)
           setItems([data, ...items])
           toggleAdd()
-          toast.success('Command successfully added', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Command successfully added')
         } else throw Error(data.error)
       })
-      .catch(err => toast.error(err ? err.message : 'Failed to adding command', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .catch(err => toast.error(err ? err.message : 'Failed to adding command'))
   }
 
   const editCommand = (props) => {
@@ -110,45 +110,32 @@ const Commands = () => {
       .then(response => response.json())
       .then(data => {
         if (!data.error) {
-          toast.success('Command successfully changed', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Command successfully changed')
         } else throw Error(data.error)
       })
-      .catch(err => toast.error(err ? err.message : 'Failed to change command', { position: toast.POSITION.BOTTOM_RIGHT }))
+      .catch(err => toast.error(err ? err.message : 'Failed to change command'))
   }
 
   return (
-    <section id="main">
-
-      <section id="content">
-        <div className="content--boxed-sm">
-          <header className="content__header">
-            <h2>Commands <small>Dashboard</small></h2>
-          </header>
-
-          <Card title="Commands list" className="general" action={
-            <Fab icon={showAdd ? 'close' : 'add'} title="Add new command" onClick={toggleAdd} />
-          }>
-            {showAdd && <NewCommandItem addCommand={addCommand} toggleAdd={toggleAdd} />}
-            {items.length > 0 ? (
-              items.map(item => (
-                <CommandItem
-                  key={item._id}
-                  data={item}
-                  editCommand={editCommand}
-                  deleteCommand={deleteCommand}
-                />
-              ))
-            ) : (
-              !noData ? <Loader /> : <Errorer message="No commands yet" />
-            )}
-          </Card>
-
-        </div>
-      </section>
-
-      <Footer />
-
-    </section>
+    <Layout title="Commands" subTitle="Dashboard">
+      <Card title="Commands list" action={
+        <Fab icon={showAdd ? 'close' : 'add'} title="Add new command" onClick={toggleAdd} />
+      }>
+        {showAdd && <NewCommandItem addCommand={addCommand} toggleAdd={toggleAdd} />}
+        {items.length > 0 ? (
+          items.map(item => (
+            <CommandItem
+              key={item._id}
+              data={item}
+              editCommand={editCommand}
+              deleteCommand={deleteCommand}
+            />
+          ))
+        ) : (
+          !noData ? <Loader /> : <Errorer message="No commands yet" />
+        )}
+      </Card>
+    </Layout>
   )
 }
 

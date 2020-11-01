@@ -14,7 +14,7 @@ export const SettingItem = ({ data, changeSetting }) => {
     e.preventDefault()
 
     if (values.value.length < 1) {
-      toast.error('Enter price value', { position: toast.POSITION.BOTTOM_RIGHT })
+      toast.error('Enter price value')
       setErr(true)
     } else {
       setErr(false)

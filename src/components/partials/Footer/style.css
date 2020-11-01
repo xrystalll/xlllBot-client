@@ -31,4 +31,7 @@
     display: block;
     text-align: center;
   }
+  #footer .footer__menu {
+    margin-top: 12px;
+  }
 }

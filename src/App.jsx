@@ -16,12 +16,11 @@ import { Auth } from 'components/auth';
 import { AuthError } from 'components/auth/error'
 import { NotFound } from 'components/error';
 import { ToastContainer, toast } from 'react-toastify';
-import 'App.css'
 
 class App extends Component {
   componentDidMount() {
     socket.on('alert', (data) => {
-      toast.error(data.message, { position: toast.POSITION.BOTTOM_RIGHT })
+      toast.error(data.message)
     })
   }
 
@@ -44,7 +43,7 @@ class App extends Component {
           </Switch>
         </Router>
 
-        <ToastContainer autoClose={2000} />
+        <ToastContainer position="bottom-right" autoClose={2000} pauseOnFocusLoss={false} />
       </CustomScrollbar>
     )
   }

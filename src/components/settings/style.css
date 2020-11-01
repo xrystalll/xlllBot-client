@@ -78,7 +78,7 @@
 .md-checkbox .setting_description {
   cursor: default;
   user-select: none;
-  z-index: 1
+  z-index: 1;
 }
 
 .md-checkbox .set_setting_value {

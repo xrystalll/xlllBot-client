@@ -11,6 +11,7 @@ class Header extends Component {
     this.isAuth = !!getCookie('login') && !!getCookie('token')
     this.state = {
       showMenu: false,
+      login: getCookie('login'),
       logo: decodeURIComponent(getCookie('logo'))
     }
     this.toggleMenu = this.toggleMenu.bind(this)
@@ -50,7 +51,7 @@ class Header extends Component {
   }
 
   render() {
-    const { logo, showMenu } = this.state
+    const { login, logo, showMenu } = this.state
     const menuVis = showMenu ? 'open' : ''
 
     return (
@@ -65,7 +66,7 @@ class Header extends Component {
             <ul className="top-menu">
               <li className="top-menu__profile">
                 <Link to="/dashboard/channel">
-                  <span className="userName">{getCookie('login') || ''}</span>
+                  <span className="userName">{login || ''}</span>
                   <div className="userPhoto" style={{ 'backgroundImage': `url(${logo || ''})` }}></div>
                 </Link>
               </li>
@@ -73,7 +74,7 @@ class Header extends Component {
           )}
         </header>
 
-        <aside id="navigation" className={menuVis}>
+        <nav id="navigation" className={menuVis}>
           <CustomScrollbar className="navigation__menu">
             <ul>
               <li>
@@ -130,7 +131,7 @@ class Header extends Component {
               </li>
             </ul>
           </CustomScrollbar>
-        </aside>
+        </nav>
       </>
     )
   }

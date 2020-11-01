@@ -5,8 +5,8 @@ import { botUsername, apiEndPoint } from 'config';
 import { BotModerator, BotActive } from './BotAlerts';
 import { TwitchPlayer } from './TwitchPlayer';
 import { TwitchChat } from './TwitchChat';
+import Layout from 'components/partials/Layout';
 import Card from 'components/partials/Card';
-import Footer from 'components/partials/Footer';
 import { Loader } from 'components/partials/Loader';
 import { toast } from 'react-toastify';
 
@@ -28,7 +28,7 @@ const Channel = () => {
         })
         if (data.status === 401) {
           clearCookies()
-          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.error('You are not authorized')
           history.push('/')
           return
         }
@@ -50,7 +50,7 @@ const Channel = () => {
         })
         if (data.status === 401) {
           clearCookies()
-          toast.error('You are not authorized', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.error('You are not authorized')
           history.push('/')
           return
         }
@@ -85,12 +85,12 @@ const Channel = () => {
       .then(data => {
         if (!data.error) {
           setActive(true)
-          toast.success('Bot successfully joined to chat', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Bot successfully joined to chat')
         } else throw Error(data.error)
       })
       .catch(err => {
         setActive(false)
-        toast.error(err ? err.message : 'Failed to join', { position: toast.POSITION.BOTTOM_RIGHT })
+        toast.error(err ? err.message : 'Failed to join')
       })
   }
 
@@ -104,50 +104,37 @@ const Channel = () => {
       .then(data => {
         if (!data.error) {
           setActive(false)
-          toast.success('Bot successfully left chat', { position: toast.POSITION.BOTTOM_RIGHT })
+          toast.success('Bot successfully left chat')
         } else throw Error(data.error)
       })
       .catch(err => {
         setActive(false)
-        toast.error(err ? err.message : 'Failed to leave from chat', { position: toast.POSITION.BOTTOM_RIGHT })
+        toast.error(err ? err.message : 'Failed to leave from chat')
       })
   }
 
   return (
-    <section id="main">
+    <Layout title="Channel" subTitle="Dashboard" videoLayout={true}>
+      {!isModerator && <BotModerator botUsername={botUsername} />}
 
-      <section id="content">
-        <div className="content--boxed-sm videoblock">
-          <header className="content__header">
-            <h2>Channel <small>Dashboard</small></h2>
-          </header>
+      <BotActive state={botActive} botUsername={botUsername} changeActive={changeActive} />
 
-          {!isModerator && <BotModerator botUsername={botUsername} />}
+      <Card className="videos_inner">
+        <div className="vid-main-wrapper">
+          <div className="vid-container">
+            {!!channel ? <TwitchPlayer channel={channel} /> : <Loader />}
+          </div>
 
-          <BotActive state={botActive} botUsername={botUsername} changeActive={changeActive} />
-
-          <Card className="videos_inner">
-            <div className="vid-main-wrapper">
-              <div className="vid-container">
-                {!!channel ? <TwitchPlayer channel={channel} /> : <Loader />}
-              </div>
-
-              <div className="vid-list-container">
-                <ul>
-                  <ol id="vid-list" style={{ 'lineHeight': 0 }}>
-                    {!!channel && <TwitchChat channel={channel} />}
-                  </ol>
-                </ul>
-              </div>
-            </div>
-          </Card>
-
+          <div className="vid-list-container">
+            <ul>
+              <ol id="vid-list" style={{ 'lineHeight': 0 }}>
+                {!!channel && <TwitchChat channel={channel} />}
+              </ol>
+            </ul>
+          </div>
         </div>
-      </section>
-
-      <Footer />
-
-    </section>
+      </Card>
+    </Layout>
   )
 }
 

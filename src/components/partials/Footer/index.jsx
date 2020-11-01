@@ -11,7 +11,7 @@ const Footer = () => {
   }
 
   return (
-    <footer className="content--boxed-sm" id="footer">
+    <footer id="footer" className="content--boxed-sm">
       <div className="other_copy">xlllBot 2020 <a href={'https://github.com/xrystalll'} target="_blank" rel="noopener noreferrer">by xrystalll</a></div>
 
       {isAuth && (
