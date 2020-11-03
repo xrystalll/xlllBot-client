@@ -1,14 +1,15 @@
-const path = require("path")
-const { app, BrowserWindow } = require('electron')
+const path = require('path')
+require(path.join(__dirname, 'server'))
+const { app, BrowserWindow, Menu } = require('electron')
 
-const DEV = true
+const DEV = false
 
 const createWindow = () => {
   const win = new BrowserWindow({
     title: 'xlllBot',
     backgroundColor: '#0e0e10',
-    icon: path.join(__dirname, 'icon.png'),
-    width: 1100,
+    icon: path.join(__dirname, 'icon.ico'),
+    width: 1150,
     height: 650,
     minWidth: 400,
     minHeight: 500,
@@ -26,12 +27,22 @@ const createWindow = () => {
     nativeWindowOpen: true
   })
 
-  DEV ? win.loadURL('http://localhost:3000') : win.loadFile(path.join(__dirname, '..', 'build', 'index.html'))
+  win.loadURL('http://localhost:3000')
 
   DEV && win.webContents.openDevTools()
 
+  Menu.setApplicationMenu(null)
+
   win.once('ready-to-show', () => {
     win.show()
+  })
+
+  win.webContents.webContents.on('new-window', (event, url, frameName, disposition, options) => {
+    if (frameName !== 'Sign in via Twitch') {
+      options.modal = true
+      options.parent = win
+      options.frame = true
+    }
   })
 }
 

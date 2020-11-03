@@ -10,6 +10,7 @@ ol#vid-list li {
   padding: 8px;
   width: 100%;
   cursor: pointer;
+  user-select: none;
 }
 .choose_vid:hover, li.selected .choose_vid {
   background-color: var(--secondary-tint);

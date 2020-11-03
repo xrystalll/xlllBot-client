@@ -127,6 +127,7 @@ ul, ol {
   width: 320px;
   box-sizing: border-box;
   color: var(--default-white);
+  user-select: none;
   z-index: 9999;
 }
 .Toastify__toast-container--top-left {
@@ -983,6 +984,7 @@ ul, ol {
   margin-right: 8px;
   transition: box-shadow .2s ease-in, border .2s ease-in, background-color .2s ease-in;
   cursor: pointer;
+  user-select: none;
 }
 
 .btn:hover, .btn_main:hover {
@@ -1014,6 +1016,7 @@ ul, ol {
   font-size: 18px;
   margin-right: 4px;
   cursor: default;
+  user-select: none;
 }
 
 .command_actions, .channel_actions, .action_block {
@@ -1207,23 +1210,19 @@ ol#vid-list iframe {
 }
 
 .authModal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   margin: 0 auto;
   padding: 52px 16px;
   max-width: 360px;
-  max-height: 430px;
   width: 100%;
-  height: 100%;
+  height: 400px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: var(--secondary-bg);
   border-radius: 2px;
-  z-index: 999;
+  user-select: none;
+  z-index: 1;
 }
 
 .auth_block_main {
@@ -1290,6 +1289,7 @@ ol#vid-list iframe {
 
 .sub_header {
   margin-top: 40px;
+  user-select: none;
 }
 
 .sys_bar {
@@ -1299,6 +1299,7 @@ ol#vid-list iframe {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  user-select: none;
   -webkit-app-region: drag;
 }
 .sys_bar .app_name {

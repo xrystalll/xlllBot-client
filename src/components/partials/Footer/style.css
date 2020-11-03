@@ -7,6 +7,7 @@
   margin-top: 30px;
   padding: 20px 0;
   color: var(--main-control-color);
+  user-select: none;
 }
 #footer .footer__menu {
   margin: 0;

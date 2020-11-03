@@ -3,6 +3,7 @@
   display: flex;
   align-items: baseline;
   margin: 16px 0;
+  user-select: none;
 }
 
 .event_time {

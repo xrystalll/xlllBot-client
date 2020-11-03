@@ -12,6 +12,7 @@
   margin: 0 0 20px;
   font-size: 17px;
   font-weight: 400;
+  user-select: none;
 }
 
 .card > .actions {
@@ -40,6 +41,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  user-select: none;
 }
 .card__sub > .clear > i {
   font-size: 20px;

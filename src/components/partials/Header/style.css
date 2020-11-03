@@ -7,6 +7,7 @@
   display: flex;
   align-items: center;
   padding: 14px 28px 14px 0;
+  user-select: none;
   z-index: 10;
 }
 #header::before, #header::after {
@@ -80,6 +81,7 @@
 #navigation {
   left: 0;
   background: var(--secondary-tint);
+  user-select: none;
   z-index: 9;
 }
 .navigation__menu ul {

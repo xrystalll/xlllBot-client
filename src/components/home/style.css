@@ -44,6 +44,7 @@
   width: 100%;
   max-width: 340px;
   color: var(--main-text-color);
+  user-select: none;
 }
 
 .main_sub {
@@ -52,6 +53,7 @@
   padding: 0 16px;
   width: 100%;
   max-width: 340px;
+  user-select: none;
 }
 
 .main_description {
@@ -60,6 +62,7 @@
   text-align: center;
   margin: 32px auto;
   padding: 0 16px;
+  user-select: none;
 }
 
 .twitch_btn_main {
@@ -74,6 +77,7 @@
   height: 44px;
   transition: box-shadow .2s ease-in, border .2s ease-in, background-color .2s ease-in;
   cursor: pointer;
+  user-select: none;
 }
 
 .twitch_btn_main:hover {
@@ -85,6 +89,7 @@
   bottom: 0;
   right: 0;
   padding: 12px 16px;
+  user-select: none;
 }
 
 .main_copy a {

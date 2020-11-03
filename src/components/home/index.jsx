@@ -20,6 +20,7 @@ class Home extends Component {
     this._isMounted = true
     if (getCookie('login') && getCookie('token')) {
       this.setState({ isAuth: true })
+      this.props.history.push('/dashboard/channel')
     }
     socket.on('auth', (data) => {
       if (!this.state.authClicked) return
@@ -42,7 +43,7 @@ class Home extends Component {
     if (!this._isMounted) return
 
     this.setState({ authClicked: true })
-    window.open(url, 'Sign in via Twitch', 'height=520,width=480')
+    window.open(url, 'Sign in via Twitch', 'height=340,width=420')
   }
 
   render() {

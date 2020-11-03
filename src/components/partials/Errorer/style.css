@@ -8,6 +8,7 @@
   margin-top: 40px;
   max-width: 210px;
   min-height: 110px;
+  user-select: none;
 }
 .empty_words {
   max-width: 210px;

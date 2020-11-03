@@ -67,6 +67,7 @@
 .content__header {
   margin-bottom: 25px;
   position: relative;
+  user-select: none;
 }
 .content__header > h2 {
   font-size: 18px;
