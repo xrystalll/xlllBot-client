@@ -1,6 +1,5 @@
 /* Header */
 #header {
-  background: var(--secondary-tint);
   position: absolute;
   top: 0;
   width: 100%;
@@ -37,7 +36,6 @@
 }
 #header.open .logo {
   position: fixed;
-  background: var(--secondary-bg);
 }
 .logo h1 {
   color: var(--default-white);

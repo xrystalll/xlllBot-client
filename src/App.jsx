@@ -13,7 +13,7 @@ import Events from 'components/events';
 import Settings from 'components/settings';
 import AllCommands from 'components/allcommands';
 import { Auth } from 'components/auth';
-import { AuthError } from 'components/auth/error'
+import { AuthError } from 'components/auth/error';
 import { NotFound } from 'components/error';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -39,7 +39,7 @@ class App extends Component {
             <GeneralRoute path="/commands" component={AllCommands} />
             <Route path="/auth" exact component={Auth} />
             <Route path="/auth/error" component={AuthError} />
-            <Route component={NotFound} />
+            <Route component={NotFound} status={404} />
           </Switch>
         </Router>
 
