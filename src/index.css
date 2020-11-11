@@ -1111,6 +1111,11 @@ i.item_cancel {
   min-height: initial;
 }
 
+.vid-container.sticky .content_loader, .vid-container.sticky .empty-results {
+  min-height: initial;
+  height: 100%;
+}
+
 .vid-list-container {
   max-width: calc(100% / 3.4);
   width: auto;

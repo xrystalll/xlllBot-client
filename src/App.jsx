@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { socket } from 'instance/Socket';
 import CustomScrollbar from 'components/support/CustomScrollbar';
 import PrivateRoute from 'components/support/PrivateRoute';
 import GeneralRoute from 'components/support/GeneralRoute';
-import { socket } from 'instance/Socket';
 import Home from 'components/home';
 import Channel from 'components/channel';
 import Commands from 'components/commands';
