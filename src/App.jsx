@@ -23,25 +23,16 @@ import YouTubePlayer from 'components/videos/YoutubePlayer';
 class App extends Component {
   static contextType = StoreContext;
   componentDidMount() {
-    if (!!getCookie('login') && !!getCookie('token')) {
-      this.subscribeToEvents()
-    }
+    this.subscribeToEvents()
   }
 
   subscribeToEvents() {
-    socket.on('output_videos', (data) => {
-      if (data.length > 0) {
-        this.context.dispatch({ type: 'SET_VIDEOS', payload: data })
-      } else {
-        this.context.dispatch({ type: 'SET_ERROR', payload: true })
-      }
-    })
     socket.on('new_video', (data) => {
       if (data.channel !== getCookie('login')) return
 
       this.context.dispatch({ type: 'ADD_VIDEO', payload: data })
       this.context.dispatch({ type: 'SET_ERROR', payload: false })
-      })
+    })
     socket.on('deteted', (data) => {
       this.context.dispatch({ type: 'REMOVE_VIDEO', payload: data })
 

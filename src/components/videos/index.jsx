@@ -47,6 +47,13 @@ class Videos extends Component {
   subscribeToEvents() {
     if (!this._isMounted) return
 
+    socket.on('output_videos', (data) => {
+      if (data.length > 0) {
+        this.context.dispatch({ type: 'SET_VIDEOS', payload: data })
+      } else {
+        this.context.dispatch({ type: 'SET_ERROR', payload: true })
+      }
+    })
     socket.on('skip', (data) => {
       if (data.channel !== getCookie('login')) return
       if (player === undefined) return

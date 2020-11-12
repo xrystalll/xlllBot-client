@@ -13,9 +13,6 @@ class YouTubePlayer extends Component {
   ownClose = false
   constructor() {
     super();
-    this.state = {
-      ownClose: false
-    }
 
     this.onPlayerReady = this.onPlayerReady.bind(this)
     this.onPlay = this.onPlay.bind(this)
