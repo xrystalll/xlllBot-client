@@ -1096,10 +1096,25 @@ i.item_cancel {
 .vid-container.sticky {
   position: fixed;
   bottom: 16px;
-  left: 16px;
+  right: 16px;
   width: 322px;
   height: 181px;
   z-index: 999;
+}
+
+.close_mini {
+  display: none;
+  position: absolute;
+  right: 0;
+  margin: 6px;
+  padding: 6px;
+  border-radius: 50%;
+  background-color: var(--default-transparent-08);
+  cursor: pointer;
+  z-index: 1000;
+}
+.vid-container:hover .close_mini {
+  display: block;
 }
 
 .vid-container.sticky .iframe {
