@@ -72,14 +72,12 @@ class App extends Component {
   }
 }
 
-class Root extends Component {
-  render() {
-    return (
-      <Store>
-        <App />
-      </Store>
-    )
-  }
+const Root = () => {
+  return (
+    <Store>
+      <App />
+    </Store>
+  )
 }
 
 export default Root;

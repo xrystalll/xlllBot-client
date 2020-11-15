@@ -18,10 +18,10 @@ const AllCommand = () => {
       text: 'Channel follow period'
     }, {
       name: '!ping',
-      text: 'Game \'Ping Pong\''
+      text: 'Game "Ping Pong"'
     }, {
       name: '!size',
-      text: 'Game \'Size\''
+      text: 'Game "Size"'
     }, {
       name: '!sr <youtube link>',
       text: 'Video request'
