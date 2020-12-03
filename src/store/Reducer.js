@@ -40,6 +40,12 @@ const Reducer = (state, action) => {
         ...state,
         mini: action.payload
       }
+    case 'SET_LANG':
+      localStorage.setItem('lang', action.payload)
+      return {
+        ...state,
+        lang: action.payload
+      }
     default:
       return state;
   }

@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { getCookie } from 'components/support/Utils';
-import { socket } from 'instance/Socket';
-import { Store, StoreContext } from 'store/Store';
-import CustomScrollbar from 'components/support/CustomScrollbar';
-import PrivateRoute from 'components/support/PrivateRoute';
-import GeneralRoute from 'components/support/GeneralRoute';
-import Home from 'components/home';
-import Channel from 'components/channel';
-import Commands from 'components/commands';
-import Badwords from 'components/badwords';
-import Videos from 'components/videos';
-import Events from 'components/events';
-import Settings from 'components/settings';
-import AllCommands from 'components/allcommands';
-import { Auth } from 'components/auth';
-import { AuthError } from 'components/auth/error';
-import { NotFound } from 'components/error';
+import { getCookie } from 'support/Utils';
+import { socket } from 'support/Socket';
+import Store, { StoreContext } from 'store/Store';
+import CustomScrollbar from 'components/CustomScrollbar';
+import PrivateRoute from 'components/Route/PrivateRoute';
+import GeneralRoute from 'components/Route/GeneralRoute';
+import Home from 'routes/Home';
+import Channel from 'routes/Channel';
+import Commands from 'routes/Commands';
+import Badwords from 'routes/Badwords';
+import Videos from 'routes/Videos';
+import YouTubePlayer from 'routes/Videos/YoutubePlayer';
+import Events from 'routes/Events';
+import Settings from 'routes/Settings';
+import AllCommands from 'routes/Allcommands';
+import { Auth } from 'routes/Auth';
+import { AuthError } from 'routes/Auth/Error';
+import { NotFound } from 'routes/Error';
 import { ToastContainer, toast } from 'react-toastify';
-import YouTubePlayer from 'components/videos/YoutubePlayer';
 
 class App extends Component {
   static contextType = StoreContext;
@@ -47,27 +47,29 @@ class App extends Component {
 
   render() {
     return (
-      <CustomScrollbar className="view">
-        <Router>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <PrivateRoute path="/dashboard/channel" component={Channel} />
-            <PrivateRoute path="/dashboard/commands" component={Commands} />
-            <PrivateRoute path="/dashboard/badwords" component={Badwords} />
-            <PrivateRoute path="/dashboard/videos" component={Videos} />
-            <PrivateRoute path="/dashboard/events" component={Events} />
-            <PrivateRoute path="/dashboard/settings" component={Settings} />
-            <GeneralRoute path="/commands" component={AllCommands} />
-            <Route path="/auth" exact component={Auth} />
-            <Route path="/auth/error" component={AuthError} />
-            <Route component={NotFound} status={404} />
-          </Switch>
-        </Router>
+      <React.Fragment>
+        <CustomScrollbar className="view">
+          <Router>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <PrivateRoute path="/dashboard/channel" component={Channel} />
+              <PrivateRoute path="/dashboard/commands" component={Commands} />
+              <PrivateRoute path="/dashboard/badwords" component={Badwords} />
+              <PrivateRoute path="/dashboard/videos" component={Videos} />
+              <PrivateRoute path="/dashboard/events" component={Events} />
+              <PrivateRoute path="/dashboard/settings" component={Settings} />
+              <GeneralRoute path="/commands" component={AllCommands} />
+              <Route path="/auth" exact component={Auth} />
+              <Route path="/auth/error" component={AuthError} />
+              <Route component={NotFound} status={404} />
+            </Switch>
+          </Router>
 
-        <ToastContainer position="bottom-right" autoClose={2000} pauseOnFocusLoss={false} />
+          <ToastContainer position="bottom-right" autoClose={2000} pauseOnFocusLoss={false} />
+        </CustomScrollbar>
 
         {this.context.state.mini && <YouTubePlayer />}
-      </CustomScrollbar>
+      </React.Fragment>
     )
   }
 }

@@ -2,20 +2,15 @@
   "compilerOptions": {
     "baseUrl": "src/",
     "sourceMap": false,
-    "module": "esnext",
-    "target": "esnext",
-    "lib": [
-      "es2017",
-      "dom",
-      "esnext"
-    ],
     "paths": {
       "components/*": ["src/components/*"],
       "hooks/*": ["src/hooks/*"],
-      "instance/*": ["src/instance/*"],
-      "store/*": ["src/store/*"]
+      "routes/*": ["src/routes/*"],
+      "store/*": ["src/store/*"],
+      "support/*": ["src/support/*"]
     },
     "strict": true
   },
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
