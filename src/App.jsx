@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { getCookie } from 'support/Utils';
 import { socket } from 'support/Socket';
@@ -10,8 +10,7 @@ import Home from 'routes/Home';
 import Dashboard from 'routes/Dashboard';
 import Admin from 'routes/Admin';
 import AllCommands from 'routes/Allcommands';
-import { Auth } from 'routes/Auth';
-import { AuthError } from 'routes/Auth/Error';
+import { Auth, AuthError } from 'routes/Auth';
 import { NotFound } from 'routes/Error';
 import YouTubePlayer from 'components/YoutubePlayer';
 import { ToastContainer, toast } from 'react-toastify';
@@ -43,7 +42,7 @@ class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Fragment>
         <CustomScrollbar className="view">
           <Router>
             <Switch>
@@ -61,7 +60,7 @@ class App extends Component {
         </CustomScrollbar>
 
         {this.context.state.mini && <YouTubePlayer />}
-      </React.Fragment>
+      </Fragment>
     )
   }
 }
